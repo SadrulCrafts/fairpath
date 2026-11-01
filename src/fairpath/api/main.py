@@ -261,7 +261,7 @@ def _score_batch(p: Predictor, df: pd.DataFrame) -> dict[str, Any]:
     rows = []
     for i in range(len(X)):
         top = sv.iloc[i].sort_values(ascending=False)
-        factors = [labels[f] for f, v in top.items() if v > 0][:3]
+        factors = [f"{labels[f]}: {p.display_value(f, X.iloc[i][f])}" for f, v in top.items() if v > 0][:3]
         rows.append(
             {
                 "row": i,

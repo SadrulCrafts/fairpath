@@ -39,6 +39,17 @@ def dataset_overview(base: Path, name: str) -> dict[str, Any] | None:
     fair = final["fairness"][prim]
     best = bench["best_model"]
     rec = study["recommendations"].get(prim, {}).get(best)
+    blk = study["summary"].get(prim, {}).get(best, {"methods": []})
+    by = {e["method"]: e for e in blk["methods"]}
+    blind_effect = (
+        {
+            k: {"eodds": by[k]["eodds"]["mean"], "spd": by[k]["spd"]["mean"], "f1": by[k]["f1"]["mean"]}
+            for k in ("baseline", "blind", "reweighing", "blind_reweighing")
+            if k in by
+        }
+        if by
+        else None
+    )
     return {
         "dataset": name,
         "title": spec.title,
@@ -79,6 +90,8 @@ def dataset_overview(base: Path, name: str) -> dict[str, Any] | None:
         "benchmark_best_label": MODEL_LABELS[best],
         "benchmark_auc": {r["model"]: r["roc_auc"] for r in bench["summary"]},
         "recommendation": rec,
+        "blind_effect": blind_effect,
+        "degenerate_methods": [e["label"] for e in blk["methods"] if e.get("degenerate")],
         "sensitive_rank": final["sensitive_rank"],
         "leakage_check": final["leakage_check"],
         "programme_audit": (

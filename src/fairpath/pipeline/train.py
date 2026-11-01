@@ -27,7 +27,7 @@ from fairpath import __version__
 from fairpath.config import Settings
 from fairpath.data.loaders import Dataset, group_label, intersection_series, load_dataset
 from fairpath.data.schema import build_schema
-from fairpath.evaluation.calibration import ProbabilityCalibrator, choose_method
+from fairpath.evaluation.calibration import ProbabilityCalibrator, choose_method, select_method
 from fairpath.evaluation.metrics import (
     best_f1_threshold,
     classification_metrics,
@@ -84,7 +84,15 @@ def fit_config(
     feats = ds.spec.model_features(blind)
     w = reweighing_weights(ydev, sdev) if reweigh else None
     raw_oof = _oof_raw(ds, model, params, feats, Xdev, ydev, w, settings.seed)
-    method = choose_method(len(ydev), settings.calibration)
+    if settings.calibration.get("method", "auto") == "auto":
+        method, cal_scores = select_method(
+            raw_oof,
+            ydev,
+            settings.calibration.get("candidates", ("none", "sigmoid", "isotonic")),
+            seed=settings.seed,
+        )
+    else:
+        method, cal_scores = choose_method(len(ydev), settings.calibration), {}
     cal = ProbabilityCalibrator(method).fit(raw_oof, ydev)
     cal_oof = cal.transform(raw_oof)
     thr = best_f1_threshold(ydev, cal_oof)
@@ -97,6 +105,7 @@ def fit_config(
         "threshold": thr,
         "qhat": qhat,
         "calibration_method": method,
+        "calibration_cv_brier": cal_scores,
         "raw_oof": raw_oof,
         "cal_oof": cal_oof,
         "weights": w,
@@ -164,6 +173,7 @@ def run(ds: Dataset, settings: Settings) -> dict[str, Any]:
         }
     calibration = {
         "method": dep["calibration_method"],
+        "cv_brier_by_method": dep["calibration_cv_brier"],
         "oof_ece_before": classification_metrics(ydev, dep["raw_oof"])["ece"],
         "oof_ece_after": classification_metrics(ydev, dep["cal_oof"])["ece"],
         "test_ece_before": classification_metrics(yte, raw_dep)["ece"],

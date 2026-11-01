@@ -157,60 +157,71 @@ def eg_scores(eg: ExponentiatedGradient, Xt: np.ndarray) -> np.ndarray:
     return np.asarray(eg._pmf_predict(Xt)[:, 1], float)
 
 
+# needs_sensitive_at_prediction: the score for a student depends on their group, either because the
+# attribute is a model input ("aware") or because a group-specific rule is applied afterwards.
 MITIGATION_INFO: dict[str, dict[str, Any]] = {
     "baseline": {
         "label": "No mitigation (aware)",
         "stage": "none",
-        "needs_sensitive_at_prediction": False,
-        "about": "The model sees every feature, including the sensitive one, with a 0.5 threshold.",
+        "needs_sensitive_at_prediction": True,
+        "uses_sensitive_input": True,
+        "about": "The model sees every feature, including the sensitive one.",
     },
     "blind": {
         "label": "Fairness through unawareness",
         "stage": "pre",
         "needs_sensitive_at_prediction": False,
+        "uses_sensitive_input": False,
         "about": "The sensitive column is simply removed. Proxies can still carry the signal.",
     },
     "reweighing": {
-        "label": "Reweighing",
+        "label": "Reweighing (aware)",
+        "stage": "pre",
+        "needs_sensitive_at_prediction": True,
+        "uses_sensitive_input": True,
+        "about": "Training rows are re-weighted so group and outcome look independent; the attribute stays an input.",
+    },
+    "blind_reweighing": {
+        "label": "Blind + Reweighing (deployed)",
         "stage": "pre",
         "needs_sensitive_at_prediction": False,
-        "about": "Training rows are re-weighted so group and outcome look independent.",
+        "uses_sensitive_input": False,
+        "about": "What the dashboard ships: no sensitive input, reweighed training.",
     },
     "expgrad_dp": {
         "label": "Exponentiated Gradient (DP)",
         "stage": "in",
-        "needs_sensitive_at_prediction": False,
-        "about": "Constrained training that targets equal flag rates (demographic parity).",
+        "needs_sensitive_at_prediction": True,
+        "uses_sensitive_input": True,
+        "about": "Constrained training that targets equal flag rates (demographic parity). Randomised predictions.",
     },
     "expgrad_eo": {
         "label": "Exponentiated Gradient (EO)",
         "stage": "in",
-        "needs_sensitive_at_prediction": False,
-        "about": "Constrained training that targets equal error rates (equalized odds).",
+        "needs_sensitive_at_prediction": True,
+        "uses_sensitive_input": True,
+        "about": "Constrained training that targets equal error rates (equalized odds). Randomised predictions.",
     },
     "thesis_thresholds": {
         "label": "Group thresholds (thesis)",
         "stage": "post",
         "needs_sensitive_at_prediction": True,
-        "about": "Per-group cut-offs chosen on a validation split: minimise the FPR gap, "
-        "then the TPR gap, then maximise F1.",
+        "uses_sensitive_input": True,
+        "about": "Per-group cut-offs chosen on a validation split: minimise the FPR gap, then the TPR gap, "
+        "then maximise F1.",
     },
     "threshold_opt_eo": {
         "label": "ThresholdOptimizer (EO)",
         "stage": "post",
         "needs_sensitive_at_prediction": True,
+        "uses_sensitive_input": True,
         "about": "Fairlearn's Hardt-style post-processing for equalized odds.",
     },
     "threshold_opt_dp": {
         "label": "ThresholdOptimizer (DP)",
         "stage": "post",
         "needs_sensitive_at_prediction": True,
+        "uses_sensitive_input": True,
         "about": "Fairlearn post-processing for demographic parity.",
-    },
-    "blind_reweighing": {
-        "label": "Blind + Reweighing (deployed)",
-        "stage": "pre",
-        "needs_sensitive_at_prediction": False,
-        "about": "What the dashboard ships: no sensitive input, reweighed training.",
     },
 }

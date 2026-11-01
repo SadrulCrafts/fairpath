@@ -39,7 +39,10 @@ permutation_test:
   n_permutations: 2000
 
 calibration:
-  # isotonic needs more data; small datasets get Platt scaling
+  # "auto": choose none / Platt (sigmoid) / isotonic by cross-validated Brier score on the
+  # out-of-fold predictions of the development split. Otherwise fall back to a size rule.
+  method: auto
+  candidates: [none, sigmoid, isotonic]
   method_by_size: {small: sigmoid, large: isotonic, cutoff: 1000}
   n_bins: 10
 

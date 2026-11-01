@@ -46,3 +46,11 @@ def test_predict_one_full_payload(bundles, dropout):
     assert out["confidence"]["level"] in {"confident", "uncertain", "atypical"}
     assert out["explanation"]["top"][0]["label"]
     assert "options" in out["counterfactuals"]
+
+
+def test_tree_shap_is_additive(bundles, dropout):
+    pred = Predictor(bundles["dropout"])  # LightGBM bundle
+    x = dropout.X.iloc[[5]]
+    loc = pred.explainer.local(x)
+    raw = pred.b.pipeline.predict_proba(x[pred.b.features])[:, 1][0]
+    assert abs(loc["output_value"] - np.log(raw / (1 - raw))) < 1e-3

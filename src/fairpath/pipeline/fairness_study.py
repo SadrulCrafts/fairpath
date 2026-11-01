@@ -57,6 +57,7 @@ ALL_METHODS = [
     "threshold_opt_eo",
     "threshold_opt_dp",
 ]
+DEGENERATE_HI, DEGENERATE_LO = 0.95, 0.05
 METRICS = [
     "roc_auc",
     "f1",
@@ -122,6 +123,7 @@ def run_axis(
         w = reweighing_weights(ytr, s_tr)
 
         rate = ytr.mean()
+        failed: list[str] = []
 
         def rm(pipe, feats):
             """Rate-matched cut-off from the training fold: flag the training base rate."""
@@ -175,10 +177,27 @@ def run_axis(
                 ("threshold_opt_dp", "demographic_parity"),
             ):
                 if meth in methods:
-                    to = fit_threshold_optimizer(inner, Xval[aware], yval, sval, cons, settings.seed)
-                    pred, pmf = threshold_optimizer_predict(to, Xte[aware], s_te, settings.seed)
-                    res[meth] = (pmf, pred)
+                    try:
+                        to = fit_threshold_optimizer(inner, Xval[aware], yval, sval, cons, settings.seed)
+                        pred, pmf = threshold_optimizer_predict(to, Xte[aware], s_te, settings.seed)
+                        res[meth] = (pmf, pred)
+                    except ValueError as exc:
+                        # e.g. a tiny intersectional group with a single label in the validation split:
+                        # the method cannot be fitted. Record the failure instead of hiding it.
+                        log.warning("%s failed on fold %d (%s): %s", meth, fold, axis, exc)
+                        failed.append(meth)
 
+        for meth in failed:
+            rows.append(
+                {
+                    "axis": axis,
+                    "model": base_model,
+                    "method": meth,
+                    "fold": fold,
+                    "failed": True,
+                    **{k: np.nan for k in METRICS},
+                }
+            )
         for meth, (sc, pr) in res.items():
             rows.append(
                 {"axis": axis, "model": base_model, "method": meth, "fold": fold, **_score(yte, sc, pr, s_te)}
@@ -195,12 +214,25 @@ def summarise(df: pd.DataFrame) -> dict[str, Any]:
         for meth, b in block.groupby("method", sort=False):
             b = b.sort_values("fold")
             entry = {"method": meth, **MITIGATION_INFO[meth]}
+            b = b[[c for c in b.columns if c != "failed"]]
             for k in METRICS:
                 v = b[k].to_numpy(dtype=float)
                 entry[k] = {"mean": float(np.nanmean(v)), "sd": float(np.nanstd(v, ddof=1))}
+            n_failed = int(b[METRICS[0]].isna().sum())
+            entry["n_failed_folds"] = n_failed
             if meth != "baseline":
+                ok = b[METRICS[0]].notna().to_numpy()
                 for k in pvals:
-                    t = wilcoxon_paired(base[k].to_numpy(), b[k].to_numpy())
+                    if ok.sum() < 5:
+                        entry.setdefault("tests", {})[k] = {
+                            "p_value": 1.0,
+                            "rank_biserial": 0.0,
+                            "effect": "n/a",
+                            "note": "too few valid folds",
+                        }
+                        pvals[k].append((meth, 1.0))
+                        continue
+                    t = wilcoxon_paired(base[k].to_numpy()[ok], b[k].to_numpy()[ok])
                     entry.setdefault("tests", {})[k] = t
                     pvals[k].append((meth, t["p_value"]))
             methods.append(entry)
@@ -208,8 +240,14 @@ def summarise(df: pd.DataFrame) -> dict[str, Any]:
             adj = holm([p for _, p in plist]) if plist else []
             for (meth, _), a in zip(plist, adj, strict=True):
                 next(e for e in methods if e["method"] == meth)["tests"][k]["p_holm"] = a
+        # A method that flags (almost) everyone or no one has trivially equal error rates. That is not a
+        # fair model, it is no model, so degenerate solutions are kept in the table but excluded from the
+        # frontier and from recommendations.
+        for e in methods:
+            fr = e["flag_rate"]["mean"]
+            e["degenerate"] = bool(fr > DEGENERATE_HI or fr < DEGENERATE_LO)
         # Pareto frontier on (equalized-odds gap low, F1 high)
-        pts = [(e["method"], e["eodds"]["mean"], e["f1"]["mean"]) for e in methods]
+        pts = [(e["method"], e["eodds"]["mean"], e["f1"]["mean"]) for e in methods if not e["degenerate"]]
         frontier = [
             m
             for m, gx, fy in pts
@@ -232,7 +270,10 @@ def recommend(axis_block: dict[str, Any]) -> dict[str, Any]:
     for model, blk in axis_block.items():
         ms = {e["method"]: e for e in blk["methods"]}
         base = ms["baseline"]
-        deployable = [e for e in blk["methods"] if not e["needs_sensitive_at_prediction"]]
+        # "deployable" here means the score never depends on the student's group
+        deployable = [
+            e for e in blk["methods"] if not e["needs_sensitive_at_prediction"] and not e.get("degenerate")
+        ]
 
         def utility(e):  # reward gap reduction, penalise F1 loss twice as hard
             return (base["eodds"]["mean"] - e["eodds"]["mean"]) - 2 * max(
@@ -240,8 +281,12 @@ def recommend(axis_block: dict[str, Any]) -> dict[str, Any]:
             )
 
         best = max(deployable, key=utility)
-        post = [e for e in blk["methods"] if e["needs_sensitive_at_prediction"]]
-        best_post = min(post, key=lambda e: e["eodds"]["mean"]) if post else None
+        others = [
+            e
+            for e in blk["methods"]
+            if e["needs_sensitive_at_prediction"] and e["method"] != "baseline" and not e.get("degenerate")
+        ]
+        best_post = min(others, key=lambda e: e["eodds"]["mean"]) if others else None
         recs[model] = {
             "deployable_choice": best["method"],
             "deployable_label": best["label"],
@@ -272,7 +317,9 @@ def run_preflight(
         method="predict_proba",
     )[:, 1]
     pf = settings.preflight
-    out = {"dataset": ds.name, "model": model, "n": len(y), "threshold": 0.5, "axes": {}}
+    # rate-matched cut-off (flag the base rate): some well-regularised models never reach 0.5
+    thr = float(np.quantile(oof, 1 - y.mean()))
+    out = {"dataset": ds.name, "model": model, "n": len(y), "threshold": thr, "axes": {}}
     for axis in list(ds.spec.sensitive) + ["+".join(i) for i in ds.spec.intersections]:
         g = axis_groups(ds, axis).iloc[idx].to_numpy()
         out["axes"][axis] = {
@@ -281,6 +328,7 @@ def run_preflight(
                 y,
                 oof,
                 g,
+                threshold=thr,
                 min_n=pf["min_group_n"],
                 ratio=pf["noise_floor_ratio"],
                 max_cv=pf["max_bootstrap_cv"],
@@ -291,6 +339,7 @@ def run_preflight(
                 y,
                 oof,
                 g,
+                threshold=thr,
                 target=pf["target_reduction"],
                 alpha=pf["alpha"],
                 power=pf["power"],
@@ -336,4 +385,19 @@ def run(ds: Dataset, settings: Settings) -> dict[str, Any]:
         "folds": df.round(6).to_dict(orient="records"),
     }
     write_json(out_dir / "fairness_study.json", payload)
+    return payload
+
+
+def refresh(ds_name: str, settings: Settings) -> dict[str, Any]:
+    """Re-summarise a saved study from its per-fold rows (no refitting)."""
+    from fairpath.config import load_dataset_spec
+
+    base = settings.path("reports") / ds_name
+    payload = read_json(base / "fairness_study.json")
+    df = pd.DataFrame(payload["folds"])
+    payload["summary"] = summarise(df)
+    payload["recommendations"] = {axis: recommend(blk) for axis, blk in payload["summary"].items()}
+    payload["methods_info"] = MITIGATION_INFO
+    load_dataset_spec(ds_name)
+    write_json(base / "fairness_study.json", payload)
     return payload

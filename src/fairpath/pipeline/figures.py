@@ -51,31 +51,61 @@ def _save(fig, path: Path) -> None:
 
 
 def pareto(study: dict[str, Any], axis: str, model: str, title: str, path: Path) -> None:
+    """Fairness-accuracy scatter. Points are numbered and named in a key, so labels never collide."""
     blk = study["summary"][axis][model]
-    fig, ax = plt.subplots(figsize=(7.2, 4.6))
-    pts = [(e["eodds"]["mean"], e["f1"]["mean"], e) for e in blk["methods"]]
-    front = sorted([(x, y) for x, y, e in pts if e["pareto"]])
-    ax.plot(
-        [p[0] for p in front],
-        [p[1] for p in front],
-        ls="--",
-        lw=1.4,
-        color=MUTED,
-        zorder=1,
-        label="Pareto frontier",
-    )
-    for x, y, e in pts:
+    methods = [e for e in blk["methods"] if not e.get("degenerate")]
+    degenerate = [e["label"] for e in blk["methods"] if e.get("degenerate")]
+    fig, (ax, key) = plt.subplots(1, 2, figsize=(9.6, 4.6), gridspec_kw={"width_ratios": [2.3, 1]})
+    front = sorted((e["eodds"]["mean"], e["f1"]["mean"]) for e in methods if e["pareto"])
+    ax.plot([p[0] for p in front], [p[1] for p in front], ls="--", lw=1.4, color=MUTED, zorder=1)
+    lines = []
+    for i, e in enumerate(sorted(methods, key=lambda e: e["eodds"]["mean"]), start=1):
+        x, y = e["eodds"]["mean"], e["f1"]["mean"]
         needs = e["needs_sensitive_at_prediction"]
         color = ORANGE if e["method"] == "baseline" else (AQUA if needs else BLUE)
-        ax.scatter(x, y, s=70, color=color, edgecolor=SURFACE, linewidth=2, zorder=3)
-        ax.annotate(e["label"], (x, y), xytext=(6, 4), textcoords="offset points", fontsize=8, color=INK2)
-    ax.scatter([], [], color=ORANGE, label="Baseline")
-    ax.scatter([], [], color=BLUE, label="No sensitive attribute needed at prediction")
-    ax.scatter([], [], color=AQUA, label="Needs sensitive attribute at prediction")
+        ax.scatter(x, y, s=150, color=color, edgecolor=SURFACE, linewidth=2, zorder=3)
+        ax.annotate(
+            str(i), (x, y), ha="center", va="center", fontsize=7.5, color="white", fontweight="bold", zorder=4
+        )
+        lines.append((i, e["label"], color, e["pareto"]))
     ax.set_xlabel("Equalized-odds gap (lower is fairer)")
     ax.set_ylabel("F1, at-risk class (higher is better)")
     ax.set_title(title)
-    ax.legend(loc="lower right", fontsize=8)
+    xs = [e["eodds"]["mean"] for e in methods]
+    ys = [e["f1"]["mean"] for e in methods]
+    xr, yr = (max(xs) - min(xs)) or 0.05, (max(ys) - min(ys)) or 0.02
+    ax.set_xlim(min(xs) - 0.12 * xr, max(xs) + 0.12 * xr)
+    ax.set_ylim(min(ys) - 0.15 * yr, max(ys) + 0.15 * yr)
+
+    key.axis("off")
+    key.set_xlim(0, 1)
+    key.set_ylim(0, 1)
+    yk = 0.97
+    for i, label, color, on_front in lines:
+        key.scatter(0.04, yk, s=110, color=color, edgecolor=SURFACE)
+        key.text(0.04, yk, str(i), ha="center", va="center", fontsize=7, color="white", fontweight="bold")
+        key.text(0.11, yk, label + ("  \u25c6" if on_front else ""), va="center", fontsize=8.5, color=INK2)
+        yk -= 0.075
+    yk -= 0.03
+    for color, text in (
+        (ORANGE, "baseline"),
+        (BLUE, "score never depends on group"),
+        (AQUA, "uses the group at prediction"),
+        (MUTED, "\u25c6 / dashed: Pareto frontier"),
+    ):
+        key.text(0.04, yk, "\u25cf" if color != MUTED else "", color=color, fontsize=10, va="center")
+        key.text(0.11, yk, text, va="center", fontsize=7.5, color=MUTED)
+        yk -= 0.06
+    if degenerate:
+        key.text(
+            0.04,
+            yk - 0.03,
+            "Not shown (degenerate: flag almost\neveryone or no one): " + ", ".join(degenerate),
+            fontsize=7,
+            color=MUTED,
+            va="top",
+            wrap=True,
+        )
     _save(fig, path)
 
 
@@ -103,7 +133,7 @@ def group_bars(final: dict[str, Any], axis: str, title: str, path: Path) -> None
         ax.set_title(name, fontsize=10)
         ax.grid(axis="x", visible=False)
     axes[0].legend(loc="upper left", fontsize=8)
-    fig.suptitle(title, x=0.01, ha="left", fontweight="bold", color=INK)
+    fig.suptitle(title, x=0.01, y=1.06, ha="left", fontweight="bold", color=INK)
     _save(fig, path)
 
 

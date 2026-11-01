@@ -15,9 +15,11 @@ While rebuilding it I hit two problems with v1, and v2 is my attempt to fix them
 
 v2 asks three separate questions, each answered with a standard statistical tool:
 
-1. **Power** -- with these group sizes, what is the smallest flag-rate gap a two-proportion
-   test could detect (alpha=0.05, power=0.8)? If that is bigger than the reduction we hope
-   to achieve (default 0.05), we cannot measure success. This one needs no model at all.
+1. **Precision** -- with these group sizes, how wide is the 95% confidence interval of a
+   flag-rate gap? If its half-width is bigger than the reduction we hope to achieve
+   (default 0.05), a successful mitigation could not be told apart from noise. This is the
+   thesis' own standard-error argument made explicit, and it needs no model at all. (The
+   stricter minimum detectable effect at 80% power is reported alongside.)
 2. **Signal** -- is the observed gap distinguishable from chance? (permutation test)
 3. **Room** -- is the gap's 95% CI lower bound at least the target reduction?
 
@@ -154,10 +156,11 @@ def preflight_v2(
     codes, levels = encode_groups(g)
     counts = np.bincount(codes)
 
-    # 1. power -- uses only group sizes and the overall flag rate
+    # 1. precision -- uses only group sizes and the overall flag rate
     p = max(min(pred.mean(), 0.99), 0.01)
-    two_smallest = np.sort(counts)[:2]
-    mde = minimum_detectable_gap(int(two_smallest[0]), int(two_smallest[1]), p, alpha, power)
+    n1, n2 = (int(c) for c in np.sort(counts)[:2])
+    half_width = float(stats.norm.ppf(1 - alpha / 2) * np.sqrt(p * (1 - p) * (1 / n1 + 1 / n2)))
+    mde = minimum_detectable_gap(n1, n2, p, alpha, power)
 
     # 2. signal -- permutation test on the chosen gap
     obs = gaps(y, pred, g, scores)[metric]
@@ -179,10 +182,11 @@ def preflight_v2(
     checks = [
         {
             "id": 1,
-            "name": "Power: smallest detectable gap",
+            "name": "Precision: 95% CI half-width of a gap",
             "criterion": f"<= {target:.2f}",
-            "value": round(mde, 3),
-            "passed": mde <= target,
+            "value": round(half_width, 3),
+            "passed": half_width <= target,
+            "detail": {"mde_80_power": round(mde, 3), "smallest_groups": [n1, n2]},
         },
         {
             "id": 2,

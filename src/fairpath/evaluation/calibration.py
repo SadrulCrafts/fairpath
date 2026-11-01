@@ -44,3 +44,26 @@ class ProbabilityCalibrator:
 def choose_method(n: int, cfg: dict) -> str:
     rule = cfg["method_by_size"]
     return rule["large"] if n >= rule["cutoff"] else rule["small"]
+
+
+def select_method(
+    p: np.ndarray, y: np.ndarray, candidates=("none", "sigmoid", "isotonic"), n_folds: int = 5, seed: int = 42
+) -> tuple[str, dict[str, float]]:
+    """Pick the calibrator with the lowest cross-validated Brier score on out-of-fold predictions.
+
+    Fitting a calibrator is itself a learning step and can overfit (isotonic regression especially,
+    and especially when the model is already well calibrated), so "no calibration" is a candidate too.
+    """
+    from sklearn.model_selection import StratifiedKFold
+
+    p = np.asarray(p, float)
+    y = np.asarray(y, int)
+    scores: dict[str, float] = {}
+    for method in candidates:
+        errs = []
+        for tr, te in StratifiedKFold(n_folds, shuffle=True, random_state=seed).split(p.reshape(-1, 1), y):
+            cal = ProbabilityCalibrator(method).fit(p[tr], y[tr])
+            errs.append(np.mean((cal.transform(p[te]) - y[te]) ** 2))
+        scores[method] = float(np.mean(errs))
+    best = min(scores, key=scores.get)
+    return best, scores

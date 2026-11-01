@@ -42,9 +42,9 @@ class PipelineExplainer:
             self.kind = "linear"
         else:
             try:
-                self.explainer = shap.TreeExplainer(
-                    self.model, data=bg_t, model_output="raw", feature_perturbation="interventional"
-                )
+                # path-dependent SHAP: exact for the tree structure, needs no background data, and avoids
+                # an additivity bug of the interventional algorithm with recent LightGBM versions
+                self.explainer = shap.TreeExplainer(self.model, feature_perturbation="tree_path_dependent")
                 self.kind = "tree"
             except Exception:  # pragma: no cover - fallback for unsupported models
                 log.warning("TreeExplainer does not support %s; using the permutation explainer", kind)
