@@ -1,0 +1,171 @@
+# UCI "Predict Students' Dropout and Academic Success" (Realinho et al., 2022)
+# Licence: CC BY 4.0 -- https://doi.org/10.24432/C5MC89
+name: dropout
+title: "Higher-education dropout (Portugal, n = 3,630)"
+short_title: "Dropout"
+description: >
+  Records of students at a Portuguese polytechnic, enrolled across 17 undergraduate
+  programmes up to 2018/19. Only information available at enrolment is used.
+file: dropout.csv
+sep: ";"
+source_url: "https://archive.ics.uci.edu/dataset/697/predict+students+dropout+and+academic+success"
+download_url: "https://archive.ics.uci.edu/static/public/697/predict+students+dropout+and+academic+success.zip"
+zip_member: "data.csv"
+licence: "CC BY 4.0"
+citation: >
+  V. Realinho, J. Machado, L. Baptista and M. V. Martins, "Predicting Student Dropout
+  and Academic Success," Data, vol. 7, no. 11, p. 146, 2022. doi:10.3390/data7110146
+
+target:
+  source: Target
+  # Rows whose outcome is still unknown at the data cut-off are removed (thesis §4.2.2).
+  drop_values: [Enrolled]
+  at_risk_values: [Dropout]      # positive class of the upgraded pipeline
+  success_values: [Graduate]     # positive class used in the thesis
+  at_risk_label: "Dropped out"
+  success_label: "Graduated"
+
+# Twelve end-of-semester columns are dropped (thesis §4.2.3): they are only known
+# after the period we want to predict and push AUC to ~0.92.
+drop_prefixes: ["Curricular units"]
+
+sensitive:
+  gender:
+    label: "Gender"
+    groups: {0: "Female", 1: "Male"}
+    primary: true
+  debtor:
+    label: "Debtor status"
+    groups: {0: "Not a debtor", 1: "Debtor"}
+  age_group:
+    label: "Age at enrolment"
+    derived_from: age_at_enrollment
+    bins: [0, 20, 25, 200]
+    groups: {0: "20 or younger", 1: "21-25", 2: "Over 25"}
+intersections:
+  - [gender, debtor]
+  - [gender, age_group]
+
+# Columns that are always kept out of the model in the "blind" deployment setting.
+blind_drop: [gender]
+
+features:
+  - {name: course, source: Course, type: categorical, group: "Programme & admission", label: "Programme",
+     labels: {33: "Biofuel Production Technologies", 171: "Animation and Multimedia Design",
+              8014: "Social Service (evening)", 9003: "Agronomy", 9070: "Communication Design",
+              9085: "Veterinary Nursing", 9119: "Informatics Engineering", 9130: "Equinculture",
+              9147: "Management", 9238: "Social Service", 9254: "Tourism", 9500: "Nursing",
+              9556: "Oral Hygiene", 9670: "Advertising and Marketing Management",
+              9773: "Journalism and Communication", 9853: "Basic Education", 9991: "Management (evening)"}}
+  - {name: application_mode, source: Application mode, type: categorical, group: "Programme & admission",
+     label: "Application route",
+     labels: {1: "1st phase, general contingent", 2: "Ordinance 612/93", 5: "1st phase, special contingent (Azores)",
+              7: "Holder of another higher degree", 10: "Ordinance 854-B/99", 15: "International student (bachelor)",
+              16: "1st phase, special contingent (Madeira)", 17: "2nd phase, general contingent",
+              18: "3rd phase, general contingent", 26: "Ordinance 533-A/99 b2 (different plan)",
+              27: "Ordinance 533-A/99 b3 (other institution)", 39: "Over 23 years old", 42: "Transfer",
+              43: "Change of course", 44: "Technological specialisation diploma", 51: "Change of institution/course",
+              53: "Short-cycle diploma", 57: "Change of institution/course (international)"}}
+  - {name: application_order, source: Application order, type: numeric, group: "Programme & admission",
+     label: "Choice rank of this programme", help: "0 = first choice, 9 = last choice", min: 0, max: 9, step: 1}
+  - {name: daytime_attendance, source: "Daytime/evening attendance", type: binary, group: "Programme & admission",
+     label: "Attendance", labels: {1: "Daytime", 0: "Evening"}}
+  - {name: admission_grade, source: Admission grade, type: numeric, group: "Programme & admission",
+     label: "Admission grade", help: "Portuguese 0-200 scale", min: 95, max: 190, step: 0.1}
+  - {name: previous_qualification, source: Previous qualification, type: categorical, group: "Prior education",
+     label: "Previous qualification",
+     labels: {1: "Secondary education", 2: "Higher ed. - bachelor's", 3: "Higher ed. - degree", 4: "Higher ed. - master's",
+              5: "Higher ed. - doctorate", 6: "Frequency of higher education", 9: "12th year, not completed",
+              10: "11th year, not completed", 12: "Other - 11th year", 14: "10th year", 15: "10th year, not completed",
+              19: "Basic education, 3rd cycle", 38: "Basic education, 2nd cycle", 39: "Technological specialisation course",
+              40: "Higher ed. - degree (1st cycle)", 42: "Professional higher technical course",
+              43: "Higher ed. - master (2nd cycle)"}}
+  - {name: previous_qualification_grade, source: Previous qualification (grade), type: numeric, group: "Prior education",
+     label: "Previous qualification grade", help: "0-200 scale", min: 95, max: 190, step: 0.1}
+  - {name: age_at_enrollment, source: Age at enrollment, type: numeric, group: "Background", label: "Age at enrolment",
+     min: 17, max: 70, step: 1, protected: true}
+  - {name: gender, source: Gender, type: binary, group: "Background", label: "Gender",
+     labels: {0: "Female", 1: "Male"}, protected: true}
+  - {name: marital_status, source: Marital status, type: categorical, group: "Background", label: "Marital status",
+     labels: {1: "Single", 2: "Married", 3: "Widowed", 4: "Divorced", 5: "De facto union", 6: "Legally separated"},
+     protected: true}
+  - {name: nationality, source: Nacionality, type: categorical, group: "Background", label: "Nationality",
+     labels: {1: "Portuguese", 2: "German", 6: "Spanish", 11: "Italian", 13: "Dutch", 14: "English", 17: "Lithuanian",
+              21: "Angolan", 22: "Cape Verdean", 24: "Guinean", 25: "Mozambican", 26: "Santomean", 32: "Turkish",
+              41: "Brazilian", 62: "Romanian", 100: "Moldovan", 101: "Mexican", 103: "Ukrainian", 105: "Russian",
+              108: "Cuban", 109: "Colombian"}, protected: true}
+  - {name: international, source: International, type: binary, group: "Background", label: "International student",
+     labels: {0: "No", 1: "Yes"}, protected: true}
+  - {name: displaced, source: Displaced, type: binary, group: "Background", label: "Studying away from home",
+     labels: {0: "No", 1: "Yes"}}
+  - {name: special_needs, source: Educational special needs, type: binary, group: "Background",
+     label: "Educational special needs", labels: {0: "No", 1: "Yes"}, protected: true}
+  - {name: mothers_qualification, source: "Mother's qualification", type: categorical, group: "Family",
+     label: "Mother's qualification", labels_ref: parent_qualification}
+  - {name: fathers_qualification, source: "Father's qualification", type: categorical, group: "Family",
+     label: "Father's qualification", labels_ref: parent_qualification}
+  - {name: mothers_occupation, source: "Mother's occupation", type: categorical, group: "Family",
+     label: "Mother's occupation", labels_ref: occupation}
+  - {name: fathers_occupation, source: "Father's occupation", type: categorical, group: "Family",
+     label: "Father's occupation", labels_ref: occupation}
+  - {name: tuition_up_to_date, source: Tuition fees up to date, type: binary, group: "Finances",
+     label: "Tuition fees up to date", labels: {0: "No", 1: "Yes"},
+     actionable: {to: 1, action: "Set up a payment plan or emergency bursary so tuition is up to date"}}
+  - {name: debtor, source: Debtor, type: binary, group: "Finances", label: "Has outstanding debt to the institution",
+     labels: {0: "No", 1: "Yes"},
+     actionable: {to: 0, action: "Refer to financial counselling to clear outstanding fees"}}
+  - {name: scholarship_holder, source: Scholarship holder, type: binary, group: "Finances", label: "Scholarship holder",
+     labels: {0: "No", 1: "Yes"},
+     actionable: {to: 1, action: "Check eligibility for a scholarship or need-based grant"}}
+  - {name: unemployment_rate, source: Unemployment rate, type: numeric, group: "Economy at enrolment",
+     label: "National unemployment rate (%)", min: 7.0, max: 17.0, step: 0.1}
+  - {name: inflation_rate, source: Inflation rate, type: numeric, group: "Economy at enrolment",
+     label: "Inflation rate (%)", min: -1.0, max: 4.0, step: 0.1}
+  - {name: gdp, source: GDP, type: numeric, group: "Economy at enrolment", label: "GDP growth (%)",
+     min: -4.1, max: 3.6, step: 0.01}
+
+label_sets:
+  parent_qualification:
+    1: "Secondary education (12th year)"
+    2: "Higher ed. - bachelor's"
+    3: "Higher ed. - degree"
+    4: "Higher ed. - master's"
+    5: "Higher ed. - doctorate"
+    6: "Frequency of higher education"
+    9: "12th year, not completed"
+    10: "11th year, not completed"
+    11: "7th year (old system)"
+    12: "Other - 11th year"
+    14: "10th year"
+    18: "General commerce course"
+    19: "Basic education, 3rd cycle"
+    22: "Technical-professional course"
+    26: "7th year of schooling"
+    27: "2nd cycle, general high school"
+    29: "9th year, not completed"
+    30: "8th year"
+    34: "Unknown"
+    35: "Cannot read or write"
+    36: "Can read without 4th year"
+    37: "Basic education, 1st cycle"
+    38: "Basic education, 2nd cycle"
+    39: "Technological specialisation course"
+    40: "Higher ed. - degree (1st cycle)"
+    41: "Specialised higher studies"
+    42: "Professional higher technical course"
+    43: "Higher ed. - master (2nd cycle)"
+    44: "Higher ed. - doctorate (3rd cycle)"
+  occupation:
+    0: "Student"
+    1: "Managers, directors, legislators"
+    2: "Intellectual and scientific professions"
+    3: "Intermediate-level technicians"
+    4: "Administrative staff"
+    5: "Personal services, security, sales"
+    6: "Farmers, skilled agriculture/fishing"
+    7: "Skilled industry and construction"
+    8: "Machine operators and assembly"
+    9: "Unskilled workers"
+    10: "Armed forces"
+    90: "Other situation"
+    99: "Not recorded"

@@ -1,0 +1,15 @@
+.git
+.venv
+venv
+**/__pycache__
+**/.pytest_cache
+.ruff_cache
+.coverage
+htmlcov
+data/raw
+web/node_modules
+web/.next
+web/out
+notebooks/.ipynb_checkpoints
+mlruns
+runs

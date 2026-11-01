@@ -1,0 +1,118 @@
+# UCI "Student Performance" -- Mathematics course (Cortez & Silva, 2008)
+# Licence: CC BY 4.0 -- https://doi.org/10.24432/C5TG7T
+name: student_mat
+title: "Secondary-school maths (Portugal, n = 395)"
+short_title: "Student-mat"
+description: >
+  Students taking Mathematics at two Portuguese secondary schools in 2005/06. Intermediate
+  grades G1 and G2 are excluded because they are not known at the start of the year.
+file: student-mat.csv
+sep: ";"
+source_url: "https://archive.ics.uci.edu/dataset/320/student+performance"
+download_url: "https://archive.ics.uci.edu/static/public/320/student+performance.zip"
+zip_member: "student-mat.csv"
+licence: "CC BY 4.0"
+citation: >
+  P. Cortez and A. M. G. Silva, "Using data mining to predict secondary school student
+  performance," in Proc. 5th Future Business Technology Conference (FUBUTEC), 2008, pp. 5-12.
+
+target:
+  source: G3
+  threshold: 10                  # pass if G3 >= 10 on the 0-20 scale
+  at_risk_label: "Failed (G3 < 10)"
+  success_label: "Passed (G3 >= 10)"
+
+drop_columns: [G1, G2]
+
+sensitive:
+  sex:
+    label: "Sex"
+    groups: {F: "Female", M: "Male"}
+    primary: true
+  address:
+    label: "Home address"
+    groups: {R: "Rural", U: "Urban"}
+  parental_education:
+    label: "Parental education"
+    derived_from: [Medu, Fedu]
+    rule: max_le
+    cutoff: 2
+    groups: {0: "Up to lower secondary", 1: "Upper secondary or higher"}
+intersections:
+  - [sex, address]
+
+blind_drop: [sex]
+
+features:
+  - {name: school, source: school, type: categorical, group: "School", label: "School",
+     labels: {GP: "Gabriel Pereira", MS: "Mousinho da Silveira"}}
+  - {name: sex, source: sex, type: categorical, group: "About the student", label: "Sex",
+     labels: {F: "Female", M: "Male"}, protected: true}
+  - {name: age, source: age, type: numeric, group: "About the student", label: "Age", min: 15, max: 22, step: 1,
+     protected: true}
+  - {name: address, source: address, type: categorical, group: "About the student", label: "Home address",
+     labels: {U: "Urban", R: "Rural"}, protected: true}
+  - {name: health, source: health, type: numeric, group: "About the student", label: "Self-rated health",
+     help: "1 = very bad, 5 = very good", min: 1, max: 5, step: 1}
+  - {name: romantic, source: romantic, type: categorical, group: "About the student", label: "In a relationship",
+     labels: {"yes": "Yes", "no": "No"}, protected: true}
+  - {name: famsize, source: famsize, type: categorical, group: "Family", label: "Family size",
+     labels: {LE3: "3 or fewer", GT3: "More than 3"}}
+  - {name: Pstatus, source: Pstatus, type: categorical, group: "Family", label: "Parents' cohabitation",
+     labels: {T: "Living together", A: "Apart"}, protected: true}
+  - {name: Medu, source: Medu, type: numeric, group: "Family", label: "Mother's education",
+     help: "0 none, 1 primary (4th grade), 2 5th-9th grade, 3 secondary, 4 higher", min: 0, max: 4, step: 1,
+     protected: true}
+  - {name: Fedu, source: Fedu, type: numeric, group: "Family", label: "Father's education",
+     help: "0 none, 1 primary (4th grade), 2 5th-9th grade, 3 secondary, 4 higher", min: 0, max: 4, step: 1,
+     protected: true}
+  - {name: Mjob, source: Mjob, type: categorical, group: "Family", label: "Mother's job",
+     labels: {teacher: "Teacher", health: "Health care", services: "Civil services", at_home: "At home", other: "Other"}}
+  - {name: Fjob, source: Fjob, type: categorical, group: "Family", label: "Father's job",
+     labels: {teacher: "Teacher", health: "Health care", services: "Civil services", at_home: "At home", other: "Other"}}
+  - {name: guardian, source: guardian, type: categorical, group: "Family", label: "Guardian",
+     labels: {mother: "Mother", father: "Father", other: "Other"}}
+  - {name: famrel, source: famrel, type: numeric, group: "Family", label: "Family relationship quality",
+     help: "1 = very bad, 5 = excellent", min: 1, max: 5, step: 1}
+  - {name: famsup, source: famsup, type: categorical, group: "Family", label: "Family educational support",
+     labels: {"yes": "Yes", "no": "No"}}
+  - {name: reason, source: reason, type: categorical, group: "School", label: "Reason for choosing school",
+     labels: {home: "Close to home", reputation: "Reputation", course: "Course preference", other: "Other"}}
+  - {name: traveltime, source: traveltime, type: numeric, group: "School", label: "Travel time to school",
+     help: "1 <15 min, 2 15-30 min, 3 30-60 min, 4 >1 hour", min: 1, max: 4, step: 1}
+  - {name: nursery, source: nursery, type: categorical, group: "School", label: "Attended nursery school",
+     labels: {"yes": "Yes", "no": "No"}}
+  - {name: failures, source: failures, type: numeric, group: "Study habits", label: "Past class failures",
+     help: "Number of past failures, capped at 3", min: 0, max: 3, step: 1}
+  - {name: studytime, source: studytime, type: numeric, group: "Study habits", label: "Weekly study time",
+     help: "1 <2 h, 2 2-5 h, 3 5-10 h, 4 >10 h", min: 1, max: 4, step: 1,
+     actionable: {direction: increase, action: "Agree a realistic weekly study plan with a mentor"}}
+  - {name: absences, source: absences, type: numeric, group: "Study habits", label: "School absences",
+     min: 0, max: 93, step: 1,
+     actionable: {direction: decrease, action: "Follow up on attendance early and remove barriers to coming in"}}
+  - {name: schoolsup, source: schoolsup, type: categorical, group: "Support", label: "Extra school support",
+     labels: {"yes": "Yes", "no": "No"},
+     actionable: {to: "yes", action: "Offer a place in the school's extra-support programme"}}
+  - {name: paid, source: paid, type: categorical, group: "Support", label: "Extra paid classes",
+     labels: {"yes": "Yes", "no": "No"},
+     actionable: {to: "yes", action: "Connect the student with free or subsidised tutoring"}}
+  - {name: higher, source: higher, type: categorical, group: "Support", label: "Wants higher education",
+     labels: {"yes": "Yes", "no": "No"},
+     actionable: {to: "yes", action: "Career and university guidance session"}}
+  - {name: internet, source: internet, type: categorical, group: "Support", label: "Internet at home",
+     labels: {"yes": "Yes", "no": "No"},
+     actionable: {to: "yes", action: "Loan a device or data plan for schoolwork"}}
+  - {name: activities, source: activities, type: categorical, group: "Lifestyle", label: "Extra-curricular activities",
+     labels: {"yes": "Yes", "no": "No"},
+     actionable: {to: "yes", action: "Invite the student to a club or activity"}}
+  - {name: freetime, source: freetime, type: numeric, group: "Lifestyle", label: "Free time after school",
+     help: "1 very low, 5 very high", min: 1, max: 5, step: 1}
+  - {name: goout, source: goout, type: numeric, group: "Lifestyle", label: "Going out with friends",
+     help: "1 very low, 5 very high", min: 1, max: 5, step: 1,
+     actionable: {direction: decrease, action: "Talk through balancing social time with study"}}
+  - {name: Dalc, source: Dalc, type: numeric, group: "Lifestyle", label: "Weekday alcohol use",
+     help: "1 very low, 5 very high", min: 1, max: 5, step: 1,
+     actionable: {direction: decrease, action: "Refer to the school wellbeing / counselling service"}}
+  - {name: Walc, source: Walc, type: numeric, group: "Lifestyle", label: "Weekend alcohol use",
+     help: "1 very low, 5 very high", min: 1, max: 5, step: 1,
+     actionable: {direction: decrease, action: "Refer to the school wellbeing / counselling service"}}

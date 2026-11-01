@@ -1,0 +1,45 @@
+# --- data: never commit the raw datasets (download with `make data`) ---
+data/raw/*
+!data/raw/.gitkeep
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+coverage.xml
+htmlcov/
+build/
+dist/
+
+# experiment tracking / scratch
+mlruns/
+runs/
+*.log
+
+# notebooks
+.ipynb_checkpoints/
+
+# web
+web/node_modules/
+web/.next/
+web/out/
+web/next-env.d.ts
+web/tsconfig.tsbuildinfo
+
+# env & secrets
+.env
+.env.*
+!.env.example
+
+# OS / editors
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/

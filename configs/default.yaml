@@ -1,0 +1,69 @@
+# FairPath experiment configuration.
+# Every number reported in the README, docs or dashboard is produced from this file.
+seed: 42
+
+paths:
+  data_raw: data/raw
+  data_synthetic: data/synthetic
+  artifacts: artifacts
+  reports: reports
+
+datasets: [dropout, student_mat]
+
+# If the real CSVs are missing, the pipeline falls back to the synthetic copies and
+# stamps every output with "SYNTHETIC". Set to false to fail loudly instead.
+allow_synthetic_fallback: true
+
+split:
+  test_size: 0.20          # held-out test set, never touched during tuning or model selection
+  stratify_on: [target, primary_sensitive]
+
+cv:
+  benchmark: {n_splits: 5, n_repeats: 5}   # full 5x5 = 25 folds (the thesis had to use 5x2)
+  fairness: {n_splits: 5, n_repeats: 2}    # mitigation study (each fold refits several mitigators)
+  tuning_folds: 5
+  inner_val_size: 0.20                     # validation slice used by post-processing methods
+
+tuning:
+  enabled: true
+  n_trials: 30
+  metric: roc_auc
+
+models: [logistic_regression, random_forest, hist_gradient_boosting, lightgbm, xgboost]
+
+bootstrap:
+  n_resamples: 1000
+  ci: 0.95
+
+permutation_test:
+  n_permutations: 2000
+
+calibration:
+  # isotonic needs more data; small datasets get Platt scaling
+  method_by_size: {small: sigmoid, large: isotonic, cutoff: 1000}
+  n_bins: 10
+
+conformal:
+  alpha: 0.10   # target 90% coverage for prediction sets
+
+decision:
+  # "at-risk" flag threshold is chosen on out-of-fold predictions of the development set
+  threshold_strategy: max_f1
+  risk_bands: {low: 0.25, high: 0.50}   # <25% low, 25-50% moderate, >=50% high
+
+fairness:
+  small_group_warning: 30
+  caution_group_size: 100
+  thesis_threshold_grid: {min: 0.1, max: 0.9, steps: 10}
+
+deployment:
+  mitigation: reweighing   # training-time only; no group-specific treatment at prediction time
+  blind: true              # the primary sensitive attribute is not a model input
+
+preflight:
+  min_group_n: 100
+  noise_floor_ratio: 3.0
+  max_bootstrap_cv: 0.50
+  target_reduction: 0.05   # smallest gap reduction worth detecting (v2 power check)
+  power: 0.80
+  alpha: 0.05
