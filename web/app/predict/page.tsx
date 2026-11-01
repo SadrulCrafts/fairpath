@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Callout, EmptyState, Skeleton } from "@/components/ui/misc";
 import { StudentForm, defaultsFrom, type Values } from "@/components/student-form";
 import { PredictionPanel } from "@/components/widgets";
-import { ApiError, getJSON, postJSON } from "@/lib/api";
+import { ApiError, getJSON, postJSON, useSlow } from "@/lib/api";
 import { useData, useDataset } from "@/lib/dataset-context";
 import type { Example, Prediction, Schema, ValidationIssue } from "@/lib/types";
 import { pct } from "@/lib/format";
@@ -20,6 +20,7 @@ export default function PredictPage() {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<{ message: string; issues?: ValidationIssue[] } | null>(null);
   const resultRef = React.useRef<HTMLDivElement>(null);
+  const slow = useSlow(loading);
 
   React.useEffect(() => {
     if (schema.data) { setValues(defaultsFrom(schema.data)); setResult(null); setError(null); }
@@ -86,6 +87,7 @@ export default function PredictPage() {
               )}
             </Callout>
           )}
+          {slow && <Callout className="mb-4" title="Waking up the model server…">The live demo runs on free hosting that sleeps when nobody is using it. The first prediction can take up to a minute; after that it&apos;s quick.</Callout>}
           {loading && !result && <div className="space-y-4"><Skeleton className="h-56" /><Skeleton className="h-72" /><Skeleton className="h-64" /></div>}
           {!loading && !result && !error && (
             <EmptyState icon={UserRound} title="No prediction yet" className="lg:mt-11">

@@ -9,7 +9,7 @@ import { Callout, Skeleton } from "@/components/ui/misc";
 import { Select } from "@/components/ui/select";
 import { FieldInput, defaultsFrom, type Values } from "@/components/student-form";
 import { ConfidenceBadge, Glossed, RiskGauge, ShapBars } from "@/components/widgets";
-import { getJSON, postJSON } from "@/lib/api";
+import { getJSON, postJSON, useSlow } from "@/lib/api";
 import { useData, useDataset } from "@/lib/dataset-context";
 import { pct } from "@/lib/format";
 import type { Example, Field, Prediction, Schema } from "@/lib/types";
@@ -34,6 +34,7 @@ export default function WhatIfPage() {
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const abort = React.useRef<AbortController | null>(null);
+  const slow = useSlow(!pred && !error);
 
   const call = React.useCallback(async (v: Values) => {
     if (!schema.data) return null;
@@ -117,6 +118,7 @@ export default function WhatIfPage() {
 
         <div className="space-y-4 lg:sticky lg:top-4 lg:self-start">
           {error && <Callout tone="warn">{error}</Callout>}
+          {slow && <Callout title="Waking up the model server…">Free hosting sleeps when idle; the first response can take up to a minute.</Callout>}
           <Card>
             <CardContent className="p-6">
               {!pred || !current ? <Skeleton className="h-48" /> : (

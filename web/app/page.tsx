@@ -30,6 +30,7 @@ interface Overview { datasets: Record<string, DsOverview>; thesis_reproduction: 
 
 function Verdict({ code }: { code: string }) {
   if (code === "mitigate") return <Badge variant="good"><CheckCircle2 /> Mitigate and measure</Badge>;
+  if (code === "mitigate_coarse") return <Badge variant="good"><CheckCircle2 /> Mitigate (coarse)</Badge>;
   if (code === "monitor") return <Badge variant="outline"><MinusCircle /> Monitor</Badge>;
   return <Badge variant="warn"><XCircle /> Not enough data</Badge>;
 }

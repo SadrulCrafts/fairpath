@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Callout, EmptyState } from "@/components/ui/misc";
 import { ConfidenceBadge, KpiCard } from "@/components/widgets";
-import { api, postFile } from "@/lib/api";
+import { api, postFile, useSlow } from "@/lib/api";
 import { useDataset } from "@/lib/dataset-context";
 import { bandMeta, pct } from "@/lib/format";
 import type { Band, ValidationIssue } from "@/lib/types";
@@ -32,6 +32,7 @@ export default function BatchPage() {
   const [busy, setBusy] = React.useState<"score" | "pdf" | null>(null);
   const [drag, setDrag] = React.useState(false);
   const [filter, setFilter] = React.useState<"all" | "flagged" | "uncertain">("all");
+  const slow = useSlow(busy !== null);
 
   React.useEffect(() => { setResult(null); setIssues(null); setError(null); setFile(null); }, [dataset]);
 
@@ -86,6 +87,7 @@ export default function BatchPage() {
         <div className="mt-1 inline-flex items-center gap-1.5 text-[12px] text-muted-foreground"><ShieldCheck className="h-3.5 w-3.5" /> Processed in memory and discarded. Nothing is stored.</div>
       </label>
 
+      {slow && <Callout className="mt-4" title="Still working…">If the demo server was asleep it can take up to a minute to wake up. Large files also take a few seconds to explain row by row.</Callout>}
       {error && <Callout tone="warn" className="mt-4" title="Something went wrong">{error}</Callout>}
       {issues && (
         <Callout tone="warn" className="mt-4" title={`The file doesn't match the ${current?.short_title} schema`}>

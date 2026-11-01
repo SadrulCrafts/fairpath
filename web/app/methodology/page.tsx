@@ -60,7 +60,7 @@ export default function MethodologyPage() {
               <p>
                 I turned that into a <strong>pre-flight check</strong>: three numbers you can compute before spending time on mitigation. While rebuilding the
                 project I found a weakness in my own rule (its variance check divides by the gap, so a genuinely fair dataset fails it just like a tiny one),
-                and FairPath ships a revised version that separates <em>&ldquo;nothing to fix&rdquo;</em> from <em>&ldquo;too little data to tell&rdquo;</em>.
+                and FairPath ships a revised version that separates <em>&ldquo;nothing to fix&rdquo;</em> from <em>&ldquo;too little data to tell&rdquo;</em>. Running that version on the real data exposed one more case: a gap so large that it is clearly real even though the groups are small. It now gets its own verdict, <em>&ldquo;clear gap, coarse measurement&rdquo;</em>, instead of being lumped in with &ldquo;too little data&rdquo;.
               </p>
               <p>
                 Finally, the source of the bias. On the school data, sex sits in the lower half of the feature ranking and removing it

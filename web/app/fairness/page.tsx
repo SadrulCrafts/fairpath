@@ -313,7 +313,7 @@ export default function FairnessPage() {
               <>
                 <div>
                   <div className="mb-2 flex items-center justify-between"><span className="text-[13px] font-medium">Version 2 (revised)</span>
-                    <Badge variant={pf.v2.verdict_code === "mitigate" ? "good" : pf.v2.verdict_code === "monitor" ? "outline" : "warn"}>{pf.v2.verdict}</Badge></div>
+                    <Badge variant={pf.v2.verdict_code.startsWith("mitigate") ? "good" : pf.v2.verdict_code === "monitor" ? "outline" : "warn"}>{pf.v2.verdict}</Badge></div>
                   <CheckList checks={pf.v2.checks} />
                 </div>
                 <div className="border-t pt-5">
