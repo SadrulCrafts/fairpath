@@ -7,10 +7,10 @@
 [![CI](https://github.com/SadrulCrafts/fairpath/actions/workflows/ci.yml/badge.svg)](https://github.com/SadrulCrafts/fairpath/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.12%20%7C%203.13-3776AB)
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Tests](https://img.shields.io/badge/tests-48%20passing-brightgreen)
-[![Live demo](https://img.shields.io/badge/live-demo-2a78d6)](https://<your-demo-url>)
+![Tests](https://img.shields.io/badge/tests-49%20passing-brightgreen)
+[![Live demo](https://img.shields.io/badge/live-demo-2a78d6)](https://fairpath-eight.vercel.app)
 
-[**Live demo**](https://<your-demo-url>) · [Results](docs/RESULTS.md) · [Model card](MODEL_CARD.md) · [Datasheet](DATASHEET.md) · [Reproducibility & thesis errata](docs/REPRODUCIBILITY.md)
+[**Live demo**](https://fairpath-eight.vercel.app) · [Results](docs/RESULTS.md) · [Model card](MODEL_CARD.md) · [Datasheet](DATASHEET.md) · [Reproducibility & thesis errata](docs/REPRODUCIBILITY.md)
 
 <img src="docs/screenshots/overview.png" alt="FairPath dashboard overview" width="900">
 
@@ -92,7 +92,7 @@ The repository ships trained models and reports, so `make run` works straight aw
 make data          # download both UCI datasets (not committed to git)
 make train         # full pipeline on the real data, ~25 min on 2 CPU cores
 make train-fast    # or: the same pipeline on the bundled synthetic data, a few minutes
-make test          # 47 fast tests (make test-all adds the end-to-end run)
+make test          # 48 fast tests (make test-all adds the end-to-end run)
 ```
 
 Or with Docker: `docker compose up --build`, then open <http://localhost:7860>.
