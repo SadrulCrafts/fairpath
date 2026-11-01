@@ -1,0 +1,6200 @@
+{
+  "dataset": "student_mat",
+  "provenance": {
+    "data_source": "real",
+    "data_fingerprint": "e47f9ee225e1",
+    "n": 395,
+    "n_raw": 395,
+    "cleaning": [
+      "Dropped 2 leakage columns: G1, G2."
+    ],
+    "git_commit": "1ef58d6",
+    "generated_at": "2026-11-01T08:19:24Z",
+    "synthetic": false
+  },
+  "design": "5x2 RepeatedStratifiedKFold on the development split; inner 80/20 split for post-processing",
+  "axes": [
+    "sex",
+    "address",
+    "sex+address"
+  ],
+  "models": [
+    "logistic_regression"
+  ],
+  "summary": {
+    "address": {
+      "logistic_regression": {
+        "methods": [
+          {
+            "method": "baseline",
+            "label": "No mitigation (aware)",
+            "stage": "none",
+            "needs_sensitive_at_prediction": true,
+            "uses_sensitive_input": true,
+            "about": "The model sees every feature, including the sensitive one.",
+            "roc_auc": {
+              "mean": 0.683343,
+              "sd": 0.059091
+            },
+            "f1": {
+              "mean": 0.47984,
+              "sd": 0.08305
+            },
+            "balanced_accuracy": {
+              "mean": 0.612738,
+              "sd": 0.063145
+            },
+            "flag_rate": {
+              "mean": 0.319444,
+              "sd": 0.073675
+            },
+            "spd": {
+              "mean": 0.161632,
+              "sd": 0.102754
+            },
+            "eodds": {
+              "mean": 0.349785,
+              "sd": 0.150359
+            },
+            "tpr_gap": {
+              "mean": 0.317523,
+              "sd": 0.172758
+            },
+            "fpr_gap": {
+              "mean": 0.141753,
+              "sd": 0.104532
+            },
+            "ppv_gap": {
+              "mean": 0.239732,
+              "sd": 0.188195
+            },
+            "di_ratio": {
+              "mean": 0.642606,
+              "sd": 0.179682
+            },
+            "n_failed_folds": 0,
+            "degenerate": false,
+            "pareto": false
+          },
+          {
+            "method": "blind",
+            "label": "Fairness through unawareness",
+            "stage": "pre",
+            "needs_sensitive_at_prediction": false,
+            "uses_sensitive_input": false,
+            "about": "The sensitive column is simply removed. Proxies can still carry the signal.",
+            "roc_auc": {
+              "mean": 0.682085,
+              "sd": 0.06263
+            },
+            "f1": {
+              "mean": 0.486069,
+              "sd": 0.076838
+            },
+            "balanced_accuracy": {
+              "mean": 0.618608,
+              "sd": 0.057649
+            },
+            "flag_rate": {
+              "mean": 0.316344,
+              "sd": 0.066676
+            },
+            "spd": {
+              "mean": 0.132357,
+              "sd": 0.087155
+            },
+            "eodds": {
+              "mean": 0.325857,
+              "sd": 0.174003
+            },
+            "tpr_gap": {
+              "mean": 0.322523,
+              "sd": 0.177672
+            },
+            "fpr_gap": {
+              "mean": 0.097998,
+              "sd": 0.068333
+            },
+            "ppv_gap": {
+              "mean": 0.262525,
+              "sd": 0.197002
+            },
+            "di_ratio": {
+              "mean": 0.682492,
+              "sd": 0.176972
+            },
+            "n_failed_folds": 0,
+            "tests": {
+              "spd": {
+                "statistic": 0.0,
+                "p_value": 0.0625,
+                "rank_biserial": 1.0,
+                "effect": "large",
+                "median_diff": 0.009091,
+                "n": 10,
+                "p_holm": 0.3125
+              },
+              "eodds": {
+                "statistic": 1.0,
+                "p_value": 0.5,
+                "rank_biserial": 0.666667,
+                "effect": "large",
+                "median_diff": 0.0,
+                "n": 10,
+                "p_holm": 1.0
+              },
+              "f1": {
+                "statistic": 3.0,
+                "p_value": 0.3125,
+                "rank_biserial": -0.6,
+                "effect": "large",
+                "median_diff": 0.0,
+                "n": 10,
+                "p_holm": 0.9375
+              }
+            },
+            "degenerate": false,
+            "pareto": false
+          },
+          {
+            "method": "reweighing",
+            "label": "Reweighing (aware)",
+            "stage": "pre",
+            "needs_sensitive_at_prediction": true,
+            "uses_sensitive_input": true,
+            "about": "Training rows are re-weighted so group and outcome look independent; the attribute stays an input.",
+            "roc_auc": {
+              "mean": 0.681799,
+              "sd": 0.066029
+            },
+            "f1": {
+              "mean": 0.495343,
+              "sd": 0.085102
+            },
+            "balanced_accuracy": {
+              "mean": 0.62575,
+              "sd": 0.062561
+            },
+            "flag_rate": {
+              "mean": 0.316319,
+              "sd": 0.060868
+            },
+            "spd": {
+              "mean": 0.136247,
+              "sd": 0.085648
+            },
+            "eodds": {
+              "mean": 0.318178,
+              "sd": 0.160704
+            },
+            "tpr_gap": {
+              "mean": 0.311273,
+              "sd": 0.16981
+            },
+            "fpr_gap": {
+              "mean": 0.103145,
+              "sd": 0.063764
+            },
+            "ppv_gap": {
+              "mean": 0.243435,
+              "sd": 0.201388
+            },
+            "di_ratio": {
+              "mean": 0.671546,
+              "sd": 0.171889
+            },
+            "n_failed_folds": 0,
+            "tests": {
+              "spd": {
+                "statistic": 4.0,
+                "p_value": 0.21875,
+                "rank_biserial": 0.619048,
+                "effect": "large",
+                "median_diff": 0.0,
+                "n": 10,
+                "p_holm": 0.875
+              },
+              "eodds": {
+                "statistic": 2.0,
+                "p_value": 0.375,
+                "rank_biserial": 0.6,
+                "effect": "large",
+                "median_diff": 0.0,
+                "n": 10,
+                "p_holm": 1.0
+              },
+              "f1": {
+                "statistic": 0.0,
+                "p_value": 0.03125,
+                "rank_biserial": -1.0,
+                "effect": "large",
+                "median_diff": -0.012877,
+                "n": 10,
+                "p_holm": 0.1875
+              }
+            },
+            "degenerate": false,
+            "pareto": true
+          },
+          {
+            "method": "blind_reweighing",
+            "label": "Blind + Reweighing (deployed)",
+            "stage": "pre",
+            "needs_sensitive_at_prediction": false,
+            "uses_sensitive_input": false,
+            "about": "What the dashboard ships: no sensitive input, reweighed training.",
+            "roc_auc": {
+              "mean": 0.682023,
+              "sd": 0.066166
+            },
+            "f1": {
+              "mean": 0.495343,
+              "sd": 0.085102
+            },
+            "balanced_accuracy": {
+              "mean": 0.62575,
+              "sd": 0.062561
+            },
+            "flag_rate": {
+              "mean": 0.316319,
+              "sd": 0.060868
+            },
+            "spd": {
+              "mean": 0.136247,
+              "sd": 0.085648
+            },
+            "eodds": {
+              "mean": 0.318178,
+              "sd": 0.160704
+            },
+            "tpr_gap": {
+              "mean": 0.311273,
+              "sd": 0.16981
+            },
+            "fpr_gap": {
+              "mean": 0.103145,
+              "sd": 0.063764
+            },
+            "ppv_gap": {
+              "mean": 0.243435,
+              "sd": 0.201388
+            },
+            "di_ratio": {
+              "mean": 0.671546,
+              "sd": 0.171889
+            },
+            "n_failed_folds": 0,
+            "tests": {
+              "spd": {
+                "statistic": 4.0,
+                "p_value": 0.21875,
+                "rank_biserial": 0.619048,
+                "effect": "large",
+                "median_diff": 0.0,
+                "n": 10,
+                "p_holm": 0.875
+              },
+              "eodds": {
+                "statistic": 2.0,
+                "p_value": 0.375,
+                "rank_biserial": 0.6,
+                "effect": "large",
+                "median_diff": 0.0,
+                "n": 10,
+                "p_holm": 1.0
+              },
+              "f1": {
+                "statistic": 0.0,
+                "p_value": 0.03125,
+                "rank_biserial": -1.0,
+                "effect": "large",
+                "median_diff": -0.012877,
+                "n": 10,
+                "p_holm": 0.1875
+              }
+            },
+            "degenerate": false,
+            "pareto": true
+          },
+          {
+            "method": "thesis_thresholds",
+            "label": "Group thresholds (thesis)",
+            "stage": "post",
+            "needs_sensitive_at_prediction": true,
+            "uses_sensitive_input": true,
+            "about": "Per-group cut-offs chosen on a validation split: minimise the FPR gap, then the TPR gap, then maximise F1.",
+            "roc_auc": {
+              "mean": 0.683343,
+              "sd": 0.059091
+            },
+            "f1": {
+              "mean": 0.495209,
+              "sd": 0.0074
+            },
+            "balanced_accuracy": {
+              "mean": 0.5,
+              "sd": 0.0
+            },
+            "flag_rate": {
+              "mean": 1.0,
+              "sd": 0.0
+            },
+            "spd": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "eodds": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "tpr_gap": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "fpr_gap": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "ppv_gap": {
+              "mean": 0.164925,
+              "sd": 0.115052
+            },
+            "di_ratio": {
+              "mean": 1.0,
+              "sd": 0.0
+            },
+            "n_failed_folds": 0,
+            "tests": {
+              "spd": {
+                "statistic": 0.0,
+                "p_value": 0.001953,
+                "rank_biserial": 1.0,
+                "effect": "large",
+                "median_diff": 0.124432,
+                "n": 10,
+                "p_holm": 0.011719
+              },
+              "eodds": {
+                "statistic": 0.0,
+                "p_value": 0.001953,
+                "rank_biserial": 1.0,
+                "effect": "large",
+                "median_diff": 0.3375,
+                "n": 10,
+                "p_holm": 0.011719
+              },
+              "f1": {
+                "statistic": 17.0,
+                "p_value": 0.322266,
+                "rank_biserial": -0.381818,
+                "effect": "medium",
+                "median_diff": -0.040608,
+                "n": 10,
+                "p_holm": 0.9375
+              }
+            },
+            "degenerate": true,
+            "pareto": false
+          },
+          {
+            "method": "threshold_opt_eo",
+            "label": "ThresholdOptimizer (EO)",
+            "stage": "post",
+            "needs_sensitive_at_prediction": true,
+            "uses_sensitive_input": true,
+            "about": "Fairlearn's Hardt-style post-processing for equalized odds.",
+            "roc_auc": {
+              "mean": 0.638055,
+              "sd": 0.063003
+            },
+            "f1": {
+              "mean": 0.493073,
+              "sd": 0.091318
+            },
+            "balanced_accuracy": {
+              "mean": 0.621229,
+              "sd": 0.055234
+            },
+            "flag_rate": {
+              "mean": 0.369742,
+              "sd": 0.202123
+            },
+            "spd": {
+              "mean": 0.121988,
+              "sd": 0.078967
+            },
+            "eodds": {
+              "mean": 0.265732,
+              "sd": 0.076936
+            },
+            "tpr_gap": {
+              "mean": 0.242139,
+              "sd": 0.088258
+            },
+            "fpr_gap": {
+              "mean": 0.133259,
+              "sd": 0.092623
+            },
+            "ppv_gap": {
+              "mean": 0.199513,
+              "sd": 0.23801
+            },
+            "di_ratio": {
+              "mean": 0.659839,
+              "sd": 0.256887
+            },
+            "n_failed_folds": 0,
+            "tests": {
+              "spd": {
+                "statistic": 13.0,
+                "p_value": 0.300781,
+                "rank_biserial": 0.422222,
+                "effect": "medium",
+                "median_diff": 0.015306,
+                "n": 10,
+                "p_holm": 0.875
+              },
+              "eodds": {
+                "statistic": 6.0,
+                "p_value": 0.054688,
+                "rank_biserial": 0.733333,
+                "effect": "large",
+                "median_diff": 0.079464,
+                "n": 10,
+                "p_holm": 0.273438
+              },
+              "f1": {
+                "statistic": 20.0,
+                "p_value": 0.492188,
+                "rank_biserial": -0.272727,
+                "effect": "small",
+                "median_diff": -0.006849,
+                "n": 10,
+                "p_holm": 0.9375
+              }
+            },
+            "degenerate": false,
+            "pareto": true
+          },
+          {
+            "method": "threshold_opt_dp",
+            "label": "ThresholdOptimizer (DP)",
+            "stage": "post",
+            "needs_sensitive_at_prediction": true,
+            "uses_sensitive_input": true,
+            "about": "Fairlearn post-processing for demographic parity.",
+            "roc_auc": {
+              "mean": 0.636612,
+              "sd": 0.066614
+            },
+            "f1": {
+              "mean": 0.509859,
+              "sd": 0.055411
+            },
+            "balanced_accuracy": {
+              "mean": 0.612619,
+              "sd": 0.052714
+            },
+            "flag_rate": {
+              "mean": 0.445858,
+              "sd": 0.12693
+            },
+            "spd": {
+              "mean": 0.213306,
+              "sd": 0.142812
+            },
+            "eodds": {
+              "mean": 0.411976,
+              "sd": 0.153452
+            },
+            "tpr_gap": {
+              "mean": 0.367662,
+              "sd": 0.1742
+            },
+            "fpr_gap": {
+              "mean": 0.202973,
+              "sd": 0.176656
+            },
+            "ppv_gap": {
+              "mean": 0.261012,
+              "sd": 0.215736
+            },
+            "di_ratio": {
+              "mean": 0.622642,
+              "sd": 0.229802
+            },
+            "n_failed_folds": 0,
+            "tests": {
+              "spd": {
+                "statistic": 17.0,
+                "p_value": 0.570312,
+                "rank_biserial": -0.244444,
+                "effect": "small",
+                "median_diff": -0.02362,
+                "n": 10,
+                "p_holm": 0.875
+              },
+              "eodds": {
+                "statistic": 11.0,
+                "p_value": 0.203125,
+                "rank_biserial": -0.511111,
+                "effect": "large",
+                "median_diff": -0.028174,
+                "n": 10,
+                "p_holm": 0.8125
+              },
+              "f1": {
+                "statistic": 10.0,
+                "p_value": 0.083984,
+                "rank_biserial": -0.636364,
+                "effect": "large",
+                "median_diff": -0.033564,
+                "n": 10,
+                "p_holm": 0.335938
+              }
+            },
+            "degenerate": false,
+            "pareto": true
+          }
+        ],
+        "frontier": [
+          "reweighing",
+          "blind_reweighing",
+          "threshold_opt_eo",
+          "threshold_opt_dp"
+        ],
+        "model_label": "Logistic Regression"
+      }
+    },
+    "sex": {
+      "logistic_regression": {
+        "methods": [
+          {
+            "method": "baseline",
+            "label": "No mitigation (aware)",
+            "stage": "none",
+            "needs_sensitive_at_prediction": true,
+            "uses_sensitive_input": true,
+            "about": "The model sees every feature, including the sensitive one.",
+            "roc_auc": {
+              "mean": 0.683343,
+              "sd": 0.059091
+            },
+            "f1": {
+              "mean": 0.47984,
+              "sd": 0.08305
+            },
+            "balanced_accuracy": {
+              "mean": 0.612738,
+              "sd": 0.063145
+            },
+            "flag_rate": {
+              "mean": 0.319444,
+              "sd": 0.073675
+            },
+            "spd": {
+              "mean": 0.072886,
+              "sd": 0.040137
+            },
+            "eodds": {
+              "mean": 0.258991,
+              "sd": 0.136305
+            },
+            "tpr_gap": {
+              "mean": 0.257299,
+              "sd": 0.139333
+            },
+            "fpr_gap": {
+              "mean": 0.107273,
+              "sd": 0.083292
+            },
+            "ppv_gap": {
+              "mean": 0.233208,
+              "sd": 0.19401
+            },
+            "di_ratio": {
+              "mean": 0.781929,
+              "sd": 0.125631
+            },
+            "n_failed_folds": 0,
+            "degenerate": false,
+            "pareto": false
+          },
+          {
+            "method": "blind",
+            "label": "Fairness through unawareness",
+            "stage": "pre",
+            "needs_sensitive_at_prediction": false,
+            "uses_sensitive_input": false,
+            "about": "The sensitive column is simply removed. Proxies can still carry the signal.",
+            "roc_auc": {
+              "mean": 0.678735,
+              "sd": 0.056753
+            },
+            "f1": {
+              "mean": 0.486802,
+              "sd": 0.072718
+            },
+            "balanced_accuracy": {
+              "mean": 0.617528,
+              "sd": 0.056582
+            },
+            "flag_rate": {
+              "mean": 0.322619,
+              "sd": 0.073122
+            },
+            "spd": {
+              "mean": 0.070214,
+              "sd": 0.035184
+            },
+            "eodds": {
+              "mean": 0.25591,
+              "sd": 0.134623
+            },
+            "tpr_gap": {
+              "mean": 0.25591,
+              "sd": 0.134623
+            },
+            "fpr_gap": {
+              "mean": 0.080357,
+              "sd": 0.078446
+            },
+            "ppv_gap": {
+              "mean": 0.224625,
+              "sd": 0.170218
+            },
+            "di_ratio": {
+              "mean": 0.792313,
+              "sd": 0.10706
+            },
+            "n_failed_folds": 0,
+            "tests": {
+              "spd": {
+                "statistic": 7.0,
+                "p_value": 1.0,
+                "rank_biserial": -0.066667,
+                "effect": "negligible",
+                "median_diff": 0.0,
+                "n": 10,
+                "p_holm": 1.0
+              },
+              "eodds": {
+                "statistic": 1.0,
+                "p_value": 1.0,
+                "rank_biserial": 0.333333,
+                "effect": "medium",
+                "median_diff": 0.0,
+                "n": 10,
+                "p_holm": 1.0
+              },
+              "f1": {
+                "statistic": 3.0,
+                "p_value": 0.625,
+                "rank_biserial": -0.4,
+                "effect": "medium",
+                "median_diff": 0.0,
+                "n": 10,
+                "p_holm": 1.0
+              }
+            },
+            "degenerate": false,
+            "pareto": true
+          },
+          {
+            "method": "reweighing",
+            "label": "Reweighing (aware)",
+            "stage": "pre",
+            "needs_sensitive_at_prediction": true,
+            "uses_sensitive_input": true,
+            "about": "Training rows are re-weighted so group and outcome look independent; the attribute stays an input.",
+            "roc_auc": {
+              "mean": 0.678324,
+              "sd": 0.055519
+            },
+            "f1": {
+              "mean": 0.483987,
+              "sd": 0.071618
+            },
+            "balanced_accuracy": {
+              "mean": 0.614012,
+              "sd": 0.057717
+            },
+            "flag_rate": {
+              "mean": 0.327356,
+              "sd": 0.07267
+            },
+            "spd": {
+              "mean": 0.075175,
+              "sd": 0.033396
+            },
+            "eodds": {
+              "mean": 0.273334,
+              "sd": 0.145646
+            },
+            "tpr_gap": {
+              "mean": 0.273334,
+              "sd": 0.145646
+            },
+            "fpr_gap": {
+              "mean": 0.065216,
+              "sd": 0.052637
+            },
+            "ppv_gap": {
+              "mean": 0.210735,
+              "sd": 0.156055
+            },
+            "di_ratio": {
+              "mean": 0.785404,
+              "sd": 0.095004
+            },
+            "n_failed_folds": 0,
+            "tests": {
+              "spd": {
+                "statistic": 16.0,
+                "p_value": 0.84375,
+                "rank_biserial": -0.111111,
+                "effect": "small",
+                "median_diff": 0.0,
+                "n": 10,
+                "p_holm": 1.0
+              },
+              "eodds": {
+                "statistic": 4.0,
+                "p_value": 0.875,
+                "rank_biserial": -0.2,
+                "effect": "small",
+                "median_diff": 0.0,
+                "n": 10,
+                "p_holm": 1.0
+              },
+              "f1": {
+                "statistic": 16.0,
+                "p_value": 0.84375,
+                "rank_biserial": -0.111111,
+                "effect": "small",
+                "median_diff": 0.0,
+                "n": 10,
+                "p_holm": 1.0
+              }
+            },
+            "degenerate": false,
+            "pareto": false
+          },
+          {
+            "method": "blind_reweighing",
+            "label": "Blind + Reweighing (deployed)",
+            "stage": "pre",
+            "needs_sensitive_at_prediction": false,
+            "uses_sensitive_input": false,
+            "about": "What the dashboard ships: no sensitive input, reweighed training.",
+            "roc_auc": {
+              "mean": 0.677865,
+              "sd": 0.054701
+            },
+            "f1": {
+              "mean": 0.483987,
+              "sd": 0.071618
+            },
+            "balanced_accuracy": {
+              "mean": 0.614012,
+              "sd": 0.057717
+            },
+            "flag_rate": {
+              "mean": 0.327356,
+              "sd": 0.07267
+            },
+            "spd": {
+              "mean": 0.075175,
+              "sd": 0.033396
+            },
+            "eodds": {
+              "mean": 0.273334,
+              "sd": 0.145646
+            },
+            "tpr_gap": {
+              "mean": 0.273334,
+              "sd": 0.145646
+            },
+            "fpr_gap": {
+              "mean": 0.065216,
+              "sd": 0.052637
+            },
+            "ppv_gap": {
+              "mean": 0.210735,
+              "sd": 0.156055
+            },
+            "di_ratio": {
+              "mean": 0.785404,
+              "sd": 0.095004
+            },
+            "n_failed_folds": 0,
+            "tests": {
+              "spd": {
+                "statistic": 16.0,
+                "p_value": 0.84375,
+                "rank_biserial": -0.111111,
+                "effect": "small",
+                "median_diff": 0.0,
+                "n": 10,
+                "p_holm": 1.0
+              },
+              "eodds": {
+                "statistic": 4.0,
+                "p_value": 0.875,
+                "rank_biserial": -0.2,
+                "effect": "small",
+                "median_diff": 0.0,
+                "n": 10,
+                "p_holm": 1.0
+              },
+              "f1": {
+                "statistic": 16.0,
+                "p_value": 0.84375,
+                "rank_biserial": -0.111111,
+                "effect": "small",
+                "median_diff": 0.0,
+                "n": 10,
+                "p_holm": 1.0
+              }
+            },
+            "degenerate": false,
+            "pareto": false
+          },
+          {
+            "method": "expgrad_dp",
+            "label": "Exponentiated Gradient (DP)",
+            "stage": "in",
+            "needs_sensitive_at_prediction": true,
+            "uses_sensitive_input": true,
+            "about": "Constrained training that targets equal flag rates (demographic parity). Randomised predictions.",
+            "roc_auc": {
+              "mean": 0.5,
+              "sd": 0.0
+            },
+            "f1": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "balanced_accuracy": {
+              "mean": 0.5,
+              "sd": 0.0
+            },
+            "flag_rate": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "spd": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "eodds": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "tpr_gap": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "fpr_gap": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "ppv_gap": {
+              "mean": null,
+              "sd": null
+            },
+            "di_ratio": {
+              "mean": null,
+              "sd": null
+            },
+            "n_failed_folds": 0,
+            "tests": {
+              "spd": {
+                "statistic": 0.0,
+                "p_value": 0.001953,
+                "rank_biserial": 1.0,
+                "effect": "large",
+                "median_diff": 0.075947,
+                "n": 10,
+                "p_holm": 0.015625
+              },
+              "eodds": {
+                "statistic": 0.0,
+                "p_value": 0.001953,
+                "rank_biserial": 1.0,
+                "effect": "large",
+                "median_diff": 0.225961,
+                "n": 10,
+                "p_holm": 0.015625
+              },
+              "f1": {
+                "statistic": 0.0,
+                "p_value": 0.001953,
+                "rank_biserial": 1.0,
+                "effect": "large",
+                "median_diff": 0.454806,
+                "n": 10,
+                "p_holm": 0.015625
+              }
+            },
+            "degenerate": true,
+            "pareto": false
+          },
+          {
+            "method": "expgrad_eo",
+            "label": "Exponentiated Gradient (EO)",
+            "stage": "in",
+            "needs_sensitive_at_prediction": true,
+            "uses_sensitive_input": true,
+            "about": "Constrained training that targets equal error rates (equalized odds). Randomised predictions.",
+            "roc_auc": {
+              "mean": 0.5,
+              "sd": 0.0
+            },
+            "f1": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "balanced_accuracy": {
+              "mean": 0.5,
+              "sd": 0.0
+            },
+            "flag_rate": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "spd": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "eodds": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "tpr_gap": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "fpr_gap": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "ppv_gap": {
+              "mean": null,
+              "sd": null
+            },
+            "di_ratio": {
+              "mean": null,
+              "sd": null
+            },
+            "n_failed_folds": 0,
+            "tests": {
+              "spd": {
+                "statistic": 0.0,
+                "p_value": 0.001953,
+                "rank_biserial": 1.0,
+                "effect": "large",
+                "median_diff": 0.075947,
+                "n": 10,
+                "p_holm": 0.015625
+              },
+              "eodds": {
+                "statistic": 0.0,
+                "p_value": 0.001953,
+                "rank_biserial": 1.0,
+                "effect": "large",
+                "median_diff": 0.225961,
+                "n": 10,
+                "p_holm": 0.015625
+              },
+              "f1": {
+                "statistic": 0.0,
+                "p_value": 0.001953,
+                "rank_biserial": 1.0,
+                "effect": "large",
+                "median_diff": 0.454806,
+                "n": 10,
+                "p_holm": 0.015625
+              }
+            },
+            "degenerate": true,
+            "pareto": false
+          },
+          {
+            "method": "thesis_thresholds",
+            "label": "Group thresholds (thesis)",
+            "stage": "post",
+            "needs_sensitive_at_prediction": true,
+            "uses_sensitive_input": true,
+            "about": "Per-group cut-offs chosen on a validation split: minimise the FPR gap, then the TPR gap, then maximise F1.",
+            "roc_auc": {
+              "mean": 0.683343,
+              "sd": 0.059091
+            },
+            "f1": {
+              "mean": 0.495209,
+              "sd": 0.0074
+            },
+            "balanced_accuracy": {
+              "mean": 0.5,
+              "sd": 0.0
+            },
+            "flag_rate": {
+              "mean": 1.0,
+              "sd": 0.0
+            },
+            "spd": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "eodds": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "tpr_gap": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "fpr_gap": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "ppv_gap": {
+              "mean": 0.114193,
+              "sd": 0.065737
+            },
+            "di_ratio": {
+              "mean": 1.0,
+              "sd": 0.0
+            },
+            "n_failed_folds": 0,
+            "tests": {
+              "spd": {
+                "statistic": 0.0,
+                "p_value": 0.001953,
+                "rank_biserial": 1.0,
+                "effect": "large",
+                "median_diff": 0.075947,
+                "n": 10,
+                "p_holm": 0.015625
+              },
+              "eodds": {
+                "statistic": 0.0,
+                "p_value": 0.001953,
+                "rank_biserial": 1.0,
+                "effect": "large",
+                "median_diff": 0.225961,
+                "n": 10,
+                "p_holm": 0.015625
+              },
+              "f1": {
+                "statistic": 17.0,
+                "p_value": 0.322266,
+                "rank_biserial": -0.381818,
+                "effect": "medium",
+                "median_diff": -0.040608,
+                "n": 10,
+                "p_holm": 1.0
+              }
+            },
+            "degenerate": true,
+            "pareto": false
+          },
+          {
+            "method": "threshold_opt_eo",
+            "label": "ThresholdOptimizer (EO)",
+            "stage": "post",
+            "needs_sensitive_at_prediction": true,
+            "uses_sensitive_input": true,
+            "about": "Fairlearn's Hardt-style post-processing for equalized odds.",
+            "roc_auc": {
+              "mean": 0.603001,
+              "sd": 0.060883
+            },
+            "f1": {
+              "mean": 0.484419,
+              "sd": 0.070873
+            },
+            "balanced_accuracy": {
+              "mean": 0.593425,
+              "sd": 0.062776
+            },
+            "flag_rate": {
+              "mean": 0.46188,
+              "sd": 0.170233
+            },
+            "spd": {
+              "mean": 0.089384,
+              "sd": 0.084562
+            },
+            "eodds": {
+              "mean": 0.234284,
+              "sd": 0.13195
+            },
+            "tpr_gap": {
+              "mean": 0.203081,
+              "sd": 0.125808
+            },
+            "fpr_gap": {
+              "mean": 0.110984,
+              "sd": 0.123149
+            },
+            "ppv_gap": {
+              "mean": 0.168143,
+              "sd": 0.122355
+            },
+            "di_ratio": {
+              "mean": 0.829016,
+              "sd": 0.127922
+            },
+            "n_failed_folds": 0,
+            "tests": {
+              "spd": {
+                "statistic": 22.0,
+                "p_value": 0.625,
+                "rank_biserial": -0.2,
+                "effect": "small",
+                "median_diff": -0.008431,
+                "n": 10,
+                "p_holm": 1.0
+              },
+              "eodds": {
+                "statistic": 18.5,
+                "p_value": 0.675781,
+                "rank_biserial": 0.177778,
+                "effect": "small",
+                "median_diff": 0.013889,
+                "n": 10,
+                "p_holm": 1.0
+              },
+              "f1": {
+                "statistic": 27.0,
+                "p_value": 1.0,
+                "rank_biserial": 0.018182,
+                "effect": "negligible",
+                "median_diff": 0.005853,
+                "n": 10,
+                "p_holm": 1.0
+              }
+            },
+            "degenerate": false,
+            "pareto": true
+          },
+          {
+            "method": "threshold_opt_dp",
+            "label": "ThresholdOptimizer (DP)",
+            "stage": "post",
+            "needs_sensitive_at_prediction": true,
+            "uses_sensitive_input": true,
+            "about": "Fairlearn post-processing for demographic parity.",
+            "roc_auc": {
+              "mean": 0.647802,
+              "sd": 0.081609
+            },
+            "f1": {
+              "mean": 0.485497,
+              "sd": 0.084863
+            },
+            "balanced_accuracy": {
+              "mean": 0.62332,
+              "sd": 0.052696
+            },
+            "flag_rate": {
+              "mean": 0.325397,
+              "sd": 0.140882
+            },
+            "spd": {
+              "mean": 0.121927,
+              "sd": 0.115286
+            },
+            "eodds": {
+              "mean": 0.328318,
+              "sd": 0.115094
+            },
+            "tpr_gap": {
+              "mean": 0.295861,
+              "sd": 0.138849
+            },
+            "fpr_gap": {
+              "mean": 0.132552,
+              "sd": 0.121906
+            },
+            "ppv_gap": {
+              "mean": 0.253057,
+              "sd": 0.208874
+            },
+            "di_ratio": {
+              "mean": 0.696522,
+              "sd": 0.202401
+            },
+            "n_failed_folds": 0,
+            "tests": {
+              "spd": {
+                "statistic": 19.0,
+                "p_value": 0.431641,
+                "rank_biserial": -0.309091,
+                "effect": "medium",
+                "median_diff": -0.004064,
+                "n": 10,
+                "p_holm": 1.0
+              },
+              "eodds": {
+                "statistic": 7.0,
+                "p_value": 0.296875,
+                "rank_biserial": -0.5,
+                "effect": "large",
+                "median_diff": -0.059091,
+                "n": 10,
+                "p_holm": 1.0
+              },
+              "f1": {
+                "statistic": 26.0,
+                "p_value": 0.921875,
+                "rank_biserial": -0.054545,
+                "effect": "negligible",
+                "median_diff": -0.009884,
+                "n": 10,
+                "p_holm": 1.0
+              }
+            },
+            "degenerate": false,
+            "pareto": false
+          }
+        ],
+        "frontier": [
+          "blind",
+          "threshold_opt_eo"
+        ],
+        "model_label": "Logistic Regression"
+      }
+    },
+    "sex+address": {
+      "logistic_regression": {
+        "methods": [
+          {
+            "method": "baseline",
+            "label": "No mitigation (aware)",
+            "stage": "none",
+            "needs_sensitive_at_prediction": true,
+            "uses_sensitive_input": true,
+            "about": "The model sees every feature, including the sensitive one.",
+            "roc_auc": {
+              "mean": 0.683343,
+              "sd": 0.059091
+            },
+            "f1": {
+              "mean": 0.47984,
+              "sd": 0.08305
+            },
+            "balanced_accuracy": {
+              "mean": 0.612738,
+              "sd": 0.063145
+            },
+            "flag_rate": {
+              "mean": 0.319444,
+              "sd": 0.073675
+            },
+            "spd": {
+              "mean": 0.312074,
+              "sd": 0.104911
+            },
+            "eodds": {
+              "mean": 0.671169,
+              "sd": 0.158184
+            },
+            "tpr_gap": {
+              "mean": 0.660076,
+              "sd": 0.167097
+            },
+            "fpr_gap": {
+              "mean": 0.404016,
+              "sd": 0.186777
+            },
+            "ppv_gap": {
+              "mean": 0.606944,
+              "sd": 0.232779
+            },
+            "di_ratio": {
+              "mean": 0.389843,
+              "sd": 0.17677
+            },
+            "n_failed_folds": 0,
+            "degenerate": false,
+            "pareto": true
+          },
+          {
+            "method": "blind",
+            "label": "Fairness through unawareness",
+            "stage": "pre",
+            "needs_sensitive_at_prediction": false,
+            "uses_sensitive_input": false,
+            "about": "The sensitive column is simply removed. Proxies can still carry the signal.",
+            "roc_auc": {
+              "mean": 0.679299,
+              "sd": 0.059813
+            },
+            "f1": {
+              "mean": 0.481837,
+              "sd": 0.063707
+            },
+            "balanced_accuracy": {
+              "mean": 0.613929,
+              "sd": 0.04985
+            },
+            "flag_rate": {
+              "mean": 0.322668,
+              "sd": 0.069253
+            },
+            "spd": {
+              "mean": 0.274991,
+              "sd": 0.133841
+            },
+            "eodds": {
+              "mean": 0.682677,
+              "sd": 0.156958
+            },
+            "tpr_gap": {
+              "mean": 0.67851,
+              "sd": 0.15798
+            },
+            "fpr_gap": {
+              "mean": 0.353956,
+              "sd": 0.192906
+            },
+            "ppv_gap": {
+              "mean": 0.609524,
+              "sd": 0.227305
+            },
+            "di_ratio": {
+              "mean": 0.44622,
+              "sd": 0.229959
+            },
+            "n_failed_folds": 0,
+            "tests": {
+              "spd": {
+                "statistic": 0.0,
+                "p_value": 0.125,
+                "rank_biserial": 1.0,
+                "effect": "large",
+                "median_diff": 0.0,
+                "n": 10,
+                "p_holm": 0.625
+              },
+              "eodds": {
+                "statistic": 0.0,
+                "p_value": 0.5,
+                "rank_biserial": -1.0,
+                "effect": "large",
+                "median_diff": 0.0,
+                "n": 10,
+                "p_holm": 1.0
+              },
+              "f1": {
+                "statistic": 7.0,
+                "p_value": 1.0,
+                "rank_biserial": -0.066667,
+                "effect": "negligible",
+                "median_diff": 0.0,
+                "n": 10,
+                "p_holm": 1.0
+              }
+            },
+            "degenerate": false,
+            "pareto": true
+          },
+          {
+            "method": "reweighing",
+            "label": "Reweighing (aware)",
+            "stage": "pre",
+            "needs_sensitive_at_prediction": true,
+            "uses_sensitive_input": true,
+            "about": "Training rows are re-weighted so group and outcome look independent; the attribute stays an input.",
+            "roc_auc": {
+              "mean": 0.678467,
+              "sd": 0.058566
+            },
+            "f1": {
+              "mean": 0.490425,
+              "sd": 0.071667
+            },
+            "balanced_accuracy": {
+              "mean": 0.620055,
+              "sd": 0.05522
+            },
+            "flag_rate": {
+              "mean": 0.324256,
+              "sd": 0.065992
+            },
+            "spd": {
+              "mean": 0.29931,
+              "sd": 0.177026
+            },
+            "eodds": {
+              "mean": 0.70105,
+              "sd": 0.156232
+            },
+            "tpr_gap": {
+              "mean": 0.689939,
+              "sd": 0.162764
+            },
+            "fpr_gap": {
+              "mean": 0.409274,
+              "sd": 0.205767
+            },
+            "ppv_gap": {
+              "mean": 0.650635,
+              "sd": 0.266866
+            },
+            "di_ratio": {
+              "mean": 0.411045,
+              "sd": 0.26457
+            },
+            "n_failed_folds": 0,
+            "tests": {
+              "spd": {
+                "statistic": 10.0,
+                "p_value": 1.0,
+                "rank_biserial": 0.047619,
+                "effect": "negligible",
+                "median_diff": 0.0,
+                "n": 10,
+                "p_holm": 1.0
+              },
+              "eodds": {
+                "statistic": 4.5,
+                "p_value": 0.25,
+                "rank_biserial": -0.571429,
+                "effect": "large",
+                "median_diff": 0.0,
+                "n": 10,
+                "p_holm": 1.0
+              },
+              "f1": {
+                "statistic": 11.0,
+                "p_value": 0.382812,
+                "rank_biserial": -0.388889,
+                "effect": "medium",
+                "median_diff": -0.006098,
+                "n": 10,
+                "p_holm": 1.0
+              }
+            },
+            "degenerate": false,
+            "pareto": true
+          },
+          {
+            "method": "blind_reweighing",
+            "label": "Blind + Reweighing (deployed)",
+            "stage": "pre",
+            "needs_sensitive_at_prediction": false,
+            "uses_sensitive_input": false,
+            "about": "What the dashboard ships: no sensitive input, reweighed training.",
+            "roc_auc": {
+              "mean": 0.678245,
+              "sd": 0.058497
+            },
+            "f1": {
+              "mean": 0.490425,
+              "sd": 0.071667
+            },
+            "balanced_accuracy": {
+              "mean": 0.620055,
+              "sd": 0.05522
+            },
+            "flag_rate": {
+              "mean": 0.324256,
+              "sd": 0.065992
+            },
+            "spd": {
+              "mean": 0.29931,
+              "sd": 0.177026
+            },
+            "eodds": {
+              "mean": 0.70105,
+              "sd": 0.156232
+            },
+            "tpr_gap": {
+              "mean": 0.689939,
+              "sd": 0.162764
+            },
+            "fpr_gap": {
+              "mean": 0.409274,
+              "sd": 0.205767
+            },
+            "ppv_gap": {
+              "mean": 0.650635,
+              "sd": 0.266866
+            },
+            "di_ratio": {
+              "mean": 0.411045,
+              "sd": 0.26457
+            },
+            "n_failed_folds": 0,
+            "tests": {
+              "spd": {
+                "statistic": 10.0,
+                "p_value": 1.0,
+                "rank_biserial": 0.047619,
+                "effect": "negligible",
+                "median_diff": 0.0,
+                "n": 10,
+                "p_holm": 1.0
+              },
+              "eodds": {
+                "statistic": 4.5,
+                "p_value": 0.25,
+                "rank_biserial": -0.571429,
+                "effect": "large",
+                "median_diff": 0.0,
+                "n": 10,
+                "p_holm": 1.0
+              },
+              "f1": {
+                "statistic": 11.0,
+                "p_value": 0.382812,
+                "rank_biserial": -0.388889,
+                "effect": "medium",
+                "median_diff": -0.006098,
+                "n": 10,
+                "p_holm": 1.0
+              }
+            },
+            "degenerate": false,
+            "pareto": true
+          },
+          {
+            "method": "thesis_thresholds",
+            "label": "Group thresholds (thesis)",
+            "stage": "post",
+            "needs_sensitive_at_prediction": true,
+            "uses_sensitive_input": true,
+            "about": "Per-group cut-offs chosen on a validation split: minimise the FPR gap, then the TPR gap, then maximise F1.",
+            "roc_auc": {
+              "mean": 0.683343,
+              "sd": 0.059091
+            },
+            "f1": {
+              "mean": 0.495209,
+              "sd": 0.0074
+            },
+            "balanced_accuracy": {
+              "mean": 0.5,
+              "sd": 0.0
+            },
+            "flag_rate": {
+              "mean": 1.0,
+              "sd": 0.0
+            },
+            "spd": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "eodds": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "tpr_gap": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "fpr_gap": {
+              "mean": 0.0,
+              "sd": 0.0
+            },
+            "ppv_gap": {
+              "mean": 0.346562,
+              "sd": 0.088422
+            },
+            "di_ratio": {
+              "mean": 1.0,
+              "sd": 0.0
+            },
+            "n_failed_folds": 0,
+            "tests": {
+              "spd": {
+                "statistic": 0.0,
+                "p_value": 0.001953,
+                "rank_biserial": 1.0,
+                "effect": "large",
+                "median_diff": 0.28033,
+                "n": 10,
+                "p_holm": 0.011719
+              },
+              "eodds": {
+                "statistic": 0.0,
+                "p_value": 0.001953,
+                "rank_biserial": 1.0,
+                "effect": "large",
+                "median_diff": 0.633333,
+                "n": 10,
+                "p_holm": 0.011719
+              },
+              "f1": {
+                "statistic": 17.0,
+                "p_value": 0.322266,
+                "rank_biserial": -0.381818,
+                "effect": "medium",
+                "median_diff": -0.040608,
+                "n": 10,
+                "p_holm": 1.0
+              }
+            },
+            "degenerate": true,
+            "pareto": false
+          },
+          {
+            "method": "threshold_opt_eo",
+            "label": "ThresholdOptimizer (EO)",
+            "stage": "post",
+            "needs_sensitive_at_prediction": true,
+            "uses_sensitive_input": true,
+            "about": "Fairlearn's Hardt-style post-processing for equalized odds.",
+            "roc_auc": {
+              "mean": 0.606493,
+              "sd": 0.092641
+            },
+            "f1": {
+              "mean": 0.392191,
+              "sd": 0.160085
+            },
+            "balanced_accuracy": {
+              "mean": 0.549708,
+              "sd": 0.036845
+            },
+            "flag_rate": {
+              "mean": 0.442019,
+              "sd": 0.279807
+            },
+            "spd": {
+              "mean": 0.276562,
+              "sd": 0.180185
+            },
+            "eodds": {
+              "mean": 0.549176,
+              "sd": 0.319893
+            },
+            "tpr_gap": {
+              "mean": 0.382239,
+              "sd": 0.218637
+            },
+            "fpr_gap": {
+              "mean": 0.487602,
+              "sd": 0.331575
+            },
+            "ppv_gap": {
+              "mean": 0.670933,
+              "sd": 0.154384
+            },
+            "di_ratio": {
+              "mean": 0.460379,
+              "sd": 0.264368
+            },
+            "n_failed_folds": 1,
+            "tests": {
+              "spd": {
+                "statistic": 20.0,
+                "p_value": 0.820312,
+                "rank_biserial": 0.111111,
+                "effect": "small",
+                "median_diff": 0.01505,
+                "n": 9,
+                "p_holm": 1.0
+              },
+              "eodds": {
+                "statistic": 11.0,
+                "p_value": 0.382812,
+                "rank_biserial": 0.388889,
+                "effect": "medium",
+                "median_diff": 0.119048,
+                "n": 9,
+                "p_holm": 1.0
+              },
+              "f1": {
+                "statistic": 11.0,
+                "p_value": 0.203125,
+                "rank_biserial": 0.511111,
+                "effect": "large",
+                "median_diff": 0.068377,
+                "n": 9,
+                "p_holm": 1.0
+              }
+            },
+            "degenerate": false,
+            "pareto": true
+          },
+          {
+            "method": "threshold_opt_dp",
+            "label": "ThresholdOptimizer (DP)",
+            "stage": "post",
+            "needs_sensitive_at_prediction": true,
+            "uses_sensitive_input": true,
+            "about": "Fairlearn post-processing for demographic parity.",
+            "roc_auc": {
+              "mean": 0.62441,
+              "sd": 0.056945
+            },
+            "f1": {
+              "mean": 0.477876,
+              "sd": 0.064619
+            },
+            "balanced_accuracy": {
+              "mean": 0.599732,
+              "sd": 0.047458
+            },
+            "flag_rate": {
+              "mean": 0.40512,
+              "sd": 0.165072
+            },
+            "spd": {
+              "mean": 0.316795,
+              "sd": 0.081973
+            },
+            "eodds": {
+              "mean": 0.632516,
+              "sd": 0.296557
+            },
+            "tpr_gap": {
+              "mean": 0.632516,
+              "sd": 0.296557
+            },
+            "fpr_gap": {
+              "mean": 0.324268,
+              "sd": 0.128419
+            },
+            "ppv_gap": {
+              "mean": 0.669136,
+              "sd": 0.315031
+            },
+            "di_ratio": {
+              "mean": 0.385691,
+              "sd": 0.207322
+            },
+            "n_failed_folds": 1,
+            "tests": {
+              "spd": {
+                "statistic": 17.0,
+                "p_value": 0.570312,
+                "rank_biserial": -0.244444,
+                "effect": "small",
+                "median_diff": 0.034546,
+                "n": 9,
+                "p_holm": 1.0
+              },
+              "eodds": {
+                "statistic": 14.5,
+                "p_value": 0.671875,
+                "rank_biserial": 0.194444,
+                "effect": "small",
+                "median_diff": 0.028571,
+                "n": 9,
+                "p_holm": 1.0
+              },
+              "f1": {
+                "statistic": 22.0,
+                "p_value": 1.0,
+                "rank_biserial": 0.022222,
+                "effect": "negligible",
+                "median_diff": 0.012821,
+                "n": 9,
+                "p_holm": 1.0
+              }
+            },
+            "degenerate": false,
+            "pareto": true
+          }
+        ],
+        "frontier": [
+          "baseline",
+          "blind",
+          "reweighing",
+          "blind_reweighing",
+          "threshold_opt_eo",
+          "threshold_opt_dp"
+        ],
+        "model_label": "Logistic Regression"
+      }
+    }
+  },
+  "recommendations": {
+    "address": {
+      "logistic_regression": {
+        "deployable_choice": "blind_reweighing",
+        "deployable_label": "Blind + Reweighing (deployed)",
+        "eodds_change": -0.031607,
+        "f1_change": 0.015503,
+        "lowest_gap_post": "threshold_opt_eo"
+      }
+    },
+    "sex": {
+      "logistic_regression": {
+        "deployable_choice": "blind",
+        "deployable_label": "Fairness through unawareness",
+        "eodds_change": -0.003082,
+        "f1_change": 0.006962,
+        "lowest_gap_post": "threshold_opt_eo"
+      }
+    },
+    "sex+address": {
+      "logistic_regression": {
+        "deployable_choice": "blind",
+        "deployable_label": "Fairness through unawareness",
+        "eodds_change": 0.011508,
+        "f1_change": 0.001998,
+        "lowest_gap_post": "threshold_opt_eo"
+      }
+    }
+  },
+  "methods_info": {
+    "baseline": {
+      "label": "No mitigation (aware)",
+      "stage": "none",
+      "needs_sensitive_at_prediction": true,
+      "uses_sensitive_input": true,
+      "about": "The model sees every feature, including the sensitive one."
+    },
+    "blind": {
+      "label": "Fairness through unawareness",
+      "stage": "pre",
+      "needs_sensitive_at_prediction": false,
+      "uses_sensitive_input": false,
+      "about": "The sensitive column is simply removed. Proxies can still carry the signal."
+    },
+    "reweighing": {
+      "label": "Reweighing (aware)",
+      "stage": "pre",
+      "needs_sensitive_at_prediction": true,
+      "uses_sensitive_input": true,
+      "about": "Training rows are re-weighted so group and outcome look independent; the attribute stays an input."
+    },
+    "blind_reweighing": {
+      "label": "Blind + Reweighing (deployed)",
+      "stage": "pre",
+      "needs_sensitive_at_prediction": false,
+      "uses_sensitive_input": false,
+      "about": "What the dashboard ships: no sensitive input, reweighed training."
+    },
+    "expgrad_dp": {
+      "label": "Exponentiated Gradient (DP)",
+      "stage": "in",
+      "needs_sensitive_at_prediction": true,
+      "uses_sensitive_input": true,
+      "about": "Constrained training that targets equal flag rates (demographic parity). Randomised predictions."
+    },
+    "expgrad_eo": {
+      "label": "Exponentiated Gradient (EO)",
+      "stage": "in",
+      "needs_sensitive_at_prediction": true,
+      "uses_sensitive_input": true,
+      "about": "Constrained training that targets equal error rates (equalized odds). Randomised predictions."
+    },
+    "thesis_thresholds": {
+      "label": "Group thresholds (thesis)",
+      "stage": "post",
+      "needs_sensitive_at_prediction": true,
+      "uses_sensitive_input": true,
+      "about": "Per-group cut-offs chosen on a validation split: minimise the FPR gap, then the TPR gap, then maximise F1."
+    },
+    "threshold_opt_eo": {
+      "label": "ThresholdOptimizer (EO)",
+      "stage": "post",
+      "needs_sensitive_at_prediction": true,
+      "uses_sensitive_input": true,
+      "about": "Fairlearn's Hardt-style post-processing for equalized odds."
+    },
+    "threshold_opt_dp": {
+      "label": "ThresholdOptimizer (DP)",
+      "stage": "post",
+      "needs_sensitive_at_prediction": true,
+      "uses_sensitive_input": true,
+      "about": "Fairlearn post-processing for demographic parity."
+    }
+  },
+  "preflight": {
+    "dataset": "student_mat",
+    "model": "logistic_regression",
+    "n": 316,
+    "threshold": 0.331943,
+    "axes": {
+      "sex": {
+        "label": "Sex",
+        "v1": {
+          "version": 1,
+          "checks": [
+            {
+              "id": 1,
+              "name": "Per-group validation size",
+              "criterion": ">= 100",
+              "value": 24,
+              "passed": false
+            },
+            {
+              "id": 2,
+              "name": "Model |SPD| vs noise floor",
+              "criterion": ">= 3x",
+              "value": 0.93,
+              "passed": false,
+              "detail": {
+                "spd_model": 0.087495,
+                "spd_dummy": 0.094454
+              }
+            },
+            {
+              "id": 3,
+              "name": "Bootstrap CV of |SPD|",
+              "criterion": "<= 50%",
+              "value": 0.841,
+              "passed": false
+            }
+          ],
+          "passed": false,
+          "verdict": "Do not mitigate",
+          "groups": {
+            "F": 166,
+            "M": 150
+          }
+        },
+        "v2": {
+          "version": 2,
+          "metric": "spd",
+          "checks": [
+            {
+              "id": 1,
+              "name": "Precision: 95% CI half-width of a gap",
+              "criterion": "<= 0.05",
+              "value": 0.104,
+              "passed": false,
+              "detail": {
+                "mde_80_power": 0.148,
+                "smallest_groups": [
+                  150,
+                  166
+                ]
+              }
+            },
+            {
+              "id": 2,
+              "name": "Signal: permutation p-value (SPD)",
+              "criterion": "< 0.05",
+              "value": 0.8046,
+              "passed": false
+            },
+            {
+              "id": 3,
+              "name": "Room: lower 95% CI bound of the gap",
+              "criterion": ">= 0.05",
+              "value": 0.002,
+              "passed": false,
+              "detail": {
+                "gap": 0.017349,
+                "ci": [
+                  0.002008,
+                  0.121462
+                ]
+              }
+            }
+          ],
+          "verdict": "Insufficient data: report intervals, do not claim mitigation success",
+          "verdict_code": "insufficient",
+          "gap": 0.017349,
+          "ci": [
+            0.002008,
+            0.121462
+          ],
+          "groups": {
+            "F": 166,
+            "M": 150
+          }
+        }
+      },
+      "address": {
+        "label": "Home address",
+        "v1": {
+          "version": 1,
+          "checks": [
+            {
+              "id": 1,
+              "name": "Per-group validation size",
+              "criterion": ">= 100",
+              "value": 10,
+              "passed": false
+            },
+            {
+              "id": 2,
+              "name": "Model |SPD| vs noise floor",
+              "criterion": ">= 3x",
+              "value": 1.09,
+              "passed": false,
+              "detail": {
+                "spd_model": 0.143536,
+                "spd_dummy": 0.131776
+              }
+            },
+            {
+              "id": 3,
+              "name": "Bootstrap CV of |SPD|",
+              "criterion": "<= 50%",
+              "value": 0.834,
+              "passed": false
+            }
+          ],
+          "passed": false,
+          "verdict": "Do not mitigate",
+          "groups": {
+            "U": 252,
+            "R": 64
+          }
+        },
+        "v2": {
+          "version": 2,
+          "metric": "spd",
+          "checks": [
+            {
+              "id": 1,
+              "name": "Precision: 95% CI half-width of a gap",
+              "criterion": "<= 0.05",
+              "value": 0.129,
+              "passed": false,
+              "detail": {
+                "mde_80_power": 0.184,
+                "smallest_groups": [
+                  64,
+                  252
+                ]
+              }
+            },
+            {
+              "id": 2,
+              "name": "Signal: permutation p-value (SPD)",
+              "criterion": "< 0.05",
+              "value": 0.1019,
+              "passed": false
+            },
+            {
+              "id": 3,
+              "name": "Room: lower 95% CI bound of the gap",
+              "criterion": ">= 0.05",
+              "value": 0.007,
+              "passed": false,
+              "detail": {
+                "gap": 0.116319,
+                "ci": [
+                  0.007186,
+                  0.24951
+                ]
+              }
+            }
+          ],
+          "verdict": "Insufficient data: report intervals, do not claim mitigation success",
+          "verdict_code": "insufficient",
+          "gap": 0.116319,
+          "ci": [
+            0.007186,
+            0.24951
+          ],
+          "groups": {
+            "R": 64,
+            "U": 252
+          }
+        }
+      },
+      "parental_education": {
+        "label": "Parental education",
+        "v1": {
+          "version": 1,
+          "checks": [
+            {
+              "id": 1,
+              "name": "Per-group validation size",
+              "criterion": ">= 100",
+              "value": 17,
+              "passed": false
+            },
+            {
+              "id": 2,
+              "name": "Model |SPD| vs noise floor",
+              "criterion": ">= 3x",
+              "value": 3.8,
+              "passed": true,
+              "detail": {
+                "spd_model": 0.359988,
+                "spd_dummy": 0.094728
+              }
+            },
+            {
+              "id": 3,
+              "name": "Bootstrap CV of |SPD|",
+              "criterion": "<= 50%",
+              "value": 0.346,
+              "passed": true
+            }
+          ],
+          "passed": false,
+          "verdict": "Do not mitigate",
+          "groups": {
+            "1": 209,
+            "0": 107
+          }
+        },
+        "v2": {
+          "version": 2,
+          "metric": "spd",
+          "checks": [
+            {
+              "id": 1,
+              "name": "Precision: 95% CI half-width of a gap",
+              "criterion": "<= 0.05",
+              "value": 0.109,
+              "passed": false,
+              "detail": {
+                "mde_80_power": 0.156,
+                "smallest_groups": [
+                  107,
+                  209
+                ]
+              }
+            },
+            {
+              "id": 2,
+              "name": "Signal: permutation p-value (SPD)",
+              "criterion": "< 0.05",
+              "value": 0.0005,
+              "passed": true
+            },
+            {
+              "id": 3,
+              "name": "Room: lower 95% CI bound of the gap",
+              "criterion": ">= 0.05",
+              "value": 0.257,
+              "passed": true,
+              "detail": {
+                "gap": 0.364352,
+                "ci": [
+                  0.256752,
+                  0.46805
+                ]
+              }
+            }
+          ],
+          "verdict": "Insufficient data: report intervals, do not claim mitigation success",
+          "verdict_code": "insufficient",
+          "gap": 0.364352,
+          "ci": [
+            0.256752,
+            0.46805
+          ],
+          "groups": {
+            "0": 107,
+            "1": 209
+          }
+        }
+      },
+      "sex+address": {
+        "label": "Sex x Home address",
+        "v1": {
+          "version": 1,
+          "checks": [
+            {
+              "id": 1,
+              "name": "Per-group validation size",
+              "criterion": ">= 100",
+              "value": 4,
+              "passed": false
+            },
+            {
+              "id": 2,
+              "name": "Model |SPD| vs noise floor",
+              "criterion": ">= 3x",
+              "value": 1.02,
+              "passed": false,
+              "detail": {
+                "spd_model": 0.321286,
+                "spd_dummy": 0.316079
+              }
+            },
+            {
+              "id": 3,
+              "name": "Bootstrap CV of |SPD|",
+              "criterion": "<= 50%",
+              "value": 0.545,
+              "passed": false
+            }
+          ],
+          "passed": false,
+          "verdict": "Do not mitigate",
+          "groups": {
+            "Female x Urban": 135,
+            "Male x Urban": 117,
+            "Male x Rural": 33,
+            "Female x Rural": 31
+          }
+        },
+        "v2": {
+          "version": 2,
+          "metric": "spd",
+          "checks": [
+            {
+              "id": 1,
+              "name": "Precision: 95% CI half-width of a gap",
+              "criterion": "<= 0.05",
+              "value": 0.23,
+              "passed": false,
+              "detail": {
+                "mde_80_power": 0.329,
+                "smallest_groups": [
+                  31,
+                  33
+                ]
+              }
+            },
+            {
+              "id": 2,
+              "name": "Signal: permutation p-value (SPD)",
+              "criterion": "< 0.05",
+              "value": 0.4638,
+              "passed": false
+            },
+            {
+              "id": 3,
+              "name": "Room: lower 95% CI bound of the gap",
+              "criterion": ">= 0.05",
+              "value": 0.053,
+              "passed": true,
+              "detail": {
+                "gap": 0.133644,
+                "ci": [
+                  0.052525,
+                  0.336446
+                ]
+              }
+            }
+          ],
+          "verdict": "Insufficient data: report intervals, do not claim mitigation success",
+          "verdict_code": "insufficient",
+          "gap": 0.133644,
+          "ci": [
+            0.052525,
+            0.336446
+          ],
+          "groups": {
+            "Female x Rural": 31,
+            "Female x Urban": 135,
+            "Male x Rural": 33,
+            "Male x Urban": 117
+          }
+        }
+      }
+    }
+  },
+  "folds": [
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 0,
+      "roc_auc": 0.741971,
+      "f1": 0.512821,
+      "balanced_accuracy": 0.645072,
+      "flag_rate": 0.28125,
+      "spd": 0.102102,
+      "eodds": 0.240385,
+      "tpr_gap": 0.240385,
+      "fpr_gap": 0.239035,
+      "ppv_gap": 0.416667,
+      "di_ratio": 0.685185,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 0,
+      "roc_auc": 0.730897,
+      "f1": 0.512821,
+      "balanced_accuracy": 0.645072,
+      "flag_rate": 0.28125,
+      "spd": 0.102102,
+      "eodds": 0.240385,
+      "tpr_gap": 0.240385,
+      "fpr_gap": 0.239035,
+      "ppv_gap": 0.416667,
+      "di_ratio": 0.685185,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 0,
+      "roc_auc": 0.714286,
+      "f1": 0.5,
+      "balanced_accuracy": 0.633444,
+      "flag_rate": 0.296875,
+      "spd": 0.065065,
+      "eodds": 0.240385,
+      "tpr_gap": 0.240385,
+      "fpr_gap": 0.186404,
+      "ppv_gap": 0.297619,
+      "di_ratio": 0.799383,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 0,
+      "roc_auc": 0.715393,
+      "f1": 0.5,
+      "balanced_accuracy": 0.633444,
+      "flag_rate": 0.296875,
+      "spd": 0.065065,
+      "eodds": 0.240385,
+      "tpr_gap": 0.240385,
+      "fpr_gap": 0.186404,
+      "ppv_gap": 0.297619,
+      "di_ratio": 0.799383,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "expgrad_dp",
+      "fold": 0,
+      "roc_auc": 0.5,
+      "f1": 0.0,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 0.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": null,
+      "di_ratio": null,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "expgrad_eo",
+      "fold": 0,
+      "roc_auc": 0.5,
+      "f1": 0.0,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 0.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": null,
+      "di_ratio": null,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 0,
+      "roc_auc": 0.741971,
+      "f1": 0.494118,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.055055,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 0,
+      "roc_auc": 0.689922,
+      "f1": 0.461538,
+      "balanced_accuracy": 0.564784,
+      "flag_rate": 0.484375,
+      "spd": 0.005005,
+      "eodds": 0.086538,
+      "tpr_gap": 0.086538,
+      "fpr_gap": 0.037281,
+      "ppv_gap": 0.004274,
+      "di_ratio": 0.989712,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 0,
+      "roc_auc": 0.623477,
+      "f1": 0.454545,
+      "balanced_accuracy": 0.586932,
+      "flag_rate": 0.359375,
+      "spd": 0.083083,
+      "eodds": 0.240385,
+      "tpr_gap": 0.240385,
+      "fpr_gap": 0.024123,
+      "ppv_gap": 0.037879,
+      "di_ratio": 0.796069,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 1,
+      "roc_auc": 0.626744,
+      "f1": 0.487805,
+      "balanced_accuracy": 0.622093,
+      "flag_rate": 0.333333,
+      "spd": 0.105847,
+      "eodds": 0.505051,
+      "tpr_gap": 0.505051,
+      "fpr_gap": 0.104348,
+      "ppv_gap": 0.444444,
+      "di_ratio": 0.726562,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 1,
+      "roc_auc": 0.625581,
+      "f1": 0.47619,
+      "balanced_accuracy": 0.610465,
+      "flag_rate": 0.349206,
+      "spd": 0.138105,
+      "eodds": 0.505051,
+      "tpr_gap": 0.505051,
+      "fpr_gap": 0.054348,
+      "ppv_gap": 0.393162,
+      "di_ratio": 0.670673,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 1,
+      "roc_auc": 0.632558,
+      "f1": 0.47619,
+      "balanced_accuracy": 0.610465,
+      "flag_rate": 0.349206,
+      "spd": 0.138105,
+      "eodds": 0.505051,
+      "tpr_gap": 0.505051,
+      "fpr_gap": 0.054348,
+      "ppv_gap": 0.393162,
+      "di_ratio": 0.670673,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 1,
+      "roc_auc": 0.633721,
+      "f1": 0.47619,
+      "balanced_accuracy": 0.610465,
+      "flag_rate": 0.349206,
+      "spd": 0.138105,
+      "eodds": 0.505051,
+      "tpr_gap": 0.505051,
+      "fpr_gap": 0.054348,
+      "ppv_gap": 0.393162,
+      "di_ratio": 0.670673,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "expgrad_dp",
+      "fold": 1,
+      "roc_auc": 0.5,
+      "f1": 0.0,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 0.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": null,
+      "di_ratio": null,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "expgrad_eo",
+      "fold": 1,
+      "roc_auc": 0.5,
+      "f1": 0.0,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 0.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": null,
+      "di_ratio": null,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 1,
+      "roc_auc": 0.626744,
+      "f1": 0.481928,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.073589,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 1,
+      "roc_auc": 0.501744,
+      "f1": 0.423077,
+      "balanced_accuracy": 0.530814,
+      "flag_rate": 0.507937,
+      "spd": 0.110887,
+      "eodds": 0.258696,
+      "tpr_gap": 0.191919,
+      "fpr_gap": 0.258696,
+      "ppv_gap": 0.277778,
+      "di_ratio": 0.802867,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 1,
+      "roc_auc": 0.586628,
+      "f1": 0.432432,
+      "balanced_accuracy": 0.595349,
+      "flag_rate": 0.269841,
+      "spd": 0.023185,
+      "eodds": 0.323232,
+      "tpr_gap": 0.323232,
+      "fpr_gap": 0.204348,
+      "ppv_gap": 0.527778,
+      "di_ratio": 0.917563,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 2,
+      "roc_auc": 0.702948,
+      "f1": 0.434783,
+      "balanced_accuracy": 0.559524,
+      "flag_rate": 0.396825,
+      "spd": 0.057576,
+      "eodds": 0.142857,
+      "tpr_gap": 0.142857,
+      "fpr_gap": 0.116705,
+      "ppv_gap": 0.064935,
+      "di_ratio": 0.864286,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 2,
+      "roc_auc": 0.693878,
+      "f1": 0.434783,
+      "balanced_accuracy": 0.559524,
+      "flag_rate": 0.396825,
+      "spd": 0.057576,
+      "eodds": 0.142857,
+      "tpr_gap": 0.142857,
+      "fpr_gap": 0.116705,
+      "ppv_gap": 0.064935,
+      "di_ratio": 0.864286,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 2,
+      "roc_auc": 0.68254,
+      "f1": 0.444444,
+      "balanced_accuracy": 0.571429,
+      "flag_rate": 0.380952,
+      "spd": 0.027273,
+      "eodds": 0.142857,
+      "tpr_gap": 0.142857,
+      "fpr_gap": 0.064073,
+      "ppv_gap": 0.097902,
+      "di_ratio": 0.930769,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 2,
+      "roc_auc": 0.681406,
+      "f1": 0.444444,
+      "balanced_accuracy": 0.571429,
+      "flag_rate": 0.380952,
+      "spd": 0.027273,
+      "eodds": 0.142857,
+      "tpr_gap": 0.142857,
+      "fpr_gap": 0.064073,
+      "ppv_gap": 0.097902,
+      "di_ratio": 0.930769,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "expgrad_dp",
+      "fold": 2,
+      "roc_auc": 0.5,
+      "f1": 0.0,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 0.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": null,
+      "di_ratio": null,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "expgrad_eo",
+      "fold": 2,
+      "roc_auc": 0.5,
+      "f1": 0.0,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 0.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": null,
+      "di_ratio": null,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 2,
+      "roc_auc": 0.702948,
+      "f1": 0.5,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.190909,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 2,
+      "roc_auc": 0.569728,
+      "f1": 0.4,
+      "balanced_accuracy": 0.583333,
+      "flag_rate": 0.222222,
+      "spd": 0.021212,
+      "eodds": 0.142857,
+      "tpr_gap": 0.142857,
+      "fpr_gap": 0.016018,
+      "ppv_gap": 0.142857,
+      "di_ratio": 0.909091,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 2,
+      "roc_auc": 0.707483,
+      "f1": 0.457143,
+      "balanced_accuracy": 0.619048,
+      "flag_rate": 0.222222,
+      "spd": 0.021212,
+      "eodds": 0.285714,
+      "tpr_gap": 0.285714,
+      "fpr_gap": 0.02746,
+      "ppv_gap": 0.0,
+      "di_ratio": 0.909091,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 3,
+      "roc_auc": 0.729025,
+      "f1": 0.526316,
+      "balanced_accuracy": 0.654762,
+      "flag_rate": 0.269841,
+      "spd": 0.1,
+      "eodds": 0.427273,
+      "tpr_gap": 0.427273,
+      "fpr_gap": 0.016471,
+      "ppv_gap": 0.136364,
+      "di_ratio": 0.681818,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 3,
+      "roc_auc": 0.717687,
+      "f1": 0.526316,
+      "balanced_accuracy": 0.654762,
+      "flag_rate": 0.269841,
+      "spd": 0.1,
+      "eodds": 0.427273,
+      "tpr_gap": 0.427273,
+      "fpr_gap": 0.016471,
+      "ppv_gap": 0.136364,
+      "di_ratio": 0.681818,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 3,
+      "roc_auc": 0.726757,
+      "f1": 0.526316,
+      "balanced_accuracy": 0.654762,
+      "flag_rate": 0.269841,
+      "spd": 0.1,
+      "eodds": 0.427273,
+      "tpr_gap": 0.427273,
+      "fpr_gap": 0.016471,
+      "ppv_gap": 0.136364,
+      "di_ratio": 0.681818,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 3,
+      "roc_auc": 0.726757,
+      "f1": 0.526316,
+      "balanced_accuracy": 0.654762,
+      "flag_rate": 0.269841,
+      "spd": 0.1,
+      "eodds": 0.427273,
+      "tpr_gap": 0.427273,
+      "fpr_gap": 0.016471,
+      "ppv_gap": 0.136364,
+      "di_ratio": 0.681818,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "expgrad_dp",
+      "fold": 3,
+      "roc_auc": 0.5,
+      "f1": 0.0,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 0.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": null,
+      "di_ratio": null,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "expgrad_eo",
+      "fold": 3,
+      "roc_auc": 0.5,
+      "f1": 0.0,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 0.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": null,
+      "di_ratio": null,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 3,
+      "roc_auc": 0.729025,
+      "f1": 0.5,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.107143,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 3,
+      "roc_auc": 0.596372,
+      "f1": 0.457143,
+      "balanced_accuracy": 0.619048,
+      "flag_rate": 0.222222,
+      "spd": 0.078571,
+      "eodds": 0.227273,
+      "tpr_gap": 0.227273,
+      "fpr_gap": 0.042353,
+      "ppv_gap": 0.044444,
+      "di_ratio": 0.694444,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 3,
+      "roc_auc": 0.673469,
+      "f1": 0.5,
+      "balanced_accuracy": 0.642857,
+      "flag_rate": 0.238095,
+      "spd": 0.107143,
+      "eodds": 0.327273,
+      "tpr_gap": 0.327273,
+      "fpr_gap": 0.042353,
+      "ppv_gap": 0.0,
+      "di_ratio": 0.625,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 4,
+      "roc_auc": 0.61678,
+      "f1": 0.4,
+      "balanced_accuracy": 0.559524,
+      "flag_rate": 0.301587,
+      "spd": 0.138889,
+      "eodds": 0.211538,
+      "tpr_gap": 0.211538,
+      "fpr_gap": 0.093822,
+      "ppv_gap": 0.128205,
+      "di_ratio": 0.615385,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 4,
+      "roc_auc": 0.621315,
+      "f1": 0.45,
+      "balanced_accuracy": 0.595238,
+      "flag_rate": 0.301587,
+      "spd": 0.074074,
+      "eodds": 0.086538,
+      "tpr_gap": 0.086538,
+      "fpr_gap": 0.050343,
+      "ppv_gap": 0.071429,
+      "di_ratio": 0.777778,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 4,
+      "roc_auc": 0.628118,
+      "f1": 0.45,
+      "balanced_accuracy": 0.595238,
+      "flag_rate": 0.301587,
+      "spd": 0.074074,
+      "eodds": 0.086538,
+      "tpr_gap": 0.086538,
+      "fpr_gap": 0.050343,
+      "ppv_gap": 0.071429,
+      "di_ratio": 0.777778,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 4,
+      "roc_auc": 0.628118,
+      "f1": 0.45,
+      "balanced_accuracy": 0.595238,
+      "flag_rate": 0.301587,
+      "spd": 0.074074,
+      "eodds": 0.086538,
+      "tpr_gap": 0.086538,
+      "fpr_gap": 0.050343,
+      "ppv_gap": 0.071429,
+      "di_ratio": 0.777778,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "expgrad_dp",
+      "fold": 4,
+      "roc_auc": 0.5,
+      "f1": 0.0,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 0.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": null,
+      "di_ratio": null,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "expgrad_eo",
+      "fold": 4,
+      "roc_auc": 0.5,
+      "f1": 0.0,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 0.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": null,
+      "di_ratio": null,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 4,
+      "roc_auc": 0.61678,
+      "f1": 0.5,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.064815,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 4,
+      "roc_auc": 0.561224,
+      "f1": 0.423077,
+      "balanced_accuracy": 0.52381,
+      "flag_rate": 0.492063,
+      "spd": 0.305556,
+      "eodds": 0.379863,
+      "tpr_gap": 0.163462,
+      "fpr_gap": 0.379863,
+      "ppv_gap": 0.183761,
+      "di_ratio": 0.541667,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 4,
+      "roc_auc": 0.599206,
+      "f1": 0.421053,
+      "balanced_accuracy": 0.583333,
+      "flag_rate": 0.269841,
+      "spd": 0.083333,
+      "eodds": 0.211538,
+      "tpr_gap": 0.211538,
+      "fpr_gap": 0.006865,
+      "ppv_gap": 0.212121,
+      "di_ratio": 0.727273,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 5,
+      "roc_auc": 0.635659,
+      "f1": 0.470588,
+      "balanced_accuracy": 0.576412,
+      "flag_rate": 0.46875,
+      "spd": 0.025616,
+      "eodds": 0.245455,
+      "tpr_gap": 0.245455,
+      "fpr_gap": 0.14,
+      "ppv_gap": 0.080357,
+      "di_ratio": 0.946939,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 5,
+      "roc_auc": 0.625692,
+      "f1": 0.470588,
+      "balanced_accuracy": 0.576412,
+      "flag_rate": 0.46875,
+      "spd": 0.025616,
+      "eodds": 0.245455,
+      "tpr_gap": 0.245455,
+      "fpr_gap": 0.14,
+      "ppv_gap": 0.080357,
+      "di_ratio": 0.946939,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 5,
+      "roc_auc": 0.624585,
+      "f1": 0.431373,
+      "balanced_accuracy": 0.540975,
+      "flag_rate": 0.46875,
+      "spd": 0.037438,
+      "eodds": 0.336364,
+      "tpr_gap": 0.336364,
+      "fpr_gap": 0.1,
+      "ppv_gap": 0.104072,
+      "di_ratio": 0.922921,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 5,
+      "roc_auc": 0.625692,
+      "f1": 0.431373,
+      "balanced_accuracy": 0.540975,
+      "flag_rate": 0.46875,
+      "spd": 0.037438,
+      "eodds": 0.336364,
+      "tpr_gap": 0.336364,
+      "fpr_gap": 0.1,
+      "ppv_gap": 0.104072,
+      "di_ratio": 0.922921,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "expgrad_dp",
+      "fold": 5,
+      "roc_auc": 0.5,
+      "f1": 0.0,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 0.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": null,
+      "di_ratio": null,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "expgrad_eo",
+      "fold": 5,
+      "roc_auc": 0.5,
+      "f1": 0.0,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 0.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": null,
+      "di_ratio": null,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 5,
+      "roc_auc": 0.635659,
+      "f1": 0.494118,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.093596,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 5,
+      "roc_auc": 0.630122,
+      "f1": 0.618182,
+      "balanced_accuracy": 0.707087,
+      "flag_rate": 0.53125,
+      "spd": 0.037438,
+      "eodds": 0.363636,
+      "tpr_gap": 0.363636,
+      "fpr_gap": 0.18,
+      "ppv_gap": 0.118056,
+      "di_ratio": 0.932143,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 5,
+      "roc_auc": 0.606866,
+      "f1": 0.548387,
+      "balanced_accuracy": 0.625692,
+      "flag_rate": 0.640625,
+      "spd": 0.026601,
+      "eodds": 0.363636,
+      "tpr_gap": 0.363636,
+      "fpr_gap": 0.186667,
+      "ppv_gap": 0.086124,
+      "di_ratio": 0.959398,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 6,
+      "roc_auc": 0.646512,
+      "f1": 0.424242,
+      "balanced_accuracy": 0.605233,
+      "flag_rate": 0.206349,
+      "spd": 0.076842,
+      "eodds": 0.2,
+      "tpr_gap": 0.2,
+      "fpr_gap": 0.019565,
+      "ppv_gap": 0.416667,
+      "di_ratio": 0.675556,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 6,
+      "roc_auc": 0.644186,
+      "f1": 0.424242,
+      "balanced_accuracy": 0.605233,
+      "flag_rate": 0.206349,
+      "spd": 0.076842,
+      "eodds": 0.2,
+      "tpr_gap": 0.2,
+      "fpr_gap": 0.019565,
+      "ppv_gap": 0.416667,
+      "di_ratio": 0.675556,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 6,
+      "roc_auc": 0.637209,
+      "f1": 0.424242,
+      "balanced_accuracy": 0.605233,
+      "flag_rate": 0.206349,
+      "spd": 0.076842,
+      "eodds": 0.2,
+      "tpr_gap": 0.2,
+      "fpr_gap": 0.019565,
+      "ppv_gap": 0.416667,
+      "di_ratio": 0.675556,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 6,
+      "roc_auc": 0.636047,
+      "f1": 0.424242,
+      "balanced_accuracy": 0.605233,
+      "flag_rate": 0.206349,
+      "spd": 0.076842,
+      "eodds": 0.2,
+      "tpr_gap": 0.2,
+      "fpr_gap": 0.019565,
+      "ppv_gap": 0.416667,
+      "di_ratio": 0.675556,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "expgrad_dp",
+      "fold": 6,
+      "roc_auc": 0.5,
+      "f1": 0.0,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 0.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": null,
+      "di_ratio": null,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "expgrad_eo",
+      "fold": 6,
+      "roc_auc": 0.5,
+      "f1": 0.0,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 0.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": null,
+      "di_ratio": null,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 6,
+      "roc_auc": 0.646512,
+      "f1": 0.481928,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.194737,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 6,
+      "roc_auc": 0.575,
+      "f1": 0.451613,
+      "balanced_accuracy": 0.524419,
+      "flag_rate": 0.666667,
+      "spd": 0.110526,
+      "eodds": 0.4,
+      "tpr_gap": 0.4,
+      "fpr_gap": 0.002174,
+      "ppv_gap": 0.311111,
+      "di_ratio": 0.844444,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 6,
+      "roc_auc": 0.593023,
+      "f1": 0.509804,
+      "balanced_accuracy": 0.615698,
+      "flag_rate": 0.492063,
+      "spd": 0.351579,
+      "eodds": 0.6,
+      "tpr_gap": 0.6,
+      "fpr_gap": 0.221739,
+      "ppv_gap": 0.357143,
+      "di_ratio": 0.443333,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 7,
+      "roc_auc": 0.655329,
+      "f1": 0.439024,
+      "balanced_accuracy": 0.583333,
+      "flag_rate": 0.31746,
+      "spd": 0.016632,
+      "eodds": 0.044706,
+      "tpr_gap": 0.027778,
+      "fpr_gap": 0.044706,
+      "ppv_gap": 0.083333,
+      "di_ratio": 0.948718,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 7,
+      "roc_auc": 0.653061,
+      "f1": 0.487805,
+      "balanced_accuracy": 0.619048,
+      "flag_rate": 0.31746,
+      "spd": 0.048857,
+      "eodds": 0.138889,
+      "tpr_gap": 0.138889,
+      "fpr_gap": 0.004706,
+      "ppv_gap": 0.10101,
+      "di_ratio": 0.858859,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 7,
+      "roc_auc": 0.651927,
+      "f1": 0.47619,
+      "balanced_accuracy": 0.607143,
+      "flag_rate": 0.333333,
+      "spd": 0.087318,
+      "eodds": 0.138889,
+      "tpr_gap": 0.138889,
+      "fpr_gap": 0.054118,
+      "ppv_gap": 0.045455,
+      "di_ratio": 0.772973,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 7,
+      "roc_auc": 0.650794,
+      "f1": 0.47619,
+      "balanced_accuracy": 0.607143,
+      "flag_rate": 0.333333,
+      "spd": 0.087318,
+      "eodds": 0.138889,
+      "tpr_gap": 0.138889,
+      "fpr_gap": 0.054118,
+      "ppv_gap": 0.045455,
+      "di_ratio": 0.772973,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "expgrad_dp",
+      "fold": 7,
+      "roc_auc": 0.5,
+      "f1": 0.0,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 0.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": null,
+      "di_ratio": null,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "expgrad_eo",
+      "fold": 7,
+      "roc_auc": 0.5,
+      "f1": 0.0,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 0.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": null,
+      "di_ratio": null,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 7,
+      "roc_auc": 0.655329,
+      "f1": 0.5,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.02183,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 7,
+      "roc_auc": 0.614512,
+      "f1": 0.5,
+      "balanced_accuracy": 0.595238,
+      "flag_rate": 0.492063,
+      "spd": 0.079002,
+      "eodds": 0.083333,
+      "tpr_gap": 0.083333,
+      "fpr_gap": 0.070588,
+      "ppv_gap": 0.016807,
+      "di_ratio": 0.853282,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 7,
+      "roc_auc": 0.621882,
+      "f1": 0.375,
+      "balanced_accuracy": 0.583333,
+      "flag_rate": 0.174603,
+      "spd": 0.095634,
+      "eodds": 0.195294,
+      "tpr_gap": 0.111111,
+      "fpr_gap": 0.195294,
+      "ppv_gap": 0.466667,
+      "di_ratio": 0.585586,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 8,
+      "roc_auc": 0.79932,
+      "f1": 0.684211,
+      "balanced_accuracy": 0.761905,
+      "flag_rate": 0.269841,
+      "spd": 0.075051,
+      "eodds": 0.211538,
+      "tpr_gap": 0.211538,
+      "fpr_gap": 0.048077,
+      "ppv_gap": 0.027778,
+      "di_ratio": 0.75817,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 8,
+      "roc_auc": 0.795918,
+      "f1": 0.666667,
+      "balanced_accuracy": 0.75,
+      "flag_rate": 0.285714,
+      "spd": 0.045639,
+      "eodds": 0.211538,
+      "tpr_gap": 0.211538,
+      "fpr_gap": 0.009615,
+      "ppv_gap": 0.111111,
+      "di_ratio": 0.852941,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 8,
+      "roc_auc": 0.797052,
+      "f1": 0.666667,
+      "balanced_accuracy": 0.75,
+      "flag_rate": 0.285714,
+      "spd": 0.045639,
+      "eodds": 0.211538,
+      "tpr_gap": 0.211538,
+      "fpr_gap": 0.009615,
+      "ppv_gap": 0.111111,
+      "di_ratio": 0.852941,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 8,
+      "roc_auc": 0.793651,
+      "f1": 0.666667,
+      "balanced_accuracy": 0.75,
+      "flag_rate": 0.285714,
+      "spd": 0.045639,
+      "eodds": 0.211538,
+      "tpr_gap": 0.211538,
+      "fpr_gap": 0.009615,
+      "ppv_gap": 0.111111,
+      "di_ratio": 0.852941,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "expgrad_dp",
+      "fold": 8,
+      "roc_auc": 0.5,
+      "f1": 0.0,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 0.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": null,
+      "di_ratio": null,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "expgrad_eo",
+      "fold": 8,
+      "roc_auc": 0.5,
+      "f1": 0.0,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 0.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": null,
+      "di_ratio": null,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 8,
+      "roc_auc": 0.79932,
+      "f1": 0.5,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.212982,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 8,
+      "roc_auc": 0.706349,
+      "f1": 0.564103,
+      "balanced_accuracy": 0.678571,
+      "flag_rate": 0.285714,
+      "spd": 0.045639,
+      "eodds": 0.067308,
+      "tpr_gap": 0.038462,
+      "fpr_gap": 0.067308,
+      "ppv_gap": 0.333333,
+      "di_ratio": 0.852941,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 8,
+      "roc_auc": 0.853741,
+      "f1": 0.682927,
+      "balanced_accuracy": 0.761905,
+      "flag_rate": 0.31746,
+      "spd": 0.306288,
+      "eodds": 0.375,
+      "tpr_gap": 0.134615,
+      "fpr_gap": 0.375,
+      "ppv_gap": 0.428571,
+      "di_ratio": 0.365546,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 9,
+      "roc_auc": 0.679138,
+      "f1": 0.418605,
+      "balanced_accuracy": 0.559524,
+      "flag_rate": 0.349206,
+      "spd": 0.030303,
+      "eodds": 0.361111,
+      "tpr_gap": 0.361111,
+      "fpr_gap": 0.25,
+      "ppv_gap": 0.533333,
+      "di_ratio": 0.916667,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 9,
+      "roc_auc": 0.679138,
+      "f1": 0.418605,
+      "balanced_accuracy": 0.559524,
+      "flag_rate": 0.349206,
+      "spd": 0.033333,
+      "eodds": 0.361111,
+      "tpr_gap": 0.361111,
+      "fpr_gap": 0.152778,
+      "ppv_gap": 0.454545,
+      "di_ratio": 0.909091,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 9,
+      "roc_auc": 0.688209,
+      "f1": 0.444444,
+      "balanced_accuracy": 0.571429,
+      "flag_rate": 0.380952,
+      "spd": 0.1,
+      "eodds": 0.444444,
+      "tpr_gap": 0.444444,
+      "fpr_gap": 0.097222,
+      "ppv_gap": 0.433566,
+      "di_ratio": 0.769231,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 9,
+      "roc_auc": 0.687075,
+      "f1": 0.444444,
+      "balanced_accuracy": 0.571429,
+      "flag_rate": 0.380952,
+      "spd": 0.1,
+      "eodds": 0.444444,
+      "tpr_gap": 0.444444,
+      "fpr_gap": 0.097222,
+      "ppv_gap": 0.433566,
+      "di_ratio": 0.769231,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "expgrad_dp",
+      "fold": 9,
+      "roc_auc": 0.5,
+      "f1": 0.0,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 0.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": null,
+      "di_ratio": null,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "expgrad_eo",
+      "fold": 9,
+      "roc_auc": 0.5,
+      "f1": 0.0,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 0.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": null,
+      "di_ratio": null,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 9,
+      "roc_auc": 0.679138,
+      "f1": 0.5,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.127273,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 9,
+      "roc_auc": 0.585034,
+      "f1": 0.545455,
+      "balanced_accuracy": 0.607143,
+      "flag_rate": 0.714286,
+      "spd": 0.1,
+      "eodds": 0.333333,
+      "tpr_gap": 0.333333,
+      "fpr_gap": 0.055556,
+      "ppv_gap": 0.249012,
+      "di_ratio": 0.869565,
+      "failed": null
+    },
+    {
+      "axis": "sex",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 9,
+      "roc_auc": 0.612245,
+      "f1": 0.473684,
+      "balanced_accuracy": 0.619048,
+      "flag_rate": 0.269841,
+      "spd": 0.121212,
+      "eodds": 0.361111,
+      "tpr_gap": 0.361111,
+      "fpr_gap": 0.041667,
+      "ppv_gap": 0.414286,
+      "di_ratio": 0.636364,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 0,
+      "roc_auc": 0.741971,
+      "f1": 0.512821,
+      "balanced_accuracy": 0.645072,
+      "flag_rate": 0.28125,
+      "spd": 0.242177,
+      "eodds": 0.232143,
+      "tpr_gap": 0.142857,
+      "fpr_gap": 0.232143,
+      "ppv_gap": 0.025974,
+      "di_ratio": 0.48105,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 0,
+      "roc_auc": 0.740864,
+      "f1": 0.526316,
+      "balanced_accuracy": 0.6567,
+      "flag_rate": 0.265625,
+      "spd": 0.17551,
+      "eodds": 0.142857,
+      "tpr_gap": 0.142857,
+      "fpr_gap": 0.107143,
+      "ppv_gap": 0.121212,
+      "di_ratio": 0.561224,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 0,
+      "roc_auc": 0.739756,
+      "f1": 0.564103,
+      "balanced_accuracy": 0.680509,
+      "flag_rate": 0.28125,
+      "spd": 0.155102,
+      "eodds": 0.107143,
+      "tpr_gap": 0.071429,
+      "fpr_gap": 0.107143,
+      "ppv_gap": 0.083333,
+      "di_ratio": 0.612245,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 0,
+      "roc_auc": 0.740864,
+      "f1": 0.564103,
+      "balanced_accuracy": 0.680509,
+      "flag_rate": 0.28125,
+      "spd": 0.155102,
+      "eodds": 0.107143,
+      "tpr_gap": 0.071429,
+      "fpr_gap": 0.107143,
+      "ppv_gap": 0.083333,
+      "di_ratio": 0.612245,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 0,
+      "roc_auc": 0.741971,
+      "f1": 0.494118,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.180952,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 0,
+      "roc_auc": 0.688261,
+      "f1": 0.509804,
+      "balanced_accuracy": 0.611849,
+      "flag_rate": 0.46875,
+      "spd": 0.084354,
+      "eodds": 0.128571,
+      "tpr_gap": 0.071429,
+      "fpr_gap": 0.128571,
+      "ppv_gap": 0.090909,
+      "di_ratio": 0.841837,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 0,
+      "roc_auc": 0.630676,
+      "f1": 0.518519,
+      "balanced_accuracy": 0.612403,
+      "flag_rate": 0.515625,
+      "spd": 0.15102,
+      "eodds": 0.235714,
+      "tpr_gap": 0.142857,
+      "fpr_gap": 0.235714,
+      "ppv_gap": 0.296296,
+      "di_ratio": 0.725926,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 1,
+      "roc_auc": 0.626744,
+      "f1": 0.487805,
+      "balanced_accuracy": 0.622093,
+      "flag_rate": 0.333333,
+      "spd": 0.122449,
+      "eodds": 0.3125,
+      "tpr_gap": 0.3125,
+      "fpr_gap": 0.057576,
+      "ppv_gap": 0.033333,
+      "di_ratio": 0.714286,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 1,
+      "roc_auc": 0.627907,
+      "f1": 0.487805,
+      "balanced_accuracy": 0.622093,
+      "flag_rate": 0.333333,
+      "spd": 0.122449,
+      "eodds": 0.3125,
+      "tpr_gap": 0.3125,
+      "fpr_gap": 0.057576,
+      "ppv_gap": 0.033333,
+      "di_ratio": 0.714286,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 1,
+      "roc_auc": 0.632558,
+      "f1": 0.487805,
+      "balanced_accuracy": 0.622093,
+      "flag_rate": 0.333333,
+      "spd": 0.122449,
+      "eodds": 0.3125,
+      "tpr_gap": 0.3125,
+      "fpr_gap": 0.057576,
+      "ppv_gap": 0.033333,
+      "di_ratio": 0.714286,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 1,
+      "roc_auc": 0.632558,
+      "f1": 0.487805,
+      "balanced_accuracy": 0.622093,
+      "flag_rate": 0.333333,
+      "spd": 0.122449,
+      "eodds": 0.3125,
+      "tpr_gap": 0.3125,
+      "fpr_gap": 0.057576,
+      "ppv_gap": 0.033333,
+      "di_ratio": 0.714286,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 1,
+      "roc_auc": 0.626744,
+      "f1": 0.481928,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.040816,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 1,
+      "roc_auc": 0.622093,
+      "f1": 0.5,
+      "balanced_accuracy": 0.633721,
+      "flag_rate": 0.31746,
+      "spd": 0.142857,
+      "eodds": 0.3125,
+      "tpr_gap": 0.3125,
+      "fpr_gap": 0.087879,
+      "ppv_gap": 0.0,
+      "di_ratio": 0.666667,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 1,
+      "roc_auc": 0.584884,
+      "f1": 0.481481,
+      "balanced_accuracy": 0.580814,
+      "flag_rate": 0.539683,
+      "spd": 0.132653,
+      "eodds": 0.4375,
+      "tpr_gap": 0.4375,
+      "fpr_gap": 0.015152,
+      "ppv_gap": 0.084444,
+      "di_ratio": 0.793651,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 2,
+      "roc_auc": 0.702948,
+      "f1": 0.434783,
+      "balanced_accuracy": 0.559524,
+      "flag_rate": 0.396825,
+      "spd": 0.112308,
+      "eodds": 0.3625,
+      "tpr_gap": 0.3625,
+      "fpr_gap": 0.022059,
+      "ppv_gap": 0.178571,
+      "di_ratio": 0.732601,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 2,
+      "roc_auc": 0.699546,
+      "f1": 0.434783,
+      "balanced_accuracy": 0.559524,
+      "flag_rate": 0.396825,
+      "spd": 0.112308,
+      "eodds": 0.3625,
+      "tpr_gap": 0.3625,
+      "fpr_gap": 0.022059,
+      "ppv_gap": 0.178571,
+      "di_ratio": 0.732601,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 2,
+      "roc_auc": 0.696145,
+      "f1": 0.454545,
+      "balanced_accuracy": 0.583333,
+      "flag_rate": 0.365079,
+      "spd": 0.169231,
+      "eodds": 0.3625,
+      "tpr_gap": 0.3625,
+      "fpr_gap": 0.073529,
+      "ppv_gap": 0.116667,
+      "di_ratio": 0.576923,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 2,
+      "roc_auc": 0.697279,
+      "f1": 0.454545,
+      "balanced_accuracy": 0.583333,
+      "flag_rate": 0.365079,
+      "spd": 0.169231,
+      "eodds": 0.3625,
+      "tpr_gap": 0.3625,
+      "fpr_gap": 0.073529,
+      "ppv_gap": 0.116667,
+      "di_ratio": 0.576923,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 2,
+      "roc_auc": 0.702948,
+      "f1": 0.5,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.064615,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 2,
+      "roc_auc": 0.655329,
+      "f1": 0.576271,
+      "balanced_accuracy": 0.654762,
+      "flag_rate": 0.603175,
+      "spd": 0.178462,
+      "eodds": 0.275,
+      "tpr_gap": 0.275,
+      "fpr_gap": 0.154412,
+      "ppv_gap": 0.0625,
+      "di_ratio": 0.721154,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 2,
+      "roc_auc": 0.710317,
+      "f1": 0.530612,
+      "balanced_accuracy": 0.630952,
+      "flag_rate": 0.444444,
+      "spd": 0.366154,
+      "eodds": 0.55,
+      "tpr_gap": 0.55,
+      "fpr_gap": 0.286765,
+      "ppv_gap": 0.038462,
+      "di_ratio": 0.295858,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 3,
+      "roc_auc": 0.729025,
+      "f1": 0.526316,
+      "balanced_accuracy": 0.654762,
+      "flag_rate": 0.269841,
+      "spd": 0.333333,
+      "eodds": 0.647059,
+      "tpr_gap": 0.647059,
+      "fpr_gap": 0.037838,
+      "ppv_gap": 0.3,
+      "di_ratio": 0.4,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 3,
+      "roc_auc": 0.734694,
+      "f1": 0.526316,
+      "balanced_accuracy": 0.654762,
+      "flag_rate": 0.269841,
+      "spd": 0.333333,
+      "eodds": 0.647059,
+      "tpr_gap": 0.647059,
+      "fpr_gap": 0.037838,
+      "ppv_gap": 0.3,
+      "di_ratio": 0.4,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 3,
+      "roc_auc": 0.727891,
+      "f1": 0.526316,
+      "balanced_accuracy": 0.654762,
+      "flag_rate": 0.269841,
+      "spd": 0.333333,
+      "eodds": 0.647059,
+      "tpr_gap": 0.647059,
+      "fpr_gap": 0.037838,
+      "ppv_gap": 0.3,
+      "di_ratio": 0.4,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 3,
+      "roc_auc": 0.727891,
+      "f1": 0.526316,
+      "balanced_accuracy": 0.654762,
+      "flag_rate": 0.269841,
+      "spd": 0.333333,
+      "eodds": 0.647059,
+      "tpr_gap": 0.647059,
+      "fpr_gap": 0.037838,
+      "ppv_gap": 0.3,
+      "di_ratio": 0.4,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 3,
+      "roc_auc": 0.729025,
+      "f1": 0.5,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.12963,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 3,
+      "roc_auc": 0.632086,
+      "f1": 0.387097,
+      "balanced_accuracy": 0.595238,
+      "flag_rate": 0.15873,
+      "spd": 0.185185,
+      "eodds": 0.352941,
+      "tpr_gap": 0.352941,
+      "fpr_gap": 0.108108,
+      "ppv_gap": null,
+      "di_ratio": 0.0,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 3,
+      "roc_auc": 0.678571,
+      "f1": 0.555556,
+      "balanced_accuracy": 0.678571,
+      "flag_rate": 0.238095,
+      "spd": 0.37037,
+      "eodds": 0.647059,
+      "tpr_gap": 0.647059,
+      "fpr_gap": 0.091892,
+      "ppv_gap": 0.2,
+      "di_ratio": 0.333333,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 4,
+      "roc_auc": 0.61678,
+      "f1": 0.4,
+      "balanced_accuracy": 0.559524,
+      "flag_rate": 0.301587,
+      "spd": 0.007692,
+      "eodds": 0.142857,
+      "tpr_gap": 0.142857,
+      "fpr_gap": 0.083333,
+      "ppv_gap": 0.1,
+      "di_ratio": 0.975,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 4,
+      "roc_auc": 0.609977,
+      "f1": 0.4,
+      "balanced_accuracy": 0.559524,
+      "flag_rate": 0.301587,
+      "spd": 0.007692,
+      "eodds": 0.142857,
+      "tpr_gap": 0.142857,
+      "fpr_gap": 0.083333,
+      "ppv_gap": 0.1,
+      "di_ratio": 0.975,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 4,
+      "roc_auc": 0.612245,
+      "f1": 0.439024,
+      "balanced_accuracy": 0.583333,
+      "flag_rate": 0.31746,
+      "spd": 0.012308,
+      "eodds": 0.214286,
+      "tpr_gap": 0.214286,
+      "fpr_gap": 0.083333,
+      "ppv_gap": 0.0625,
+      "di_ratio": 0.961538,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 4,
+      "roc_auc": 0.612245,
+      "f1": 0.439024,
+      "balanced_accuracy": 0.583333,
+      "flag_rate": 0.31746,
+      "spd": 0.012308,
+      "eodds": 0.214286,
+      "tpr_gap": 0.214286,
+      "fpr_gap": 0.083333,
+      "ppv_gap": 0.0625,
+      "di_ratio": 0.961538,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 4,
+      "roc_auc": 0.61678,
+      "f1": 0.5,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.258462,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 4,
+      "roc_auc": 0.587302,
+      "f1": 0.454545,
+      "balanced_accuracy": 0.583333,
+      "flag_rate": 0.365079,
+      "spd": 0.072308,
+      "eodds": 0.285714,
+      "tpr_gap": 0.285714,
+      "fpr_gap": 0.027778,
+      "ppv_gap": 0.078947,
+      "di_ratio": 0.809717,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 4,
+      "roc_auc": 0.561224,
+      "f1": 0.454545,
+      "balanced_accuracy": 0.583333,
+      "flag_rate": 0.365079,
+      "spd": 0.072308,
+      "eodds": 0.285714,
+      "tpr_gap": 0.285714,
+      "fpr_gap": 0.027778,
+      "ppv_gap": 0.078947,
+      "di_ratio": 0.809717,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 5,
+      "roc_auc": 0.635659,
+      "f1": 0.470588,
+      "balanced_accuracy": 0.576412,
+      "flag_rate": 0.46875,
+      "spd": 0.291667,
+      "eodds": 0.366667,
+      "tpr_gap": 0.133333,
+      "fpr_gap": 0.366667,
+      "ppv_gap": 0.057416,
+      "di_ratio": 0.575758,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 5,
+      "roc_auc": 0.631229,
+      "f1": 0.489796,
+      "balanced_accuracy": 0.599668,
+      "flag_rate": 0.4375,
+      "spd": 0.166667,
+      "eodds": 0.166667,
+      "tpr_gap": 0.133333,
+      "fpr_gap": 0.166667,
+      "ppv_gap": 0.023392,
+      "di_ratio": 0.703704,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 5,
+      "roc_auc": 0.614618,
+      "f1": 0.489796,
+      "balanced_accuracy": 0.599668,
+      "flag_rate": 0.4375,
+      "spd": 0.166667,
+      "eodds": 0.166667,
+      "tpr_gap": 0.133333,
+      "fpr_gap": 0.166667,
+      "ppv_gap": 0.023392,
+      "di_ratio": 0.703704,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 5,
+      "roc_auc": 0.614618,
+      "f1": 0.489796,
+      "balanced_accuracy": 0.599668,
+      "flag_rate": 0.4375,
+      "spd": 0.166667,
+      "eodds": 0.166667,
+      "tpr_gap": 0.133333,
+      "fpr_gap": 0.166667,
+      "ppv_gap": 0.023392,
+      "di_ratio": 0.703704,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 5,
+      "roc_auc": 0.635659,
+      "f1": 0.494118,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.0625,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 5,
+      "roc_auc": 0.575305,
+      "f1": 0.508475,
+      "balanced_accuracy": 0.589701,
+      "flag_rate": 0.59375,
+      "spd": 0.291667,
+      "eodds": 0.345455,
+      "tpr_gap": 0.166667,
+      "fpr_gap": 0.345455,
+      "ppv_gap": 0.015385,
+      "di_ratio": 0.641026,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 5,
+      "roc_auc": 0.579734,
+      "f1": 0.508475,
+      "balanced_accuracy": 0.589701,
+      "flag_rate": 0.59375,
+      "spd": 0.291667,
+      "eodds": 0.345455,
+      "tpr_gap": 0.166667,
+      "fpr_gap": 0.345455,
+      "ppv_gap": 0.015385,
+      "di_ratio": 0.641026,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 6,
+      "roc_auc": 0.646512,
+      "f1": 0.424242,
+      "balanced_accuracy": 0.605233,
+      "flag_rate": 0.206349,
+      "spd": 0.126415,
+      "eodds": 0.261905,
+      "tpr_gap": 0.261905,
+      "fpr_gap": 0.153846,
+      "ppv_gap": 0.5,
+      "di_ratio": 0.441667,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 6,
+      "roc_auc": 0.636047,
+      "f1": 0.424242,
+      "balanced_accuracy": 0.605233,
+      "flag_rate": 0.206349,
+      "spd": 0.126415,
+      "eodds": 0.261905,
+      "tpr_gap": 0.261905,
+      "fpr_gap": 0.153846,
+      "ppv_gap": 0.5,
+      "di_ratio": 0.441667,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 6,
+      "roc_auc": 0.636047,
+      "f1": 0.424242,
+      "balanced_accuracy": 0.605233,
+      "flag_rate": 0.206349,
+      "spd": 0.126415,
+      "eodds": 0.261905,
+      "tpr_gap": 0.261905,
+      "fpr_gap": 0.153846,
+      "ppv_gap": 0.5,
+      "di_ratio": 0.441667,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 6,
+      "roc_auc": 0.636047,
+      "f1": 0.424242,
+      "balanced_accuracy": 0.605233,
+      "flag_rate": 0.206349,
+      "spd": 0.126415,
+      "eodds": 0.261905,
+      "tpr_gap": 0.261905,
+      "fpr_gap": 0.153846,
+      "ppv_gap": 0.5,
+      "di_ratio": 0.441667,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 6,
+      "roc_auc": 0.646512,
+      "f1": 0.481928,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.335849,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 6,
+      "roc_auc": 0.613372,
+      "f1": 0.413793,
+      "balanced_accuracy": 0.615116,
+      "flag_rate": 0.142857,
+      "spd": 0.050943,
+      "eodds": 0.190476,
+      "tpr_gap": 0.190476,
+      "fpr_gap": 0.076923,
+      "ppv_gap": 0.375,
+      "di_ratio": 0.6625,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 6,
+      "roc_auc": 0.544186,
+      "f1": 0.464286,
+      "balanced_accuracy": 0.557558,
+      "flag_rate": 0.571429,
+      "spd": 0.441509,
+      "eodds": 0.589744,
+      "tpr_gap": 0.452381,
+      "fpr_gap": 0.589744,
+      "ppv_gap": 0.676471,
+      "di_ratio": 0.311765,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 7,
+      "roc_auc": 0.655329,
+      "f1": 0.439024,
+      "balanced_accuracy": 0.583333,
+      "flag_rate": 0.31746,
+      "spd": 0.065909,
+      "eodds": 0.45,
+      "tpr_gap": 0.45,
+      "fpr_gap": 0.2,
+      "ppv_gap": 0.529412,
+      "di_ratio": 0.824242,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 7,
+      "roc_auc": 0.659864,
+      "f1": 0.47619,
+      "balanced_accuracy": 0.607143,
+      "flag_rate": 0.333333,
+      "spd": 0.047727,
+      "eodds": 0.5,
+      "tpr_gap": 0.5,
+      "fpr_gap": 0.2,
+      "ppv_gap": 0.555556,
+      "di_ratio": 0.872727,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 7,
+      "roc_auc": 0.666667,
+      "f1": 0.439024,
+      "balanced_accuracy": 0.583333,
+      "flag_rate": 0.31746,
+      "spd": 0.065909,
+      "eodds": 0.45,
+      "tpr_gap": 0.45,
+      "fpr_gap": 0.2,
+      "ppv_gap": 0.529412,
+      "di_ratio": 0.824242,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 7,
+      "roc_auc": 0.666667,
+      "f1": 0.439024,
+      "balanced_accuracy": 0.583333,
+      "flag_rate": 0.31746,
+      "spd": 0.065909,
+      "eodds": 0.45,
+      "tpr_gap": 0.45,
+      "fpr_gap": 0.2,
+      "ppv_gap": 0.529412,
+      "di_ratio": 0.824242,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 7,
+      "roc_auc": 0.655329,
+      "f1": 0.5,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.238636,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 7,
+      "roc_auc": 0.65873,
+      "f1": 0.387097,
+      "balanced_accuracy": 0.595238,
+      "flag_rate": 0.15873,
+      "spd": 0.104545,
+      "eodds": 0.3,
+      "tpr_gap": 0.3,
+      "fpr_gap": 0.228571,
+      "ppv_gap": 0.75,
+      "di_ratio": 0.581818,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 7,
+      "roc_auc": 0.653628,
+      "f1": 0.444444,
+      "balanced_accuracy": 0.571429,
+      "flag_rate": 0.380952,
+      "spd": 0.15,
+      "eodds": 0.5,
+      "tpr_gap": 0.5,
+      "fpr_gap": 0.057143,
+      "ppv_gap": 0.454545,
+      "di_ratio": 0.625,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 8,
+      "roc_auc": 0.79932,
+      "f1": 0.684211,
+      "balanced_accuracy": 0.761905,
+      "flag_rate": 0.269841,
+      "spd": 0.112245,
+      "eodds": 0.5,
+      "tpr_gap": 0.5,
+      "fpr_gap": 0.121212,
+      "ppv_gap": 0.333333,
+      "di_ratio": 0.685714,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 8,
+      "roc_auc": 0.806122,
+      "f1": 0.666667,
+      "balanced_accuracy": 0.75,
+      "flag_rate": 0.285714,
+      "spd": 0.091837,
+      "eodds": 0.5,
+      "tpr_gap": 0.5,
+      "fpr_gap": 0.151515,
+      "ppv_gap": 0.384615,
+      "di_ratio": 0.742857,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 8,
+      "roc_auc": 0.820862,
+      "f1": 0.7,
+      "balanced_accuracy": 0.77381,
+      "flag_rate": 0.301587,
+      "spd": 0.071429,
+      "eodds": 0.4375,
+      "tpr_gap": 0.4375,
+      "fpr_gap": 0.151515,
+      "ppv_gap": 0.357143,
+      "di_ratio": 0.8,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 8,
+      "roc_auc": 0.820862,
+      "f1": 0.7,
+      "balanced_accuracy": 0.77381,
+      "flag_rate": 0.301587,
+      "spd": 0.071429,
+      "eodds": 0.4375,
+      "tpr_gap": 0.4375,
+      "fpr_gap": 0.151515,
+      "ppv_gap": 0.357143,
+      "di_ratio": 0.8,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 8,
+      "roc_auc": 0.79932,
+      "f1": 0.5,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.030612,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 8,
+      "roc_auc": 0.780045,
+      "f1": 0.685714,
+      "balanced_accuracy": 0.761905,
+      "flag_rate": 0.222222,
+      "spd": 0.081633,
+      "eodds": 0.3,
+      "tpr_gap": 0.3,
+      "fpr_gap": 0.060606,
+      "ppv_gap": 0.2,
+      "di_ratio": 0.714286,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 8,
+      "roc_auc": 0.734694,
+      "f1": 0.631579,
+      "balanced_accuracy": 0.72619,
+      "flag_rate": 0.269841,
+      "spd": 0.020408,
+      "eodds": 0.3,
+      "tpr_gap": 0.3,
+      "fpr_gap": 0.151515,
+      "ppv_gap": 0.384615,
+      "di_ratio": 0.928571,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 9,
+      "roc_auc": 0.679138,
+      "f1": 0.418605,
+      "balanced_accuracy": 0.559524,
+      "flag_rate": 0.349206,
+      "spd": 0.202128,
+      "eodds": 0.222222,
+      "tpr_gap": 0.222222,
+      "fpr_gap": 0.142857,
+      "ppv_gap": 0.339286,
+      "di_ratio": 0.595745,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 9,
+      "roc_auc": 0.674603,
+      "f1": 0.428571,
+      "balanced_accuracy": 0.571429,
+      "flag_rate": 0.333333,
+      "spd": 0.139628,
+      "eodds": 0.222222,
+      "tpr_gap": 0.222222,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.428571,
+      "di_ratio": 0.680851,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 9,
+      "roc_auc": 0.671202,
+      "f1": 0.428571,
+      "balanced_accuracy": 0.571429,
+      "flag_rate": 0.333333,
+      "spd": 0.139628,
+      "eodds": 0.222222,
+      "tpr_gap": 0.222222,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.428571,
+      "di_ratio": 0.680851,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 9,
+      "roc_auc": 0.671202,
+      "f1": 0.428571,
+      "balanced_accuracy": 0.571429,
+      "flag_rate": 0.333333,
+      "spd": 0.139628,
+      "eodds": 0.222222,
+      "tpr_gap": 0.222222,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.428571,
+      "di_ratio": 0.680851,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 9,
+      "roc_auc": 0.679138,
+      "f1": 0.5,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.307181,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 9,
+      "roc_auc": 0.568027,
+      "f1": 0.507937,
+      "balanced_accuracy": 0.571429,
+      "flag_rate": 0.666667,
+      "spd": 0.027926,
+      "eodds": 0.166667,
+      "tpr_gap": 0.166667,
+      "fpr_gap": 0.114286,
+      "ppv_gap": 0.222874,
+      "di_ratio": 0.959381,
+      "failed": null
+    },
+    {
+      "axis": "address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 9,
+      "roc_auc": 0.688209,
+      "f1": 0.509091,
+      "balanced_accuracy": 0.595238,
+      "flag_rate": 0.539683,
+      "spd": 0.136968,
+      "eodds": 0.228571,
+      "tpr_gap": 0.194444,
+      "fpr_gap": 0.228571,
+      "ppv_gap": 0.380952,
+      "di_ratio": 0.761574,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 0,
+      "roc_auc": 0.741971,
+      "f1": 0.512821,
+      "balanced_accuracy": 0.645072,
+      "flag_rate": 0.28125,
+      "spd": 0.35,
+      "eodds": 0.666667,
+      "tpr_gap": 0.625,
+      "fpr_gap": 0.666667,
+      "ppv_gap": 0.625,
+      "di_ratio": 0.3,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 0,
+      "roc_auc": 0.730897,
+      "f1": 0.512821,
+      "balanced_accuracy": 0.645072,
+      "flag_rate": 0.28125,
+      "spd": 0.35,
+      "eodds": 0.666667,
+      "tpr_gap": 0.625,
+      "fpr_gap": 0.666667,
+      "ppv_gap": 0.625,
+      "di_ratio": 0.3,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 0,
+      "roc_auc": 0.712071,
+      "f1": 0.512821,
+      "balanced_accuracy": 0.645072,
+      "flag_rate": 0.28125,
+      "spd": 0.125,
+      "eodds": 0.625,
+      "tpr_gap": 0.625,
+      "fpr_gap": 0.333333,
+      "ppv_gap": 0.625,
+      "di_ratio": 0.666667,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 0,
+      "roc_auc": 0.710963,
+      "f1": 0.512821,
+      "balanced_accuracy": 0.645072,
+      "flag_rate": 0.28125,
+      "spd": 0.125,
+      "eodds": 0.625,
+      "tpr_gap": 0.625,
+      "fpr_gap": 0.333333,
+      "ppv_gap": 0.625,
+      "di_ratio": 0.666667,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 0,
+      "roc_auc": 0.741971,
+      "f1": 0.494118,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.349138,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 0,
+      "roc_auc": 0.684939,
+      "f1": 0.444444,
+      "balanced_accuracy": 0.575305,
+      "flag_rate": 0.375,
+      "spd": 0.164286,
+      "eodds": 0.666667,
+      "tpr_gap": 0.666667,
+      "fpr_gap": 0.5,
+      "ppv_gap": 0.777778,
+      "di_ratio": 0.634921,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 0,
+      "roc_auc": 0.605205,
+      "f1": 0.5,
+      "balanced_accuracy": 0.578073,
+      "flag_rate": 0.609375,
+      "spd": 0.25,
+      "eodds": 0.6,
+      "tpr_gap": 0.6,
+      "fpr_gap": 0.285714,
+      "ppv_gap": 0.166667,
+      "di_ratio": 0.666667,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 1,
+      "roc_auc": 0.626744,
+      "f1": 0.487805,
+      "balanced_accuracy": 0.622093,
+      "flag_rate": 0.333333,
+      "spd": 0.291429,
+      "eodds": 1.0,
+      "tpr_gap": 1.0,
+      "fpr_gap": 0.145833,
+      "ppv_gap": 0.75,
+      "di_ratio": 0.49,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 1,
+      "roc_auc": 0.62907,
+      "f1": 0.465116,
+      "balanced_accuracy": 0.598837,
+      "flag_rate": 0.365079,
+      "spd": 0.291429,
+      "eodds": 1.0,
+      "tpr_gap": 1.0,
+      "fpr_gap": 0.083333,
+      "ppv_gap": 0.75,
+      "di_ratio": 0.49,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 1,
+      "roc_auc": 0.640698,
+      "f1": 0.5,
+      "balanced_accuracy": 0.623837,
+      "flag_rate": 0.380952,
+      "spd": 0.291429,
+      "eodds": 1.0,
+      "tpr_gap": 1.0,
+      "fpr_gap": 0.083333,
+      "ppv_gap": 0.75,
+      "di_ratio": 0.49,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 1,
+      "roc_auc": 0.640698,
+      "f1": 0.5,
+      "balanced_accuracy": 0.623837,
+      "flag_rate": 0.380952,
+      "spd": 0.291429,
+      "eodds": 1.0,
+      "tpr_gap": 1.0,
+      "fpr_gap": 0.083333,
+      "ppv_gap": 0.75,
+      "di_ratio": 0.49,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 1,
+      "roc_auc": 0.626744,
+      "f1": 0.481928,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.285714,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 1,
+      "roc_auc": 0.521512,
+      "f1": 0.45,
+      "balanced_accuracy": 0.597093,
+      "flag_rate": 0.31746,
+      "spd": 0.404762,
+      "eodds": 0.625,
+      "tpr_gap": 0.625,
+      "fpr_gap": 0.4375,
+      "ppv_gap": 0.5,
+      "di_ratio": 0.291667,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 1,
+      "roc_auc": 0.586047,
+      "f1": 0.45,
+      "balanced_accuracy": 0.597093,
+      "flag_rate": 0.31746,
+      "spd": 0.363095,
+      "eodds": 1.0,
+      "tpr_gap": 1.0,
+      "fpr_gap": 0.227941,
+      "ppv_gap": 0.75,
+      "di_ratio": 0.364583,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 2,
+      "roc_auc": 0.702948,
+      "f1": 0.434783,
+      "balanced_accuracy": 0.559524,
+      "flag_rate": 0.396825,
+      "spd": 0.23,
+      "eodds": 0.8,
+      "tpr_gap": 0.8,
+      "fpr_gap": 0.466667,
+      "ppv_gap": 0.5,
+      "di_ratio": 0.520833,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 2,
+      "roc_auc": 0.689342,
+      "f1": 0.434783,
+      "balanced_accuracy": 0.559524,
+      "flag_rate": 0.396825,
+      "spd": 0.23,
+      "eodds": 0.8,
+      "tpr_gap": 0.8,
+      "fpr_gap": 0.466667,
+      "ppv_gap": 0.5,
+      "di_ratio": 0.520833,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 2,
+      "roc_auc": 0.671202,
+      "f1": 0.465116,
+      "balanced_accuracy": 0.595238,
+      "flag_rate": 0.349206,
+      "spd": 0.275,
+      "eodds": 0.8,
+      "tpr_gap": 0.8,
+      "fpr_gap": 0.666667,
+      "ppv_gap": 1.0,
+      "di_ratio": 0.3125,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 2,
+      "roc_auc": 0.671202,
+      "f1": 0.465116,
+      "balanced_accuracy": 0.595238,
+      "flag_rate": 0.349206,
+      "spd": 0.275,
+      "eodds": 0.8,
+      "tpr_gap": 0.8,
+      "fpr_gap": 0.666667,
+      "ppv_gap": 1.0,
+      "di_ratio": 0.3125,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 2,
+      "roc_auc": 0.702948,
+      "f1": 0.5,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.24,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 2,
+      "roc_auc": 0.583333,
+      "f1": 0.352941,
+      "balanced_accuracy": 0.559524,
+      "flag_rate": 0.206349,
+      "spd": 0.24,
+      "eodds": 0.4,
+      "tpr_gap": 0.4,
+      "fpr_gap": 0.2,
+      "ppv_gap": 0.666667,
+      "di_ratio": 0.0,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 2,
+      "roc_auc": 0.628118,
+      "f1": 0.530612,
+      "balanced_accuracy": 0.630952,
+      "flag_rate": 0.444444,
+      "spd": 0.395,
+      "eodds": 1.0,
+      "tpr_gap": 1.0,
+      "fpr_gap": 0.428571,
+      "ppv_gap": 1.0,
+      "di_ratio": 0.240385,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 3,
+      "roc_auc": null,
+      "f1": null,
+      "balanced_accuracy": null,
+      "flag_rate": null,
+      "spd": null,
+      "eodds": null,
+      "tpr_gap": null,
+      "fpr_gap": null,
+      "ppv_gap": null,
+      "di_ratio": null,
+      "failed": true
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 3,
+      "roc_auc": null,
+      "f1": null,
+      "balanced_accuracy": null,
+      "flag_rate": null,
+      "spd": null,
+      "eodds": null,
+      "tpr_gap": null,
+      "fpr_gap": null,
+      "ppv_gap": null,
+      "di_ratio": null,
+      "failed": true
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 3,
+      "roc_auc": 0.729025,
+      "f1": 0.526316,
+      "balanced_accuracy": 0.654762,
+      "flag_rate": 0.269841,
+      "spd": 0.506667,
+      "eodds": 0.8,
+      "tpr_gap": 0.8,
+      "fpr_gap": 0.5,
+      "ppv_gap": 0.5,
+      "di_ratio": 0.24,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 3,
+      "roc_auc": 0.723356,
+      "f1": 0.526316,
+      "balanced_accuracy": 0.654762,
+      "flag_rate": 0.269841,
+      "spd": 0.506667,
+      "eodds": 0.8,
+      "tpr_gap": 0.8,
+      "fpr_gap": 0.5,
+      "ppv_gap": 0.5,
+      "di_ratio": 0.24,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 3,
+      "roc_auc": 0.73356,
+      "f1": 0.526316,
+      "balanced_accuracy": 0.654762,
+      "flag_rate": 0.269841,
+      "spd": 0.506667,
+      "eodds": 0.8,
+      "tpr_gap": 0.8,
+      "fpr_gap": 0.5,
+      "ppv_gap": 0.5,
+      "di_ratio": 0.24,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 3,
+      "roc_auc": 0.732426,
+      "f1": 0.526316,
+      "balanced_accuracy": 0.654762,
+      "flag_rate": 0.269841,
+      "spd": 0.506667,
+      "eodds": 0.8,
+      "tpr_gap": 0.8,
+      "fpr_gap": 0.5,
+      "ppv_gap": 0.5,
+      "di_ratio": 0.24,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 3,
+      "roc_auc": 0.729025,
+      "f1": 0.5,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.258621,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 4,
+      "roc_auc": 0.61678,
+      "f1": 0.4,
+      "balanced_accuracy": 0.559524,
+      "flag_rate": 0.301587,
+      "spd": 0.189474,
+      "eodds": 0.666667,
+      "tpr_gap": 0.666667,
+      "fpr_gap": 0.5,
+      "ppv_gap": 1.0,
+      "di_ratio": 0.526316,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 4,
+      "roc_auc": 0.613379,
+      "f1": 0.45,
+      "balanced_accuracy": 0.595238,
+      "flag_rate": 0.301587,
+      "spd": 0.15,
+      "eodds": 0.75,
+      "tpr_gap": 0.75,
+      "fpr_gap": 0.5,
+      "ppv_gap": 1.0,
+      "di_ratio": 0.625,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 4,
+      "roc_auc": 0.620181,
+      "f1": 0.45,
+      "balanced_accuracy": 0.595238,
+      "flag_rate": 0.301587,
+      "spd": 0.15,
+      "eodds": 0.75,
+      "tpr_gap": 0.75,
+      "fpr_gap": 0.5,
+      "ppv_gap": 1.0,
+      "di_ratio": 0.625,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 4,
+      "roc_auc": 0.620181,
+      "f1": 0.45,
+      "balanced_accuracy": 0.595238,
+      "flag_rate": 0.301587,
+      "spd": 0.15,
+      "eodds": 0.75,
+      "tpr_gap": 0.75,
+      "fpr_gap": 0.5,
+      "ppv_gap": 1.0,
+      "di_ratio": 0.625,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 4,
+      "roc_auc": 0.61678,
+      "f1": 0.5,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.389474,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 4,
+      "roc_auc": 0.497732,
+      "f1": 0.451613,
+      "balanced_accuracy": 0.511905,
+      "flag_rate": 0.650794,
+      "spd": 0.475,
+      "eodds": 1.0,
+      "tpr_gap": 0.15,
+      "fpr_gap": 1.0,
+      "ppv_gap": 0.785714,
+      "di_ratio": 0.457143,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 4,
+      "roc_auc": 0.544218,
+      "f1": 0.431373,
+      "balanced_accuracy": 0.535714,
+      "flag_rate": 0.47619,
+      "spd": 0.381579,
+      "eodds": 1.0,
+      "tpr_gap": 1.0,
+      "fpr_gap": 0.533333,
+      "ppv_gap": 1.0,
+      "di_ratio": 0.395833,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 5,
+      "roc_auc": 0.635659,
+      "f1": 0.470588,
+      "balanced_accuracy": 0.576412,
+      "flag_rate": 0.46875,
+      "spd": 0.34,
+      "eodds": 0.6,
+      "tpr_gap": 0.6,
+      "fpr_gap": 0.55,
+      "ppv_gap": 0.194444,
+      "di_ratio": 0.514286,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 5,
+      "roc_auc": 0.623477,
+      "f1": 0.489796,
+      "balanced_accuracy": 0.599668,
+      "flag_rate": 0.4375,
+      "spd": 0.24,
+      "eodds": 0.6,
+      "tpr_gap": 0.6,
+      "fpr_gap": 0.35,
+      "ppv_gap": 0.166667,
+      "di_ratio": 0.6,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 5,
+      "roc_auc": 0.615725,
+      "f1": 0.44898,
+      "balanced_accuracy": 0.56423,
+      "flag_rate": 0.4375,
+      "spd": 0.34,
+      "eodds": 0.7,
+      "tpr_gap": 0.7,
+      "fpr_gap": 0.55,
+      "ppv_gap": 0.111111,
+      "di_ratio": 0.514286,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 5,
+      "roc_auc": 0.614618,
+      "f1": 0.44898,
+      "balanced_accuracy": 0.56423,
+      "flag_rate": 0.4375,
+      "spd": 0.34,
+      "eodds": 0.7,
+      "tpr_gap": 0.7,
+      "fpr_gap": 0.55,
+      "ppv_gap": 0.111111,
+      "di_ratio": 0.514286,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 5,
+      "roc_auc": 0.635659,
+      "f1": 0.494118,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.333333,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 5,
+      "roc_auc": 0.5,
+      "f1": 0.0,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 0.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": null,
+      "di_ratio": null,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 5,
+      "roc_auc": 0.596346,
+      "f1": 0.553846,
+      "balanced_accuracy": 0.626246,
+      "flag_rate": 0.6875,
+      "spd": 0.3,
+      "eodds": 0.3,
+      "tpr_gap": 0.3,
+      "fpr_gap": 0.3,
+      "ppv_gap": 0.305556,
+      "di_ratio": 0.666667,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 6,
+      "roc_auc": 0.646512,
+      "f1": 0.424242,
+      "balanced_accuracy": 0.605233,
+      "flag_rate": 0.206349,
+      "spd": 0.25,
+      "eodds": 0.454545,
+      "tpr_gap": 0.454545,
+      "fpr_gap": 0.166667,
+      "ppv_gap": 0.75,
+      "di_ratio": 0.0,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 6,
+      "roc_auc": 0.637209,
+      "f1": 0.424242,
+      "balanced_accuracy": 0.605233,
+      "flag_rate": 0.206349,
+      "spd": 0.25,
+      "eodds": 0.454545,
+      "tpr_gap": 0.454545,
+      "fpr_gap": 0.166667,
+      "ppv_gap": 0.75,
+      "di_ratio": 0.0,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 6,
+      "roc_auc": 0.630233,
+      "f1": 0.411765,
+      "balanced_accuracy": 0.593605,
+      "flag_rate": 0.222222,
+      "spd": 0.25,
+      "eodds": 0.454545,
+      "tpr_gap": 0.454545,
+      "fpr_gap": 0.222222,
+      "ppv_gap": 0.8,
+      "di_ratio": 0.0,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 6,
+      "roc_auc": 0.630233,
+      "f1": 0.411765,
+      "balanced_accuracy": 0.593605,
+      "flag_rate": 0.222222,
+      "spd": 0.25,
+      "eodds": 0.454545,
+      "tpr_gap": 0.454545,
+      "fpr_gap": 0.222222,
+      "ppv_gap": 0.8,
+      "di_ratio": 0.0,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 6,
+      "roc_auc": 0.646512,
+      "f1": 0.481928,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.52381,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 6,
+      "roc_auc": 0.579651,
+      "f1": 0.4375,
+      "balanced_accuracy": 0.501163,
+      "flag_rate": 0.698413,
+      "spd": 0.583333,
+      "eodds": 1.0,
+      "tpr_gap": 0.484848,
+      "fpr_gap": 1.0,
+      "ppv_gap": 0.928571,
+      "di_ratio": 0.3,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 6,
+      "roc_auc": 0.609302,
+      "f1": 0.4,
+      "balanced_accuracy": 0.560465,
+      "flag_rate": 0.31746,
+      "spd": 0.40625,
+      "eodds": 0.5,
+      "tpr_gap": 0.5,
+      "fpr_gap": 0.380952,
+      "ppv_gap": 0.8,
+      "di_ratio": 0.0,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 7,
+      "roc_auc": 0.655329,
+      "f1": 0.439024,
+      "balanced_accuracy": 0.583333,
+      "flag_rate": 0.31746,
+      "spd": 0.466667,
+      "eodds": 0.52381,
+      "tpr_gap": 0.454545,
+      "fpr_gap": 0.52381,
+      "ppv_gap": 0.666667,
+      "di_ratio": 0.3,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 7,
+      "roc_auc": 0.664399,
+      "f1": 0.465116,
+      "balanced_accuracy": 0.595238,
+      "flag_rate": 0.349206,
+      "spd": 0.466667,
+      "eodds": 0.555556,
+      "tpr_gap": 0.555556,
+      "fpr_gap": 0.452381,
+      "ppv_gap": 0.625,
+      "di_ratio": 0.3,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 7,
+      "roc_auc": 0.671202,
+      "f1": 0.487805,
+      "balanced_accuracy": 0.619048,
+      "flag_rate": 0.31746,
+      "spd": 0.666667,
+      "eodds": 0.666667,
+      "tpr_gap": 0.555556,
+      "fpr_gap": 0.666667,
+      "ppv_gap": 0.625,
+      "di_ratio": 0.0,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 7,
+      "roc_auc": 0.672336,
+      "f1": 0.487805,
+      "balanced_accuracy": 0.619048,
+      "flag_rate": 0.31746,
+      "spd": 0.666667,
+      "eodds": 0.666667,
+      "tpr_gap": 0.555556,
+      "fpr_gap": 0.666667,
+      "ppv_gap": 0.625,
+      "di_ratio": 0.0,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 7,
+      "roc_auc": 0.655329,
+      "f1": 0.5,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.391304,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 7,
+      "roc_auc": 0.660431,
+      "f1": 0.342857,
+      "balanced_accuracy": 0.547619,
+      "flag_rate": 0.222222,
+      "spd": 0.2125,
+      "eodds": 0.404762,
+      "tpr_gap": 0.363636,
+      "fpr_gap": 0.404762,
+      "ppv_gap": 0.666667,
+      "di_ratio": 0.46875,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 7,
+      "roc_auc": 0.670635,
+      "f1": 0.418605,
+      "balanced_accuracy": 0.559524,
+      "flag_rate": 0.349206,
+      "spd": 0.354167,
+      "eodds": 0.454545,
+      "tpr_gap": 0.454545,
+      "fpr_gap": 0.428571,
+      "ppv_gap": 0.5,
+      "di_ratio": 0.46875,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 8,
+      "roc_auc": 0.79932,
+      "f1": 0.684211,
+      "balanced_accuracy": 0.761905,
+      "flag_rate": 0.269841,
+      "spd": 0.269231,
+      "eodds": 0.6,
+      "tpr_gap": 0.6,
+      "fpr_gap": 0.153846,
+      "ppv_gap": 0.333333,
+      "di_ratio": 0.461538,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 8,
+      "roc_auc": 0.803855,
+      "f1": 0.631579,
+      "balanced_accuracy": 0.72619,
+      "flag_rate": 0.269841,
+      "spd": 0.083333,
+      "eodds": 0.6,
+      "tpr_gap": 0.6,
+      "fpr_gap": 0.153846,
+      "ppv_gap": 0.428571,
+      "di_ratio": 0.75,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 8,
+      "roc_auc": 0.802721,
+      "f1": 0.666667,
+      "balanced_accuracy": 0.75,
+      "flag_rate": 0.285714,
+      "spd": 0.083333,
+      "eodds": 0.5,
+      "tpr_gap": 0.5,
+      "fpr_gap": 0.153846,
+      "ppv_gap": 0.428571,
+      "di_ratio": 0.75,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 8,
+      "roc_auc": 0.802721,
+      "f1": 0.666667,
+      "balanced_accuracy": 0.75,
+      "flag_rate": 0.285714,
+      "spd": 0.083333,
+      "eodds": 0.5,
+      "tpr_gap": 0.5,
+      "fpr_gap": 0.153846,
+      "ppv_gap": 0.428571,
+      "di_ratio": 0.75,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 8,
+      "roc_auc": 0.79932,
+      "f1": 0.5,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.269231,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 8,
+      "roc_auc": 0.761338,
+      "f1": 0.515152,
+      "balanced_accuracy": 0.571429,
+      "flag_rate": 0.714286,
+      "spd": 0.254181,
+      "eodds": 0.512821,
+      "tpr_gap": 0.5,
+      "fpr_gap": 0.512821,
+      "ppv_gap": 0.55,
+      "di_ratio": 0.707692,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 8,
+      "roc_auc": 0.744331,
+      "f1": 0.578947,
+      "balanced_accuracy": 0.690476,
+      "flag_rate": 0.269841,
+      "spd": 0.208333,
+      "eodds": 0.266667,
+      "tpr_gap": 0.266667,
+      "fpr_gap": 0.2,
+      "ppv_gap": 0.5,
+      "di_ratio": 0.375,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "baseline",
+      "fold": 9,
+      "roc_auc": 0.679138,
+      "f1": 0.418605,
+      "balanced_accuracy": 0.559524,
+      "flag_rate": 0.349206,
+      "spd": 0.227273,
+      "eodds": 0.6,
+      "tpr_gap": 0.6,
+      "fpr_gap": 0.366667,
+      "ppv_gap": 0.75,
+      "di_ratio": 0.545455,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "blind",
+      "fold": 9,
+      "roc_auc": 0.678005,
+      "f1": 0.418605,
+      "balanced_accuracy": 0.559524,
+      "flag_rate": 0.349206,
+      "spd": 0.181818,
+      "eodds": 0.6,
+      "tpr_gap": 0.6,
+      "fpr_gap": 0.2,
+      "ppv_gap": 0.75,
+      "di_ratio": 0.636364,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "reweighing",
+      "fold": 9,
+      "roc_auc": 0.687075,
+      "f1": 0.434783,
+      "balanced_accuracy": 0.559524,
+      "flag_rate": 0.396825,
+      "spd": 0.305,
+      "eodds": 0.714286,
+      "tpr_gap": 0.714286,
+      "fpr_gap": 0.416667,
+      "ppv_gap": 0.666667,
+      "di_ratio": 0.512,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "blind_reweighing",
+      "fold": 9,
+      "roc_auc": 0.687075,
+      "f1": 0.434783,
+      "balanced_accuracy": 0.559524,
+      "flag_rate": 0.396825,
+      "spd": 0.305,
+      "eodds": 0.714286,
+      "tpr_gap": 0.714286,
+      "fpr_gap": 0.416667,
+      "ppv_gap": 0.666667,
+      "di_ratio": 0.512,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "thesis_thresholds",
+      "fold": 9,
+      "roc_auc": 0.679138,
+      "f1": 0.5,
+      "balanced_accuracy": 0.5,
+      "flag_rate": 1.0,
+      "spd": 0.0,
+      "eodds": 0.0,
+      "tpr_gap": 0.0,
+      "fpr_gap": 0.0,
+      "ppv_gap": 0.425,
+      "di_ratio": 1.0,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_eo",
+      "fold": 9,
+      "roc_auc": 0.669501,
+      "f1": 0.535211,
+      "balanced_accuracy": 0.583333,
+      "flag_rate": 0.793651,
+      "spd": 0.155,
+      "eodds": 0.333333,
+      "tpr_gap": 0.25,
+      "fpr_gap": 0.333333,
+      "ppv_gap": 0.492063,
+      "di_ratio": 0.822857,
+      "failed": null
+    },
+    {
+      "axis": "sex+address",
+      "model": "logistic_regression",
+      "method": "threshold_opt_dp",
+      "fold": 9,
+      "roc_auc": 0.635488,
+      "f1": 0.4375,
+      "balanced_accuracy": 0.619048,
+      "flag_rate": 0.174603,
+      "spd": 0.192727,
+      "eodds": 0.571429,
+      "tpr_gap": 0.571429,
+      "fpr_gap": 0.133333,
+      "ppv_gap": 1.0,
+      "di_ratio": 0.293333,
+      "failed": null
+    }
+  ]
+}

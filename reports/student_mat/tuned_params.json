@@ -1,0 +1,52 @@
+{
+  "logistic_regression": {
+    "params": {
+      "C": 0.001029
+    },
+    "cv_auc": 0.683494
+  },
+  "random_forest": {
+    "params": {
+      "n_estimators": 300,
+      "max_depth": 5,
+      "min_samples_leaf": 18,
+      "max_features": "log2"
+    },
+    "cv_auc": 0.685472
+  },
+  "hist_gradient_boosting": {
+    "params": {
+      "learning_rate": 0.016846,
+      "max_iter": 100,
+      "max_depth": 5,
+      "min_samples_leaf": 11,
+      "l2_regularization": 0.576948
+    },
+    "cv_auc": 0.662349
+  },
+  "lightgbm": {
+    "params": {
+      "n_estimators": 250,
+      "learning_rate": 0.029914,
+      "num_leaves": 46,
+      "min_child_samples": 38,
+      "subsample": 0.67362,
+      "colsample_bytree": 0.631902,
+      "reg_lambda": 0.006865,
+      "subsample_freq": 1
+    },
+    "cv_auc": 0.676485
+  },
+  "xgboost": {
+    "params": {
+      "n_estimators": 500,
+      "learning_rate": 0.022864,
+      "max_depth": 7,
+      "min_child_weight": 7.508812,
+      "subsample": 0.639957,
+      "colsample_bytree": 0.51949,
+      "reg_lambda": 0.005672
+    },
+    "cv_auc": 0.673899
+  }
+}

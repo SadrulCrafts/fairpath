@@ -1,0 +1,690 @@
+{
+  "dataset": "student_mat",
+  "blind": true,
+  "fields": [
+    {
+      "name": "school",
+      "label": "School",
+      "help": null,
+      "group": "School",
+      "type": "categorical",
+      "protected": false,
+      "in_model": true,
+      "actionable": null,
+      "options": [
+        {
+          "value": "GP",
+          "label": "Gabriel Pereira",
+          "count": 349
+        },
+        {
+          "value": "MS",
+          "label": "Mousinho da Silveira",
+          "count": 46
+        }
+      ],
+      "default": "GP"
+    },
+    {
+      "name": "sex",
+      "label": "Sex",
+      "help": null,
+      "group": "About the student",
+      "type": "categorical",
+      "protected": true,
+      "in_model": false,
+      "actionable": null,
+      "options": [
+        {
+          "value": "F",
+          "label": "Female",
+          "count": 208
+        },
+        {
+          "value": "M",
+          "label": "Male",
+          "count": 187
+        }
+      ],
+      "default": "F"
+    },
+    {
+      "name": "age",
+      "label": "Age",
+      "help": null,
+      "group": "About the student",
+      "type": "numeric",
+      "protected": true,
+      "in_model": true,
+      "actionable": null,
+      "min": 15.0,
+      "max": 22.0,
+      "step": 1.0,
+      "data_min": 15.0,
+      "data_max": 22.0,
+      "default": 17.0
+    },
+    {
+      "name": "address",
+      "label": "Home address",
+      "help": null,
+      "group": "About the student",
+      "type": "categorical",
+      "protected": true,
+      "in_model": true,
+      "actionable": null,
+      "options": [
+        {
+          "value": "U",
+          "label": "Urban",
+          "count": 307
+        },
+        {
+          "value": "R",
+          "label": "Rural",
+          "count": 88
+        }
+      ],
+      "default": "U"
+    },
+    {
+      "name": "health",
+      "label": "Self-rated health",
+      "help": "1 = very bad, 5 = very good",
+      "group": "About the student",
+      "type": "numeric",
+      "protected": false,
+      "in_model": true,
+      "actionable": null,
+      "min": 1.0,
+      "max": 5.0,
+      "step": 1.0,
+      "data_min": 1.0,
+      "data_max": 5.0,
+      "default": 4.0
+    },
+    {
+      "name": "romantic",
+      "label": "In a relationship",
+      "help": null,
+      "group": "About the student",
+      "type": "categorical",
+      "protected": true,
+      "in_model": true,
+      "actionable": null,
+      "options": [
+        {
+          "value": "no",
+          "label": "No",
+          "count": 263
+        },
+        {
+          "value": "yes",
+          "label": "Yes",
+          "count": 132
+        }
+      ],
+      "default": "no"
+    },
+    {
+      "name": "famsize",
+      "label": "Family size",
+      "help": null,
+      "group": "Family",
+      "type": "categorical",
+      "protected": false,
+      "in_model": true,
+      "actionable": null,
+      "options": [
+        {
+          "value": "GT3",
+          "label": "More than 3",
+          "count": 281
+        },
+        {
+          "value": "LE3",
+          "label": "3 or fewer",
+          "count": 114
+        }
+      ],
+      "default": "GT3"
+    },
+    {
+      "name": "Pstatus",
+      "label": "Parents' cohabitation",
+      "help": null,
+      "group": "Family",
+      "type": "categorical",
+      "protected": true,
+      "in_model": true,
+      "actionable": null,
+      "options": [
+        {
+          "value": "T",
+          "label": "Living together",
+          "count": 354
+        },
+        {
+          "value": "A",
+          "label": "Apart",
+          "count": 41
+        }
+      ],
+      "default": "T"
+    },
+    {
+      "name": "Medu",
+      "label": "Mother's education",
+      "help": "0 none, 1 primary (4th grade), 2 5th-9th grade, 3 secondary, 4 higher",
+      "group": "Family",
+      "type": "numeric",
+      "protected": true,
+      "in_model": true,
+      "actionable": null,
+      "min": 0.0,
+      "max": 4.0,
+      "step": 1.0,
+      "data_min": 0.0,
+      "data_max": 4.0,
+      "default": 3.0
+    },
+    {
+      "name": "Fedu",
+      "label": "Father's education",
+      "help": "0 none, 1 primary (4th grade), 2 5th-9th grade, 3 secondary, 4 higher",
+      "group": "Family",
+      "type": "numeric",
+      "protected": true,
+      "in_model": true,
+      "actionable": null,
+      "min": 0.0,
+      "max": 4.0,
+      "step": 1.0,
+      "data_min": 0.0,
+      "data_max": 4.0,
+      "default": 2.0
+    },
+    {
+      "name": "Mjob",
+      "label": "Mother's job",
+      "help": null,
+      "group": "Family",
+      "type": "categorical",
+      "protected": false,
+      "in_model": true,
+      "actionable": null,
+      "options": [
+        {
+          "value": "other",
+          "label": "Other",
+          "count": 141
+        },
+        {
+          "value": "services",
+          "label": "Civil services",
+          "count": 103
+        },
+        {
+          "value": "at_home",
+          "label": "At home",
+          "count": 59
+        },
+        {
+          "value": "teacher",
+          "label": "Teacher",
+          "count": 58
+        },
+        {
+          "value": "health",
+          "label": "Health care",
+          "count": 34
+        }
+      ],
+      "default": "other"
+    },
+    {
+      "name": "Fjob",
+      "label": "Father's job",
+      "help": null,
+      "group": "Family",
+      "type": "categorical",
+      "protected": false,
+      "in_model": true,
+      "actionable": null,
+      "options": [
+        {
+          "value": "other",
+          "label": "Other",
+          "count": 217
+        },
+        {
+          "value": "services",
+          "label": "Civil services",
+          "count": 111
+        },
+        {
+          "value": "teacher",
+          "label": "Teacher",
+          "count": 29
+        },
+        {
+          "value": "at_home",
+          "label": "At home",
+          "count": 20
+        },
+        {
+          "value": "health",
+          "label": "Health care",
+          "count": 18
+        }
+      ],
+      "default": "other"
+    },
+    {
+      "name": "guardian",
+      "label": "Guardian",
+      "help": null,
+      "group": "Family",
+      "type": "categorical",
+      "protected": false,
+      "in_model": true,
+      "actionable": null,
+      "options": [
+        {
+          "value": "mother",
+          "label": "Mother",
+          "count": 273
+        },
+        {
+          "value": "father",
+          "label": "Father",
+          "count": 90
+        },
+        {
+          "value": "other",
+          "label": "Other",
+          "count": 32
+        }
+      ],
+      "default": "mother"
+    },
+    {
+      "name": "famrel",
+      "label": "Family relationship quality",
+      "help": "1 = very bad, 5 = excellent",
+      "group": "Family",
+      "type": "numeric",
+      "protected": false,
+      "in_model": true,
+      "actionable": null,
+      "min": 1.0,
+      "max": 5.0,
+      "step": 1.0,
+      "data_min": 1.0,
+      "data_max": 5.0,
+      "default": 4.0
+    },
+    {
+      "name": "famsup",
+      "label": "Family educational support",
+      "help": null,
+      "group": "Family",
+      "type": "categorical",
+      "protected": false,
+      "in_model": true,
+      "actionable": null,
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes",
+          "count": 242
+        },
+        {
+          "value": "no",
+          "label": "No",
+          "count": 153
+        }
+      ],
+      "default": "yes"
+    },
+    {
+      "name": "reason",
+      "label": "Reason for choosing school",
+      "help": null,
+      "group": "School",
+      "type": "categorical",
+      "protected": false,
+      "in_model": true,
+      "actionable": null,
+      "options": [
+        {
+          "value": "course",
+          "label": "Course preference",
+          "count": 145
+        },
+        {
+          "value": "home",
+          "label": "Close to home",
+          "count": 109
+        },
+        {
+          "value": "reputation",
+          "label": "Reputation",
+          "count": 105
+        },
+        {
+          "value": "other",
+          "label": "Other",
+          "count": 36
+        }
+      ],
+      "default": "course"
+    },
+    {
+      "name": "traveltime",
+      "label": "Travel time to school",
+      "help": "1 <15 min, 2 15-30 min, 3 30-60 min, 4 >1 hour",
+      "group": "School",
+      "type": "numeric",
+      "protected": false,
+      "in_model": true,
+      "actionable": null,
+      "min": 1.0,
+      "max": 4.0,
+      "step": 1.0,
+      "data_min": 1.0,
+      "data_max": 4.0,
+      "default": 1.0
+    },
+    {
+      "name": "nursery",
+      "label": "Attended nursery school",
+      "help": null,
+      "group": "School",
+      "type": "categorical",
+      "protected": false,
+      "in_model": true,
+      "actionable": null,
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes",
+          "count": 314
+        },
+        {
+          "value": "no",
+          "label": "No",
+          "count": 81
+        }
+      ],
+      "default": "yes"
+    },
+    {
+      "name": "failures",
+      "label": "Past class failures",
+      "help": "Number of past failures, capped at 3",
+      "group": "Study habits",
+      "type": "numeric",
+      "protected": false,
+      "in_model": true,
+      "actionable": null,
+      "min": 0.0,
+      "max": 3.0,
+      "step": 1.0,
+      "data_min": 0.0,
+      "data_max": 3.0,
+      "default": 0.0
+    },
+    {
+      "name": "studytime",
+      "label": "Weekly study time",
+      "help": "1 <2 h, 2 2-5 h, 3 5-10 h, 4 >10 h",
+      "group": "Study habits",
+      "type": "numeric",
+      "protected": false,
+      "in_model": true,
+      "actionable": {
+        "direction": "increase",
+        "to": null,
+        "action": "Agree a realistic weekly study plan with a mentor"
+      },
+      "min": 1.0,
+      "max": 4.0,
+      "step": 1.0,
+      "data_min": 1.0,
+      "data_max": 4.0,
+      "default": 2.0
+    },
+    {
+      "name": "absences",
+      "label": "School absences",
+      "help": null,
+      "group": "Study habits",
+      "type": "numeric",
+      "protected": false,
+      "in_model": true,
+      "actionable": {
+        "direction": "decrease",
+        "to": null,
+        "action": "Follow up on attendance early and remove barriers to coming in"
+      },
+      "min": 0.0,
+      "max": 93.0,
+      "step": 1.0,
+      "data_min": 0.0,
+      "data_max": 75.0,
+      "default": 4.0
+    },
+    {
+      "name": "schoolsup",
+      "label": "Extra school support",
+      "help": null,
+      "group": "Support",
+      "type": "categorical",
+      "protected": false,
+      "in_model": true,
+      "actionable": {
+        "direction": null,
+        "to": "yes",
+        "action": "Offer a place in the school's extra-support programme"
+      },
+      "options": [
+        {
+          "value": "no",
+          "label": "No",
+          "count": 344
+        },
+        {
+          "value": "yes",
+          "label": "Yes",
+          "count": 51
+        }
+      ],
+      "default": "no"
+    },
+    {
+      "name": "paid",
+      "label": "Extra paid classes",
+      "help": null,
+      "group": "Support",
+      "type": "categorical",
+      "protected": false,
+      "in_model": true,
+      "actionable": {
+        "direction": null,
+        "to": "yes",
+        "action": "Connect the student with free or subsidised tutoring"
+      },
+      "options": [
+        {
+          "value": "no",
+          "label": "No",
+          "count": 214
+        },
+        {
+          "value": "yes",
+          "label": "Yes",
+          "count": 181
+        }
+      ],
+      "default": "no"
+    },
+    {
+      "name": "higher",
+      "label": "Wants higher education",
+      "help": null,
+      "group": "Support",
+      "type": "categorical",
+      "protected": false,
+      "in_model": true,
+      "actionable": {
+        "direction": null,
+        "to": "yes",
+        "action": "Career and university guidance session"
+      },
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes",
+          "count": 375
+        },
+        {
+          "value": "no",
+          "label": "No",
+          "count": 20
+        }
+      ],
+      "default": "yes"
+    },
+    {
+      "name": "internet",
+      "label": "Internet at home",
+      "help": null,
+      "group": "Support",
+      "type": "categorical",
+      "protected": false,
+      "in_model": true,
+      "actionable": {
+        "direction": null,
+        "to": "yes",
+        "action": "Loan a device or data plan for schoolwork"
+      },
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes",
+          "count": 329
+        },
+        {
+          "value": "no",
+          "label": "No",
+          "count": 66
+        }
+      ],
+      "default": "yes"
+    },
+    {
+      "name": "activities",
+      "label": "Extra-curricular activities",
+      "help": null,
+      "group": "Lifestyle",
+      "type": "categorical",
+      "protected": false,
+      "in_model": true,
+      "actionable": {
+        "direction": null,
+        "to": "yes",
+        "action": "Invite the student to a club or activity"
+      },
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes",
+          "count": 201
+        },
+        {
+          "value": "no",
+          "label": "No",
+          "count": 194
+        }
+      ],
+      "default": "yes"
+    },
+    {
+      "name": "freetime",
+      "label": "Free time after school",
+      "help": "1 very low, 5 very high",
+      "group": "Lifestyle",
+      "type": "numeric",
+      "protected": false,
+      "in_model": true,
+      "actionable": null,
+      "min": 1.0,
+      "max": 5.0,
+      "step": 1.0,
+      "data_min": 1.0,
+      "data_max": 5.0,
+      "default": 3.0
+    },
+    {
+      "name": "goout",
+      "label": "Going out with friends",
+      "help": "1 very low, 5 very high",
+      "group": "Lifestyle",
+      "type": "numeric",
+      "protected": false,
+      "in_model": true,
+      "actionable": {
+        "direction": "decrease",
+        "to": null,
+        "action": "Talk through balancing social time with study"
+      },
+      "min": 1.0,
+      "max": 5.0,
+      "step": 1.0,
+      "data_min": 1.0,
+      "data_max": 5.0,
+      "default": 3.0
+    },
+    {
+      "name": "Dalc",
+      "label": "Weekday alcohol use",
+      "help": "1 very low, 5 very high",
+      "group": "Lifestyle",
+      "type": "numeric",
+      "protected": false,
+      "in_model": true,
+      "actionable": {
+        "direction": "decrease",
+        "to": null,
+        "action": "Refer to the school wellbeing / counselling service"
+      },
+      "min": 1.0,
+      "max": 5.0,
+      "step": 1.0,
+      "data_min": 1.0,
+      "data_max": 5.0,
+      "default": 1.0
+    },
+    {
+      "name": "Walc",
+      "label": "Weekend alcohol use",
+      "help": "1 very low, 5 very high",
+      "group": "Lifestyle",
+      "type": "numeric",
+      "protected": false,
+      "in_model": true,
+      "actionable": {
+        "direction": "decrease",
+        "to": null,
+        "action": "Refer to the school wellbeing / counselling service"
+      },
+      "min": 1.0,
+      "max": 5.0,
+      "step": 1.0,
+      "data_min": 1.0,
+      "data_max": 5.0,
+      "default": 2.0
+    }
+  ]
+}

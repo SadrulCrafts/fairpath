@@ -1,0 +1,648 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-11-01T08:36:56Z",
+  "synthetic": false,
+  "datasets": {
+    "dropout": {
+      "dataset": "dropout",
+      "title": "Higher-education dropout (Portugal, n = 3,630)",
+      "short_title": "Dropout",
+      "description": "Records of students at a Portuguese polytechnic, enrolled across 17 undergraduate programmes up to 2018/19. Only information available at enrolment is used.\n",
+      "licence": "CC BY 4.0",
+      "citation": "V. Realinho, J. Machado, L. Baptista and M. V. Martins, \"Predicting Student Dropout and Academic Success,\" Data, vol. 7, no. 11, p. 146, 2022. doi:10.3390/data7110146\n",
+      "source_url": "https://archive.ics.uci.edu/dataset/697/predict+students+dropout+and+academic+success",
+      "n": 3630,
+      "n_test": 726,
+      "data_source": "real",
+      "at_risk_label": "Dropped out",
+      "model": "xgboost",
+      "model_label": "XGBoost",
+      "threshold": 0.37,
+      "test": {
+        "roc_auc": {
+          "value": 0.860892,
+          "lo": 0.833411,
+          "hi": 0.888349
+        },
+        "pr_auc": {
+          "value": 0.828071,
+          "lo": 0.791946,
+          "hi": 0.86202
+        },
+        "brier": {
+          "value": 0.141817,
+          "lo": 0.12809,
+          "hi": 0.155812
+        },
+        "ece": {
+          "value": 0.029647,
+          "lo": 0.027977,
+          "hi": 0.062216
+        },
+        "f1": {
+          "value": 0.725458,
+          "lo": 0.689186,
+          "hi": 0.759426
+        },
+        "precision": {
+          "value": 0.687697,
+          "lo": 0.650452,
+          "hi": 0.728469
+        },
+        "recall": {
+          "value": 0.767606,
+          "lo": 0.71831,
+          "hi": 0.816901
+        }
+      },
+      "baseline_test": {
+        "roc_auc": {
+          "value": 0.864094,
+          "lo": 0.837177,
+          "hi": 0.891315
+        },
+        "f1": {
+          "value": 0.735441,
+          "lo": 0.700503,
+          "hi": 0.769492
+        },
+        "recall": {
+          "value": 0.778169,
+          "lo": 0.728873,
+          "hi": 0.827465
+        }
+      },
+      "calibration": {
+        "method": "none",
+        "test_ece_before": 0.029647,
+        "test_ece_after": 0.029647
+      },
+      "conformal": {
+        "alpha": 0.1,
+        "qhat": 0.689729,
+        "test": {
+          "coverage": 0.911846,
+          "avg_set_size": 1.275482,
+          "uncertain_share": 0.275482
+        }
+      },
+      "primary_axis": "gender",
+      "primary_label": "Gender",
+      "fairness": {
+        "deployed": {
+          "spd": {
+            "value": 0.230857,
+            "lo": 0.163322,
+            "hi": 0.297987,
+            "boot_sd": 0.034241,
+            "label": "Demographic parity difference",
+            "perm_p": 0.0005
+          },
+          "eodds": {
+            "value": 0.149617,
+            "lo": 0.06172,
+            "hi": 0.243486,
+            "boot_sd": 0.047433,
+            "label": "Equalized odds difference",
+            "perm_p": 0.005997
+          },
+          "tpr_gap": {
+            "value": 0.035714,
+            "lo": 0.000595,
+            "hi": 0.127183,
+            "boot_sd": 0.034803,
+            "label": "Equal opportunity gap",
+            "perm_p": 0.498751
+          },
+          "fpr_gap": {
+            "value": 0.149617,
+            "lo": 0.055805,
+            "hi": 0.243486,
+            "boot_sd": 0.048536,
+            "label": "False positive rate gap",
+            "perm_p": 0.001
+          }
+        },
+        "baseline": {
+          "spd": {
+            "value": 0.389479,
+            "lo": 0.321758,
+            "hi": 0.451105,
+            "boot_sd": 0.032858,
+            "label": "Demographic parity difference",
+            "perm_p": 0.0005
+          },
+          "eodds": {
+            "value": 0.328094,
+            "lo": 0.228148,
+            "hi": 0.4251,
+            "boot_sd": 0.050517,
+            "label": "Equalized odds difference",
+            "perm_p": 0.0005
+          },
+          "tpr_gap": {
+            "value": 0.183929,
+            "lo": 0.085516,
+            "hi": 0.274023,
+            "boot_sd": 0.047622,
+            "label": "Equal opportunity gap",
+            "perm_p": 0.0005
+          },
+          "fpr_gap": {
+            "value": 0.328094,
+            "lo": 0.228148,
+            "hi": 0.4251,
+            "boot_sd": 0.050793,
+            "label": "False positive rate gap",
+            "perm_p": 0.0005
+          }
+        },
+        "groups": [
+          {
+            "group": "0",
+            "label": "Female",
+            "n": 476,
+            "n_at_risk": 144,
+            "base_rate": 0.302521,
+            "flag_rate": 0.357143,
+            "tpr": 0.75,
+            "fpr": 0.186747,
+            "fnr": 0.25,
+            "ppv": 0.635294,
+            "accuracy": 0.794118,
+            "mean_score": 0.348715,
+            "reliability": "ok",
+            "ece": 0.060489,
+            "coverage": 0.920168
+          },
+          {
+            "group": "1",
+            "label": "Male",
+            "n": 250,
+            "n_at_risk": 140,
+            "base_rate": 0.56,
+            "flag_rate": 0.588,
+            "tpr": 0.785714,
+            "fpr": 0.336364,
+            "fnr": 0.214286,
+            "ppv": 0.748299,
+            "accuracy": 0.732,
+            "mean_score": 0.518068,
+            "reliability": "ok",
+            "ece": 0.063709,
+            "coverage": 0.896
+          }
+        ]
+      },
+      "preflight": {
+        "gender": {
+          "label": "Gender",
+          "v1": "Attempt mitigation",
+          "v1_passed": true,
+          "v2": "Mitigate and measure",
+          "v2_code": "mitigate"
+        },
+        "debtor": {
+          "label": "Debtor status",
+          "v1": "Do not mitigate",
+          "v1_passed": false,
+          "v2": "Insufficient data: report intervals, do not claim mitigation success",
+          "v2_code": "insufficient"
+        },
+        "age_group": {
+          "label": "Age at enrolment",
+          "v1": "Do not mitigate",
+          "v1_passed": false,
+          "v2": "Insufficient data: report intervals, do not claim mitigation success",
+          "v2_code": "insufficient"
+        },
+        "gender+debtor": {
+          "label": "Gender x Debtor status",
+          "v1": "Do not mitigate",
+          "v1_passed": false,
+          "v2": "Insufficient data: report intervals, do not claim mitigation success",
+          "v2_code": "insufficient"
+        },
+        "gender+age_group": {
+          "label": "Gender x Age at enrolment",
+          "v1": "Do not mitigate",
+          "v1_passed": false,
+          "v2": "Insufficient data: report intervals, do not claim mitigation success",
+          "v2_code": "insufficient"
+        }
+      },
+      "benchmark_best": "xgboost",
+      "benchmark_best_label": "XGBoost",
+      "benchmark_auc": {
+        "logistic_regression": {
+          "mean": 0.851774,
+          "sd": 0.015992,
+          "lo": 0.833997,
+          "hi": 0.869552
+        },
+        "random_forest": {
+          "mean": 0.852638,
+          "sd": 0.0142,
+          "lo": 0.836852,
+          "hi": 0.868423
+        },
+        "hist_gradient_boosting": {
+          "mean": 0.853368,
+          "sd": 0.015272,
+          "lo": 0.836391,
+          "hi": 0.870345
+        },
+        "lightgbm": {
+          "mean": 0.856242,
+          "sd": 0.014081,
+          "lo": 0.840588,
+          "hi": 0.871895
+        },
+        "xgboost": {
+          "mean": 0.857086,
+          "sd": 0.01606,
+          "lo": 0.839233,
+          "hi": 0.87494
+        },
+        "dummy_most_frequent": {
+          "mean": 0.5,
+          "sd": 0.0,
+          "lo": 0.5,
+          "hi": 0.5
+        },
+        "dummy_stratified": {
+          "mean": 0.510724,
+          "sd": 0.022296,
+          "lo": 0.485939,
+          "hi": 0.535509
+        }
+      },
+      "recommendation": {
+        "deployable_choice": "blind_reweighing",
+        "deployable_label": "Blind + Reweighing (deployed)",
+        "eodds_change": -0.163159,
+        "f1_change": -0.013739,
+        "lowest_gap_post": "thesis_thresholds"
+      },
+      "blind_effect": {
+        "baseline": {
+          "eodds": 0.298256,
+          "spd": 0.383594,
+          "f1": 0.73366
+        },
+        "blind": {
+          "eodds": 0.17272,
+          "spd": 0.265864,
+          "f1": 0.728012
+        },
+        "reweighing": {
+          "eodds": 0.112121,
+          "spd": 0.198889,
+          "f1": 0.714397
+        },
+        "blind_reweighing": {
+          "eodds": 0.135097,
+          "spd": 0.228475,
+          "f1": 0.71992
+        }
+      },
+      "degenerate_methods": [],
+      "sensitive_rank": {
+        "feature": "gender",
+        "shap_rank": 5,
+        "perm_rank": 5,
+        "perm_importance": 0.012272,
+        "perm_sd": 0.003427,
+        "n_features": 24
+      },
+      "leakage_check": {
+        "dropped": [
+          "debtor",
+          "tuition_up_to_date"
+        ],
+        "auc_with": 0.851175,
+        "auc_without": 0.804423
+      },
+      "programme_audit": 0.138296
+    },
+    "student_mat": {
+      "dataset": "student_mat",
+      "title": "Secondary-school maths (Portugal, n = 395)",
+      "short_title": "Student-mat",
+      "description": "Students taking Mathematics at two Portuguese secondary schools in 2005/06. Intermediate grades G1 and G2 are excluded because they are not known at the start of the year.\n",
+      "licence": "CC BY 4.0",
+      "citation": "P. Cortez and A. M. G. Silva, \"Using data mining to predict secondary school student performance,\" in Proc. 5th Future Business Technology Conference (FUBUTEC), 2008, pp. 5-12.\n",
+      "source_url": "https://archive.ics.uci.edu/dataset/320/student+performance",
+      "n": 395,
+      "n_test": 79,
+      "data_source": "real",
+      "at_risk_label": "Failed (G3 < 10)",
+      "model": "logistic_regression",
+      "model_label": "Logistic Regression",
+      "threshold": 0.3,
+      "test": {
+        "roc_auc": {
+          "value": 0.665457,
+          "lo": 0.546444,
+          "hi": 0.780152
+        },
+        "pr_auc": {
+          "value": 0.507748,
+          "lo": 0.379857,
+          "hi": 0.656892
+        },
+        "brier": {
+          "value": 0.204813,
+          "lo": 0.180136,
+          "hi": 0.229871
+        },
+        "ece": {
+          "value": 0.077112,
+          "lo": 0.052836,
+          "hi": 0.18115
+        },
+        "f1": {
+          "value": 0.491803,
+          "lo": 0.350877,
+          "hi": 0.615455
+        },
+        "precision": {
+          "value": 0.428571,
+          "lo": 0.314286,
+          "hi": 0.545455
+        },
+        "recall": {
+          "value": 0.576923,
+          "lo": 0.384615,
+          "hi": 0.769231
+        }
+      },
+      "baseline_test": {
+        "roc_auc": {
+          "value": 0.671988,
+          "lo": 0.554372,
+          "hi": 0.786665
+        },
+        "f1": {
+          "value": 0.491228,
+          "lo": 0.333333,
+          "hi": 0.631579
+        },
+        "recall": {
+          "value": 0.538462,
+          "lo": 0.346154,
+          "hi": 0.730769
+        }
+      },
+      "calibration": {
+        "method": "sigmoid",
+        "test_ece_before": 0.025349,
+        "test_ece_after": 0.077112
+      },
+      "conformal": {
+        "alpha": 0.1,
+        "qhat": 0.746062,
+        "test": {
+          "coverage": 0.924051,
+          "avg_set_size": 1.556962,
+          "uncertain_share": 0.556962
+        }
+      },
+      "primary_axis": "sex",
+      "primary_label": "Sex",
+      "fairness": {
+        "deployed": {
+          "spd": {
+            "value": 0.234234,
+            "lo": 0.037243,
+            "hi": 0.43758,
+            "boot_sd": 0.10422,
+            "label": "Demographic parity difference",
+            "perm_p": 0.049475
+          },
+          "eodds": {
+            "value": 0.418182,
+            "lo": 0.162358,
+            "hi": 0.733333,
+            "boot_sd": 0.153387,
+            "label": "Equalized odds difference",
+            "perm_p": 0.045477
+          },
+          "tpr_gap": {
+            "value": 0.418182,
+            "lo": 0.096667,
+            "hi": 0.733333,
+            "boot_sd": 0.168184,
+            "label": "Equal opportunity gap",
+            "perm_p": 0.042979
+          },
+          "fpr_gap": {
+            "value": 0.165242,
+            "lo": 0.014245,
+            "hi": 0.396047,
+            "boot_sd": 0.112451,
+            "label": "False positive rate gap",
+            "perm_p": 0.236382
+          }
+        },
+        "baseline": {
+          "spd": {
+            "value": 0.126126,
+            "lo": 0.003861,
+            "hi": 0.321782,
+            "boot_sd": 0.086908,
+            "label": "Demographic parity difference",
+            "perm_p": 0.364818
+          },
+          "eodds": {
+            "value": 0.327273,
+            "lo": 0.078788,
+            "hi": 0.666667,
+            "boot_sd": 0.160953,
+            "label": "Equalized odds difference",
+            "perm_p": 0.12094
+          },
+          "tpr_gap": {
+            "value": 0.327273,
+            "lo": 0.036364,
+            "hi": 0.666667,
+            "boot_sd": 0.170926,
+            "label": "Equal opportunity gap",
+            "perm_p": 0.107946
+          },
+          "fpr_gap": {
+            "value": 0.049858,
+            "lo": 0.009972,
+            "hi": 0.277778,
+            "boot_sd": 0.078484,
+            "label": "False positive rate gap",
+            "perm_p": 0.74063
+          }
+        },
+        "groups": [
+          {
+            "group": "F",
+            "label": "Female",
+            "n": 42,
+            "n_at_risk": 15,
+            "base_rate": 0.357143,
+            "flag_rate": 0.333333,
+            "tpr": 0.4,
+            "fpr": 0.296296,
+            "fnr": 0.6,
+            "ppv": 0.428571,
+            "accuracy": 0.595238,
+            "mean_score": 0.272949,
+            "reliability": "caution",
+            "ece": 0.122652,
+            "coverage": 0.857143
+          },
+          {
+            "group": "M",
+            "label": "Male",
+            "n": 37,
+            "n_at_risk": 11,
+            "base_rate": 0.297297,
+            "flag_rate": 0.567568,
+            "tpr": 0.818182,
+            "fpr": 0.461538,
+            "fnr": 0.181818,
+            "ppv": 0.428571,
+            "accuracy": 0.621622,
+            "mean_score": 0.353354,
+            "reliability": "caution",
+            "ece": 0.13892,
+            "coverage": 1.0
+          }
+        ]
+      },
+      "preflight": {
+        "sex": {
+          "label": "Sex",
+          "v1": "Do not mitigate",
+          "v1_passed": false,
+          "v2": "Insufficient data: report intervals, do not claim mitigation success",
+          "v2_code": "insufficient"
+        },
+        "address": {
+          "label": "Home address",
+          "v1": "Do not mitigate",
+          "v1_passed": false,
+          "v2": "Insufficient data: report intervals, do not claim mitigation success",
+          "v2_code": "insufficient"
+        },
+        "parental_education": {
+          "label": "Parental education",
+          "v1": "Do not mitigate",
+          "v1_passed": false,
+          "v2": "Insufficient data: report intervals, do not claim mitigation success",
+          "v2_code": "insufficient"
+        },
+        "sex+address": {
+          "label": "Sex x Home address",
+          "v1": "Do not mitigate",
+          "v1_passed": false,
+          "v2": "Insufficient data: report intervals, do not claim mitigation success",
+          "v2_code": "insufficient"
+        }
+      },
+      "benchmark_best": "logistic_regression",
+      "benchmark_best_label": "Logistic Regression",
+      "benchmark_auc": {
+        "logistic_regression": {
+          "mean": 0.683953,
+          "sd": 0.068986,
+          "lo": 0.606756,
+          "hi": 0.76115
+        },
+        "random_forest": {
+          "mean": 0.673914,
+          "sd": 0.065595,
+          "lo": 0.600512,
+          "hi": 0.747316
+        },
+        "hist_gradient_boosting": {
+          "mean": 0.673345,
+          "sd": 0.057642,
+          "lo": 0.608842,
+          "hi": 0.737848
+        },
+        "lightgbm": {
+          "mean": 0.663921,
+          "sd": 0.071456,
+          "lo": 0.583961,
+          "hi": 0.743882
+        },
+        "xgboost": {
+          "mean": 0.669477,
+          "sd": 0.07022,
+          "lo": 0.590899,
+          "hi": 0.748055
+        },
+        "dummy_most_frequent": {
+          "mean": 0.5,
+          "sd": 0.0,
+          "lo": 0.5,
+          "hi": 0.5
+        },
+        "dummy_stratified": {
+          "mean": 0.494289,
+          "sd": 0.065168,
+          "lo": 0.421364,
+          "hi": 0.567214
+        }
+      },
+      "recommendation": {
+        "deployable_choice": "blind",
+        "deployable_label": "Fairness through unawareness",
+        "eodds_change": -0.003082,
+        "f1_change": 0.006962,
+        "lowest_gap_post": "threshold_opt_eo"
+      },
+      "blind_effect": {
+        "baseline": {
+          "eodds": 0.258991,
+          "spd": 0.072886,
+          "f1": 0.47984
+        },
+        "blind": {
+          "eodds": 0.25591,
+          "spd": 0.070214,
+          "f1": 0.486802
+        },
+        "reweighing": {
+          "eodds": 0.273334,
+          "spd": 0.075175,
+          "f1": 0.483987
+        },
+        "blind_reweighing": {
+          "eodds": 0.273334,
+          "spd": 0.075175,
+          "f1": 0.483987
+        }
+      },
+      "degenerate_methods": [
+        "Exponentiated Gradient (DP)",
+        "Exponentiated Gradient (EO)",
+        "Group thresholds (thesis)"
+      ],
+      "sensitive_rank": {
+        "feature": "sex",
+        "shap_rank": 12,
+        "perm_rank": 6,
+        "perm_importance": 0.006096,
+        "perm_sd": 0.005423,
+        "n_features": 30
+      },
+      "leakage_check": null,
+      "programme_audit": null
+    }
+  },
+  "thesis_reproduction": {
+    "match": 42,
+    "close": 9,
+    "differs": 7,
+    "table_5_1_match": 31,
+    "table_5_1_total": 32
+  }
+}

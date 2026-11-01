@@ -1,0 +1,28 @@
+{
+  "models": {
+    "dropout": {
+      "file": "dropout_model.joblib",
+      "sha256": "cd58aea6fbe7e4327b9c39e9472d5fee397c028bc3840a7c049a145c469edc0d",
+      "version": "1.0.0",
+      "model": "xgboost",
+      "trained_at": "2026-11-01T08:36:25Z",
+      "git_commit": "1ef58d6",
+      "data_source": "real",
+      "data_fingerprint": "3ef126de5cef",
+      "test_auc": 0.860892,
+      "threshold": 0.37
+    },
+    "student_mat": {
+      "file": "student_mat_model.joblib",
+      "sha256": "0344d44be78a2109a5f6296dcc8807cdf2c9cdae77705b79818c78199cf71521",
+      "version": "1.0.0",
+      "model": "logistic_regression",
+      "trained_at": "2026-11-01T08:36:54Z",
+      "git_commit": "1ef58d6",
+      "data_source": "real",
+      "data_fingerprint": "e47f9ee225e1",
+      "test_auc": 0.665457,
+      "threshold": 0.3
+    }
+  }
+}

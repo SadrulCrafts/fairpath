@@ -1,0 +1,477 @@
+{
+  "dataset": "dropout",
+  "model": "xgboost",
+  "n": 2904,
+  "threshold": 0.410026,
+  "axes": {
+    "gender": {
+      "label": "Gender",
+      "v1": {
+        "version": 1,
+        "checks": [
+          {
+            "id": 1,
+            "name": "Per-group validation size",
+            "criterion": ">= 100",
+            "value": 159,
+            "passed": true
+          },
+          {
+            "id": 2,
+            "name": "Model |SPD| vs noise floor",
+            "criterion": ">= 3x",
+            "value": 10.96,
+            "passed": true,
+            "detail": {
+              "spd_model": 0.392424,
+              "spd_dummy": 0.035798
+            }
+          },
+          {
+            "id": 3,
+            "name": "Bootstrap CV of |SPD|",
+            "criterion": "<= 50%",
+            "value": 0.102,
+            "passed": true
+          }
+        ],
+        "passed": true,
+        "verdict": "Attempt mitigation",
+        "groups": {
+          "0": 1905,
+          "1": 999
+        }
+      },
+      "v2": {
+        "version": 2,
+        "metric": "spd",
+        "checks": [
+          {
+            "id": 1,
+            "name": "Precision: 95% CI half-width of a gap",
+            "criterion": "<= 0.05",
+            "value": 0.037,
+            "passed": true,
+            "detail": {
+              "mde_80_power": 0.053,
+              "smallest_groups": [
+                999,
+                1905
+              ]
+            }
+          },
+          {
+            "id": 2,
+            "name": "Signal: permutation p-value (SPD)",
+            "criterion": "< 0.05",
+            "value": 0.0005,
+            "passed": true
+          },
+          {
+            "id": 3,
+            "name": "Room: lower 95% CI bound of the gap",
+            "criterion": ">= 0.05",
+            "value": 0.362,
+            "passed": true,
+            "detail": {
+              "gap": 0.391956,
+              "ci": [
+                0.361849,
+                0.424285
+              ]
+            }
+          }
+        ],
+        "verdict": "Mitigate and measure",
+        "verdict_code": "mitigate",
+        "gap": 0.391956,
+        "ci": [
+          0.361849,
+          0.424285
+        ],
+        "groups": {
+          "0": 1905,
+          "1": 999
+        }
+      }
+    },
+    "debtor": {
+      "label": "Debtor status",
+      "v1": {
+        "version": 1,
+        "checks": [
+          {
+            "id": 1,
+            "name": "Per-group validation size",
+            "criterion": ">= 100",
+            "value": 52,
+            "passed": false
+          },
+          {
+            "id": 2,
+            "name": "Model |SPD| vs noise floor",
+            "criterion": ">= 3x",
+            "value": 9.42,
+            "passed": true,
+            "detail": {
+              "spd_model": 0.491684,
+              "spd_dummy": 0.052211
+            }
+          },
+          {
+            "id": 3,
+            "name": "Bootstrap CV of |SPD|",
+            "criterion": "<= 50%",
+            "value": 0.106,
+            "passed": true
+          }
+        ],
+        "passed": false,
+        "verdict": "Do not mitigate",
+        "groups": {
+          "0": 2576,
+          "1": 328
+        }
+      },
+      "v2": {
+        "version": 2,
+        "metric": "spd",
+        "checks": [
+          {
+            "id": 1,
+            "name": "Precision: 95% CI half-width of a gap",
+            "criterion": "<= 0.05",
+            "value": 0.056,
+            "passed": false,
+            "detail": {
+              "mde_80_power": 0.08,
+              "smallest_groups": [
+                328,
+                2576
+              ]
+            }
+          },
+          {
+            "id": 2,
+            "name": "Signal: permutation p-value (SPD)",
+            "criterion": "< 0.05",
+            "value": 0.0005,
+            "passed": true
+          },
+          {
+            "id": 3,
+            "name": "Room: lower 95% CI bound of the gap",
+            "criterion": ">= 0.05",
+            "value": 0.454,
+            "passed": true,
+            "detail": {
+              "gap": 0.490039,
+              "ci": [
+                0.454053,
+                0.524862
+              ]
+            }
+          }
+        ],
+        "verdict": "Insufficient data: report intervals, do not claim mitigation success",
+        "verdict_code": "insufficient",
+        "gap": 0.490039,
+        "ci": [
+          0.454053,
+          0.524862
+        ],
+        "groups": {
+          "0": 2576,
+          "1": 328
+        }
+      }
+    },
+    "age_group": {
+      "label": "Age at enrolment",
+      "v1": {
+        "version": 1,
+        "checks": [
+          {
+            "id": 1,
+            "name": "Per-group validation size",
+            "criterion": ">= 100",
+            "value": 81,
+            "passed": false
+          },
+          {
+            "id": 2,
+            "name": "Model |SPD| vs noise floor",
+            "criterion": ">= 3x",
+            "value": 8.28,
+            "passed": true,
+            "detail": {
+              "spd_model": 0.560653,
+              "spd_dummy": 0.067713
+            }
+          },
+          {
+            "id": 3,
+            "name": "Bootstrap CV of |SPD|",
+            "criterion": "<= 50%",
+            "value": 0.075,
+            "passed": true
+          }
+        ],
+        "passed": false,
+        "verdict": "Do not mitigate",
+        "groups": {
+          "0": 1679,
+          "2": 718,
+          "1": 507
+        }
+      },
+      "v2": {
+        "version": 2,
+        "metric": "spd",
+        "checks": [
+          {
+            "id": 1,
+            "name": "Precision: 95% CI half-width of a gap",
+            "criterion": "<= 0.05",
+            "value": 0.055,
+            "passed": false,
+            "detail": {
+              "mde_80_power": 0.079,
+              "smallest_groups": [
+                507,
+                718
+              ]
+            }
+          },
+          {
+            "id": 2,
+            "name": "Signal: permutation p-value (SPD)",
+            "criterion": "< 0.05",
+            "value": 0.0005,
+            "passed": true
+          },
+          {
+            "id": 3,
+            "name": "Room: lower 95% CI bound of the gap",
+            "criterion": ">= 0.05",
+            "value": 0.529,
+            "passed": true,
+            "detail": {
+              "gap": 0.560922,
+              "ci": [
+                0.529295,
+                0.594545
+              ]
+            }
+          }
+        ],
+        "verdict": "Insufficient data: report intervals, do not claim mitigation success",
+        "verdict_code": "insufficient",
+        "gap": 0.560922,
+        "ci": [
+          0.529295,
+          0.594545
+        ],
+        "groups": {
+          "0": 1679,
+          "1": 507,
+          "2": 718
+        }
+      }
+    },
+    "gender+debtor": {
+      "label": "Gender x Debtor status",
+      "v1": {
+        "version": 1,
+        "checks": [
+          {
+            "id": 1,
+            "name": "Per-group validation size",
+            "criterion": ">= 100",
+            "value": 21,
+            "passed": false
+          },
+          {
+            "id": 2,
+            "name": "Model |SPD| vs noise floor",
+            "criterion": ">= 3x",
+            "value": 5.58,
+            "passed": true,
+            "detail": {
+              "spd_model": 0.766002,
+              "spd_dummy": 0.137335
+            }
+          },
+          {
+            "id": 3,
+            "name": "Bootstrap CV of |SPD|",
+            "criterion": "<= 50%",
+            "value": 0.056,
+            "passed": true
+          }
+        ],
+        "passed": false,
+        "verdict": "Do not mitigate",
+        "groups": {
+          "Female x Not a debtor": 1712,
+          "Male x Not a debtor": 864,
+          "Female x Debtor": 193,
+          "Male x Debtor": 135
+        }
+      },
+      "v2": {
+        "version": 2,
+        "metric": "spd",
+        "checks": [
+          {
+            "id": 1,
+            "name": "Precision: 95% CI half-width of a gap",
+            "criterion": "<= 0.05",
+            "value": 0.107,
+            "passed": false,
+            "detail": {
+              "mde_80_power": 0.153,
+              "smallest_groups": [
+                135,
+                193
+              ]
+            }
+          },
+          {
+            "id": 2,
+            "name": "Signal: permutation p-value (SPD)",
+            "criterion": "< 0.05",
+            "value": 0.0005,
+            "passed": true
+          },
+          {
+            "id": 3,
+            "name": "Room: lower 95% CI bound of the gap",
+            "criterion": ">= 0.05",
+            "value": 0.723,
+            "passed": true,
+            "detail": {
+              "gap": 0.759692,
+              "ci": [
+                0.723038,
+                0.793596
+              ]
+            }
+          }
+        ],
+        "verdict": "Insufficient data: report intervals, do not claim mitigation success",
+        "verdict_code": "insufficient",
+        "gap": 0.759692,
+        "ci": [
+          0.723038,
+          0.793596
+        ],
+        "groups": {
+          "Female x Debtor": 193,
+          "Female x Not a debtor": 1712,
+          "Male x Debtor": 135,
+          "Male x Not a debtor": 864
+        }
+      }
+    },
+    "gender+age_group": {
+      "label": "Gender x Age at enrolment",
+      "v1": {
+        "version": 1,
+        "checks": [
+          {
+            "id": 1,
+            "name": "Per-group validation size",
+            "criterion": ">= 100",
+            "value": 35,
+            "passed": false
+          },
+          {
+            "id": 2,
+            "name": "Model |SPD| vs noise floor",
+            "criterion": ">= 3x",
+            "value": 5.14,
+            "passed": true,
+            "detail": {
+              "spd_model": 0.768475,
+              "spd_dummy": 0.149624
+            }
+          },
+          {
+            "id": 3,
+            "name": "Bootstrap CV of |SPD|",
+            "criterion": "<= 50%",
+            "value": 0.055,
+            "passed": true
+          }
+        ],
+        "passed": false,
+        "verdict": "Do not mitigate",
+        "groups": {
+          "Female x 20 or younger": 1242,
+          "Male x 20 or younger": 437,
+          "Female x Over 25": 376,
+          "Male x Over 25": 342,
+          "Female x 21-25": 287,
+          "Male x 21-25": 220
+        }
+      },
+      "v2": {
+        "version": 2,
+        "metric": "spd",
+        "checks": [
+          {
+            "id": 1,
+            "name": "Precision: 95% CI half-width of a gap",
+            "criterion": "<= 0.05",
+            "value": 0.086,
+            "passed": false,
+            "detail": {
+              "mde_80_power": 0.123,
+              "smallest_groups": [
+                220,
+                287
+              ]
+            }
+          },
+          {
+            "id": 2,
+            "name": "Signal: permutation p-value (SPD)",
+            "criterion": "< 0.05",
+            "value": 0.0005,
+            "passed": true
+          },
+          {
+            "id": 3,
+            "name": "Room: lower 95% CI bound of the gap",
+            "criterion": ">= 0.05",
+            "value": 0.731,
+            "passed": true,
+            "detail": {
+              "gap": 0.768921,
+              "ci": [
+                0.730992,
+                0.804308
+              ]
+            }
+          }
+        ],
+        "verdict": "Insufficient data: report intervals, do not claim mitigation success",
+        "verdict_code": "insufficient",
+        "gap": 0.768921,
+        "ci": [
+          0.730992,
+          0.804308
+        ],
+        "groups": {
+          "Female x 20 or younger": 1242,
+          "Female x 21-25": 287,
+          "Female x Over 25": 376,
+          "Male x 20 or younger": 437,
+          "Male x 21-25": 220,
+          "Male x Over 25": 342
+        }
+      }
+    }
+  }
+}
