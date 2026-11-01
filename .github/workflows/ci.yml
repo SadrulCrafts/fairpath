@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install
+        run: |
+          pip install -r requirements-dev.txt
+          pip install -e ".[api,dev]" --no-deps
+      - name: Lint
+        run: |
+          ruff check src tests
+          black --check src tests
+      - name: Unit and API tests (synthetic data only)
+        env:
+          OMP_NUM_THREADS: "2"
+        run: pytest -m "not slow" --cov --cov-report=xml
+      - name: End-to-end pipeline smoke test
+        if: matrix.python-version == '3.12'
+        run: pytest -m slow
+      - name: Pre-flight CLI works on any CSV
+        run: |
+          python -c "import pandas as pd, numpy as np; r=np.random.default_rng(0); n=600; pd.DataFrame({'y':r.integers(0,2,n),'g':r.choice(['a','b'],n),'p':r.random(n)}).to_csv('pf.csv',index=False)"
+          fairpath preflight pf.csv --label y --group g --score p
+
+  web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: [python, web]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: fairpath:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
