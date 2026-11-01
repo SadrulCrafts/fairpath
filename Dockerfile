@@ -25,7 +25,7 @@ COPY artifacts/ artifacts/
 COPY reports/ reports/
 COPY data/synthetic/ data/synthetic/
 COPY --from=web /web/out web/out
-ENV FAIRPATH_WEB_DIR=/app/web/out FAIRPATH_ARTIFACTS=/app/artifacts FAIRPATH_REPORTS=/app/reports
+ENV FAIRPATH_ROOT=/app FAIRPATH_WEB_DIR=/app/web/out FAIRPATH_ARTIFACTS=/app/artifacts FAIRPATH_REPORTS=/app/reports
 USER app
 EXPOSE 7860
 # Hosts like Render inject $PORT; locally and on Hugging Face Spaces it defaults to 7860.

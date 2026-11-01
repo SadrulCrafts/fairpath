@@ -51,3 +51,20 @@ def test_thesis_reproduction_harness_runs(tmp_path):
     assert {"baseline", "post", "pre", "combined"} <= set(summ.condition)
     rows = thesis_repro.compare_with_thesis({"student_mat": res})
     assert all(r["status"] in {"match", "close", "differs"} for r in rows)
+
+
+def test_fairpath_root_env_overrides_install_location(tmp_path):
+    """An installed (non-editable) package must find configs/ through FAIRPATH_ROOT, as in the Docker image."""
+    import os
+    import subprocess
+    import sys
+
+    env = {**os.environ, "FAIRPATH_ROOT": str(tmp_path)}
+    out = subprocess.run(
+        [sys.executable, "-c", "from fairpath.config import PROJECT_ROOT; print(PROJECT_ROOT)"],
+        env=env,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    assert out.stdout.strip() == str(tmp_path)

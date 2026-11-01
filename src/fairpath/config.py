@@ -10,6 +10,7 @@ Two kinds of config live in ``configs/``:
 
 from __future__ import annotations
 
+import os
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Literal
@@ -17,7 +18,8 @@ from typing import Any, Literal
 import yaml
 from pydantic import BaseModel, Field
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+# FAIRPATH_ROOT lets an installed (non-editable) package find configs/, e.g. in the Docker image.
+PROJECT_ROOT = Path(os.environ.get("FAIRPATH_ROOT") or Path(__file__).resolve().parents[2])
 CONFIG_DIR = PROJECT_ROOT / "configs"
 
 FeatureType = Literal["numeric", "categorical", "binary"]

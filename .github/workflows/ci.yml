@@ -13,6 +13,7 @@ jobs:
   python:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         python-version: ["3.12", "3.13"]
     steps:
@@ -69,5 +70,12 @@ jobs:
           context: .
           push: false
           tags: fairpath:ci
+          load: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      - name: Smoke-test the image (models must load)
+        run: |
+          docker run -d --name fp -p 7860:7860 fairpath:ci
+          for i in $(seq 1 40); do curl -fs localhost:7860/api/health > health.json && break; sleep 3; done
+          cat health.json
+          grep -q '"status":"ok"' health.json
