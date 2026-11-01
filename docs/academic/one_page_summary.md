@@ -1,7 +1,7 @@
 # FairPath: when can fairness mitigation work in student-success prediction?
 
 **MD SADRUL ANAM** · Gannan Normal University · Undergraduate thesis (2026), extended into an open-source system
-Code and live demo: `https://github.com/SadrulCrafts/fairpath` · `https://fairpath-eight.vercel.app`
+Code and live demo: `https://github.com/SadrulCrafts/fairpath` · `https://fairpath-sadrul.vercel.app`
 
 ### The problem
 Universities increasingly use predictive models to decide which students an advisor should contact first. These models are judged on

@@ -8,9 +8,9 @@
 ![Python](https://img.shields.io/badge/python-3.12%20%7C%203.13-3776AB)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Tests](https://img.shields.io/badge/tests-49%20passing-brightgreen)
-[![Live demo](https://img.shields.io/badge/live-demo-2a78d6)](https://fairpath-eight.vercel.app)
+[![Live demo](https://img.shields.io/badge/live-demo-2a78d6)](https://fairpath-sadrul.vercel.app)
 
-[**Live demo**](https://fairpath-eight.vercel.app) · [Results](docs/RESULTS.md) · [Model card](MODEL_CARD.md) · [Datasheet](DATASHEET.md) · [Reproducibility & thesis errata](docs/REPRODUCIBILITY.md)
+[**Live demo**](https://fairpath-sadrul.vercel.app) · [Results](docs/RESULTS.md) · [Model card](MODEL_CARD.md) · [Datasheet](DATASHEET.md) · [Reproducibility & thesis errata](docs/REPRODUCIBILITY.md)
 
 <img src="docs/screenshots/overview.png" alt="FairPath dashboard overview" width="900">
 
