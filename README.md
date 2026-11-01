@@ -5,7 +5,7 @@
 **Fairness-aware early warning for student success: predict who might need support, explain why, and check honestly whether the model treats groups of students differently.**
 
 [![CI](https://github.com/SadrulCrafts/fairpath/actions/workflows/ci.yml/badge.svg)](https://github.com/SadrulCrafts/fairpath/actions/workflows/ci.yml)
-![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-3776AB)
+![Python](https://img.shields.io/badge/python-3.12%20%7C%203.13-3776AB)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Tests](https://img.shields.io/badge/tests-48%20passing-brightgreen)
 [![Live demo](https://img.shields.io/badge/live-demo-2a78d6)](https://<your-demo-url>)
@@ -82,7 +82,7 @@ pre-flight rule, which version 2 fixes.
 
 ```bash
 git clone https://github.com/SadrulCrafts/fairpath.git && cd fairpath
-make setup                       # Python deps + editable install (Python 3.11+)
+make setup                       # Python deps + editable install (Python 3.12+)
 make run                         # builds the dashboard and serves everything at http://localhost:8000
 ```
 

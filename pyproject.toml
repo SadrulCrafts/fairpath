@@ -7,7 +7,7 @@ name = "fairpath"
 version = "1.0.0"
 description = "Fairness-aware early warning for student success: audit, mitigation, explanation and a decision-support dashboard."
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 license = { text = "MIT" }
 authors = [{ name = "MD SADRUL ANAM" }]
 keywords = ["algorithmic fairness", "responsible AI", "educational data mining", "early warning", "fairlearn", "explainability"]
@@ -49,11 +49,11 @@ fairpath = ["py.typed"]
 
 [tool.black]
 line-length = 110
-target-version = ["py311"]
+target-version = ["py312"]
 
 [tool.ruff]
 line-length = 110
-target-version = "py311"
+target-version = "py312"
 src = ["src", "tests"]
 
 [tool.ruff.lint]
