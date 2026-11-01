@@ -239,6 +239,6 @@ replication of the pre-flight check. Details in [docs/academic/research_directio
 ## Author
 
 **MD SADRUL ANAM**, Gannan Normal University. Interested in algorithmic fairness, responsible AI and AI in education.
-<br>Email: `<your-email>` · LinkedIn: `<your-linkedin>`
+<br>Email: sadrulanam999@gmail.com
 
 Code is MIT-licensed. If you work on fairness in education and something here is useful, or wrong, I'd like to hear about it.
