@@ -1,0 +1,51 @@
+cff-version: 1.2.0
+message: "If you use this software or the pre-flight check, please cite it as below."
+title: "FairPath: fairness-aware early warning for student success"
+abstract: >
+  A reproducible pipeline and decision-support dashboard for student-success prediction that
+  audits group fairness with uncertainty, compares pre-, in- and post-processing mitigation, and
+  provides a pre-flight check for whether mitigation is measurable on a given dataset. Based on
+  the undergraduate thesis "Investigating Algorithmic Bias in Student Success Prediction Models:
+  A Comparative Study" (Gannan Normal University, 2026).
+authors:
+  - family-names: "Anam"
+    given-names: "MD Sadrul"
+    affiliation: "Gannan Normal University"
+    # orcid: "https://orcid.org/0000-0000-0000-0000"
+version: 1.0.0
+date-released: "2026-11-01"
+license: MIT
+repository-code: "https://github.com/your-username/fairpath"
+keywords:
+  - algorithmic fairness
+  - responsible AI
+  - educational data mining
+  - early warning systems
+  - bias mitigation
+  - explainability
+references:
+  - type: article
+    title: "Predicting Student Dropout and Academic Success"
+    authors:
+      - family-names: Realinho
+        given-names: Valentim
+      - family-names: Machado
+        given-names: Jorge
+      - family-names: Baptista
+        given-names: Luís
+      - family-names: Martins
+        given-names: Mónica V.
+    journal: Data
+    volume: 7
+    issue: 11
+    year: 2022
+    doi: 10.3390/data7110146
+  - type: conference-paper
+    title: "Using data mining to predict secondary school student performance"
+    authors:
+      - family-names: Cortez
+        given-names: Paulo
+      - family-names: Silva
+        given-names: Alice Maria Gonçalves
+    collection-title: "Proceedings of the 5th Future Business Technology Conference (FUBUTEC)"
+    year: 2008
