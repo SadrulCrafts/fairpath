@@ -35,7 +35,7 @@ def test_preflight_cli(tmp_path, capsys):
     assert "minimum_detectable_gap" in model_free
     main(["preflight", str(path), "--label", "y", "--group", "g", "--score", "p"])
     full = json.loads(capsys.readouterr().out)
-    assert full["v2"]["verdict_code"] in {"mitigate", "monitor", "insufficient"}
+    assert full["v2"]["verdict_code"] in {"mitigate", "mitigate_coarse", "monitor", "insufficient"}
     assert len(full["v1"]["checks"]) == 3
 
 

@@ -22,7 +22,8 @@ def test_large_biased_dataset_passes_both(rng):
 
 
 def test_small_dataset_is_insufficient(rng):
-    y, s, g = _data(rng, 300, 0.25)
+    """A modest gap on 300 students: neither the gap nor a change in it can be pinned down."""
+    y, s, g = _data(rng, 300, 0.1)
     v2 = preflight_v2(y, s, g, n_boot=200, n_perm=200)
     assert v2["verdict_code"] == "insufficient"
     assert not preflight_v1(y, s, g, n_boot=200)["passed"]
@@ -34,3 +35,14 @@ def test_v2_distinguishes_fair_from_small(rng):
     v2 = preflight_v2(y, s, g, n_boot=200, n_perm=300)
     assert v2["verdict_code"] == "monitor"
     assert not preflight_v1(y, s, g, n_boot=200)["passed"]  # v1 just says "do not mitigate"
+
+
+def test_clear_gap_on_a_small_group_is_coarse_not_insufficient(rng):
+    """A large, unmistakable gap should not be called 'insufficient data' just because one group is small."""
+    n_small, n_big = 120, 2400
+    g = np.array(["a"] * n_small + ["b"] * n_big)
+    y = rng.integers(0, 2, n_small + n_big)
+    s = np.where(g == "a", rng.uniform(0.5, 1.0, g.size), rng.uniform(0.0, 0.6, g.size))
+    v2 = preflight_v2(y, s, g, n_boot=200, n_perm=200)
+    assert not v2["checks"][0]["passed"]
+    assert v2["verdict_code"] == "mitigate_coarse"

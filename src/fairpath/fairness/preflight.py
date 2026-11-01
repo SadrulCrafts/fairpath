@@ -23,8 +23,15 @@ v2 asks three separate questions, each answered with a standard statistical tool
 2. **Signal** -- is the observed gap distinguishable from chance? (permutation test)
 3. **Room** -- is the gap's 95% CI lower bound at least the target reduction?
 
-Verdicts: *mitigate and measure*, *no detectable disparity - monitor*, or
-*insufficient data - report intervals only*.
+Verdicts: *mitigate and measure*; *clear gap, coarse measurement* (signal and room pass and the
+gap's lower bound exceeds the minimum detectable change, but the interval is wider than the
+target, so mitigation is worth trying but only large changes can be confirmed);
+*no detectable disparity - monitor*; or *insufficient data - report intervals only*.
+
+The "coarse" verdict was added after the first full run: debtor status on the dropout data had a
+flag-rate gap of 0.49 (permutation p < 0.001) but failed the precision check by 0.006 because
+debtors are a small group. Calling that "insufficient data" would be wrong; the gap is not in doubt,
+only the resolution with which a *change* in it can be measured.
 """
 
 from __future__ import annotations
@@ -204,10 +211,18 @@ def preflight_v2(
             "detail": {"gap": obs, "ci": [lo, hi]},
         },
     ]
-    if not checks[0]["passed"]:
-        verdict, code = "Insufficient data: report intervals, do not claim mitigation success", "insufficient"
-    elif checks[1]["passed"] and checks[2]["passed"]:
+    clear_gap = checks[1]["passed"] and checks[2]["passed"]
+    if clear_gap and checks[0]["passed"]:
         verdict, code = "Mitigate and measure", "mitigate"
+    elif clear_gap and lo >= mde:
+        # even an imprecise study could confirm removing most of a gap this large
+        verdict = (
+            "Clear gap: mitigate, but only changes larger than about "
+            f"{mde:.2f} can be confirmed on data this size"
+        )
+        code = "mitigate_coarse"
+    elif not checks[0]["passed"]:
+        verdict, code = "Insufficient data: report intervals, do not claim mitigation success", "insufficient"
     else:
         verdict, code = "No disparity worth mitigating detected: monitor", "monitor"
     return {
