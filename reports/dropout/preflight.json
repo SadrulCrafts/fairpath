@@ -173,8 +173,8 @@
             }
           }
         ],
-        "verdict": "Insufficient data: report intervals, do not claim mitigation success",
-        "verdict_code": "insufficient",
+        "verdict": "Clear gap: mitigate, but only changes larger than about 0.08 can be confirmed on data this size",
+        "verdict_code": "mitigate_coarse",
         "gap": 0.490039,
         "ci": [
           0.454053,
@@ -265,8 +265,8 @@
             }
           }
         ],
-        "verdict": "Insufficient data: report intervals, do not claim mitigation success",
-        "verdict_code": "insufficient",
+        "verdict": "Clear gap: mitigate, but only changes larger than about 0.08 can be confirmed on data this size",
+        "verdict_code": "mitigate_coarse",
         "gap": 0.560922,
         "ci": [
           0.529295,
@@ -359,8 +359,8 @@
             }
           }
         ],
-        "verdict": "Insufficient data: report intervals, do not claim mitigation success",
-        "verdict_code": "insufficient",
+        "verdict": "Clear gap: mitigate, but only changes larger than about 0.15 can be confirmed on data this size",
+        "verdict_code": "mitigate_coarse",
         "gap": 0.759692,
         "ci": [
           0.723038,
@@ -456,8 +456,8 @@
             }
           }
         ],
-        "verdict": "Insufficient data: report intervals, do not claim mitigation success",
-        "verdict_code": "insufficient",
+        "verdict": "Clear gap: mitigate, but only changes larger than about 0.12 can be confirmed on data this size",
+        "verdict_code": "mitigate_coarse",
         "gap": 0.768921,
         "ci": [
           0.730992,

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generated_at": "2026-11-01T08:36:56Z",
+  "generated_at": "2026-11-01T09:04:59Z",
   "synthetic": false,
   "datasets": {
     "dropout": {
@@ -206,29 +206,29 @@
           "label": "Debtor status",
           "v1": "Do not mitigate",
           "v1_passed": false,
-          "v2": "Insufficient data: report intervals, do not claim mitigation success",
-          "v2_code": "insufficient"
+          "v2": "Clear gap: mitigate, but only changes larger than about 0.08 can be confirmed on data this size",
+          "v2_code": "mitigate_coarse"
         },
         "age_group": {
           "label": "Age at enrolment",
           "v1": "Do not mitigate",
           "v1_passed": false,
-          "v2": "Insufficient data: report intervals, do not claim mitigation success",
-          "v2_code": "insufficient"
+          "v2": "Clear gap: mitigate, but only changes larger than about 0.08 can be confirmed on data this size",
+          "v2_code": "mitigate_coarse"
         },
         "gender+debtor": {
           "label": "Gender x Debtor status",
           "v1": "Do not mitigate",
           "v1_passed": false,
-          "v2": "Insufficient data: report intervals, do not claim mitigation success",
-          "v2_code": "insufficient"
+          "v2": "Clear gap: mitigate, but only changes larger than about 0.15 can be confirmed on data this size",
+          "v2_code": "mitigate_coarse"
         },
         "gender+age_group": {
           "label": "Gender x Age at enrolment",
           "v1": "Do not mitigate",
           "v1_passed": false,
-          "v2": "Insufficient data: report intervals, do not claim mitigation success",
-          "v2_code": "insufficient"
+          "v2": "Clear gap: mitigate, but only changes larger than about 0.12 can be confirmed on data this size",
+          "v2_code": "mitigate_coarse"
         }
       },
       "benchmark_best": "xgboost",
@@ -535,8 +535,8 @@
           "label": "Parental education",
           "v1": "Do not mitigate",
           "v1_passed": false,
-          "v2": "Insufficient data: report intervals, do not claim mitigation success",
-          "v2_code": "insufficient"
+          "v2": "Clear gap: mitigate, but only changes larger than about 0.16 can be confirmed on data this size",
+          "v2_code": "mitigate_coarse"
         },
         "sex+address": {
           "label": "Sex x Home address",

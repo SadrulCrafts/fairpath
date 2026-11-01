@@ -2175,8 +2175,8 @@
               }
             }
           ],
-          "verdict": "Insufficient data: report intervals, do not claim mitigation success",
-          "verdict_code": "insufficient",
+          "verdict": "Clear gap: mitigate, but only changes larger than about 0.16 can be confirmed on data this size",
+          "verdict_code": "mitigate_coarse",
           "gap": 0.364352,
           "ci": [
             0.256752,
