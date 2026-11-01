@@ -24,12 +24,12 @@ git rebase -r --root --exec "git commit --amend --no-edit --reset-author"
 ## 2. Replace the placeholders
 
 ```bash
-grep -rln "<your-github-username>\|<your-demo-url>\|<your-email>\|<your-linkedin>" --exclude-dir=node_modules --exclude-dir=.git .
+grep -rln "SadrulCrafts\|<your-demo-url>\|<your-email>\|<your-linkedin>" --exclude-dir=node_modules --exclude-dir=.git .
 ```
 Edit those files (README.md, CITATION.cff, .env.example, docs). On Linux/macOS you can do the username in one go:
 
 ```bash
-grep -rl "<your-github-username>" --exclude-dir=node_modules --exclude-dir=.git . | xargs sed -i 's/<your-github-username>/YOUR_NAME/g'
+grep -rl "SadrulCrafts" --exclude-dir=node_modules --exclude-dir=.git . | xargs sed -i 's/SadrulCrafts/YOUR_NAME/g'
 git commit -am "docs: fill in author links"
 ```
 (macOS: use `sed -i ''`.)
@@ -48,7 +48,7 @@ gh repo edit --add-topic algorithmic-fairness,responsible-ai,fairness,machine-le
 Without the CLI: create an empty public repository called `fairpath` on github.com (no README, no licence), then:
 
 ```bash
-git remote add origin https://github.com/<your-github-username>/fairpath.git
+git remote add origin https://github.com/SadrulCrafts/fairpath.git
 git push -u origin main
 ```
 

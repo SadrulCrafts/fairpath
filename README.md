@@ -4,7 +4,7 @@
 
 **Fairness-aware early warning for student success: predict who might need support, explain why, and check honestly whether the model treats groups of students differently.**
 
-[![CI](https://github.com/<your-github-username>/fairpath/actions/workflows/ci.yml/badge.svg)](https://github.com/<your-github-username>/fairpath/actions/workflows/ci.yml)
+[![CI](https://github.com/SadrulCrafts/fairpath/actions/workflows/ci.yml/badge.svg)](https://github.com/SadrulCrafts/fairpath/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-3776AB)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Tests](https://img.shields.io/badge/tests-48%20passing-brightgreen)
@@ -81,7 +81,7 @@ pre-flight rule, which version 2 fixes.
 ## Quickstart
 
 ```bash
-git clone https://github.com/<your-github-username>/fairpath.git && cd fairpath
+git clone https://github.com/SadrulCrafts/fairpath.git && cd fairpath
 make setup                       # Python deps + editable install (Python 3.11+)
 make run                         # builds the dashboard and serves everything at http://localhost:8000
 ```
@@ -232,7 +232,7 @@ replication of the pre-flight check. Details in [docs/academic/research_directio
   title   = {FairPath: Fairness-aware early warning for student success},
   year    = {2026},
   version = {1.0.0},
-  url     = {https://github.com/<your-github-username>/fairpath}
+  url     = {https://github.com/SadrulCrafts/fairpath}
 }
 ```
 

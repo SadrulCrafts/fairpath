@@ -24,7 +24,7 @@ From this I built a pre-flight check that tells practitioners, before they mitig
 claim.
 
 I have released the work as an open-source system with a decision-support dashboard:
-- Code and paper summary: https://github.com/<your-github-username>/fairpath
+- Code and paper summary: https://github.com/SadrulCrafts/fairpath
 - 2-minute demo: <your-video-link>
 
 I would be very interested in [specific direction from their work that connects, e.g. "fairness under distribution shift"

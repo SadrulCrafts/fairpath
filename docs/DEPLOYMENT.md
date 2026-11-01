@@ -32,7 +32,7 @@ See [GITHUB_SETUP.md](GITHUB_SETUP.md).
 2. Set **Root Directory** to `web`. Vercel detects Next.js; the static export is produced by `npm run build`.
 3. Add environment variables:
    * `NEXT_PUBLIC_API_BASE` = `https://<your-service>.onrender.com`
-   * `NEXT_PUBLIC_REPO_URL` = `https://github.com/<your-github-username>/fairpath`
+   * `NEXT_PUBLIC_REPO_URL` = `https://github.com/SadrulCrafts/fairpath`
 4. Deploy. Your demo URL is `https://<project>.vercel.app`. Put it in the README badges.
 
 The audit pages (overview, fairness, models, methodology) read `web/public/data/*.json`, which is committed, so they never wait for the API.
