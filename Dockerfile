@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:1.7
 # ---- 1. build the dashboard (static export) ----
 FROM node:22-alpine AS web
 WORKDIR /web
@@ -29,5 +28,7 @@ COPY --from=web /web/out web/out
 ENV FAIRPATH_WEB_DIR=/app/web/out FAIRPATH_ARTIFACTS=/app/artifacts FAIRPATH_REPORTS=/app/reports
 USER app
 EXPOSE 7860
-HEALTHCHECK --interval=30s --timeout=5s --start-period=40s CMD python -c "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:7860/api/health').status==200 else 1)"
-CMD ["uvicorn", "fairpath.api.main:app", "--host", "0.0.0.0", "--port", "7860", "--workers", "1", "--proxy-headers"]
+# Hosts like Render inject $PORT; locally and on Hugging Face Spaces it defaults to 7860.
+ENV PORT=7860
+HEALTHCHECK --interval=30s --timeout=5s --start-period=60s CMD python -c "import os,urllib.request,sys; sys.exit(0 if urllib.request.urlopen(f'http://127.0.0.1:{os.environ[\"PORT\"]}/api/health').status==200 else 1)"
+CMD ["sh", "-c", "uvicorn fairpath.api.main:app --host 0.0.0.0 --port ${PORT} --workers 1 --proxy-headers"]

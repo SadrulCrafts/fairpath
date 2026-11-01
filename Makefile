@@ -28,8 +28,9 @@ train:  ## full pipeline: tune, compare, mitigation study, final models, reports
 train-fast:  ## same pipeline on the SYNTHETIC data with tuning skipped (a few minutes)
 	fairpath all --source synthetic --no-tune
 
-report:  ## rebuild reports/overview.json, docs/figures and docs/RESULTS.md
+report:  ## rebuild reports/overview.json, docs/figures, docs/RESULTS.md and the dashboard's static data
 	fairpath report
+	$(PY) scripts/export_static_data.py
 
 test:  ## fast unit + integration tests
 	pytest -m "not slow" --cov --cov-report=term-missing:skip-covered

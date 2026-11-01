@@ -1,0 +1,14 @@
+# Render Blueprint: New -> Blueprint -> pick this repo. Free plan: 512 MB RAM, sleeps after 15 min idle.
+services:
+  - type: web
+    name: fairpath
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: FAIRPATH_CORS_ORIGINS
+        value: "*"
+      - key: OMP_NUM_THREADS
+        value: "1"
