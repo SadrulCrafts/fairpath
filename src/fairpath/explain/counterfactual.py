@@ -29,6 +29,8 @@ import pandas as pd
 
 from fairpath.config import DatasetSpec
 
+MIN_EXTRA_REDUCTION = 0.05
+
 
 def candidate_values(spec: DatasetSpec, feature: str, current: Any, schema_field: dict) -> list[Any]:
     f = spec.feature(feature)
@@ -115,14 +117,19 @@ def find_counterfactuals(
         scored.append((c, float(r), cost))
 
     reach = [s for s in scored if s[1] < target_risk]
-    pool = reach if reach else sorted(scored, key=lambda s: s[1])[:50]
-    pool.sort(key=lambda s: (len(s[0]), s[2], s[1]) if reach else (s[1], len(s[0]), s[2]))
+    reachable = bool(reach)  # evaluated once: list.sort() empties the list while sorting
+    pool = list(reach) if reachable else sorted(scored, key=lambda s: s[1])[:50]
+    if reachable:
+        pool.sort(key=lambda s: (len(s[0]), s[2], s[1]))  # fewest, then smallest, changes first
+    else:
+        pool.sort(key=lambda s: (s[1], len(s[0]), s[2]))  # otherwise: whatever helps most
 
     chosen: list[tuple[dict, float, float]] = []
     for c, r, cost in pool:
         keys = set(c)
-        # skip options that are a superset of one we already have (adds nothing new)
-        if any(set(prev).issubset(keys) for prev, _, _ in chosen):
+        # a bigger package that contains an option we already have must earn its place:
+        # it has to lower the risk by at least 5 more percentage points
+        if any(set(prev).issubset(keys) and r > prev_r - MIN_EXTRA_REDUCTION for prev, prev_r, _ in chosen):
             continue
         chosen.append((c, r, cost))
         if len(chosen) >= n_results:
@@ -154,12 +161,12 @@ def find_counterfactuals(
     return {
         "current_risk": current_risk,
         "target_risk": target_risk,
-        "reachable": bool(reach),
+        "reachable": reachable,
         "options": out,
         "actionable_features": actionable,
         "message": (
             None
-            if reach
+            if reachable
             else "No combination of up to three supported changes brings the predicted risk below the target; "
             "these are the changes that help most."
         ),

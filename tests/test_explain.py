@@ -54,3 +54,23 @@ def test_tree_shap_is_additive(bundles, dropout):
     loc = pred.explainer.local(x)
     raw = pred.b.pipeline.predict_proba(x[pred.b.features])[:, 1][0]
     assert abs(loc["output_value"] - np.log(raw / (1 - raw))) < 1e-3
+
+
+def test_counterfactuals_prefer_fewest_changes():
+    """Regression test: options must be ordered by number of changes when the target is reachable."""
+    from pathlib import Path
+
+    from fairpath.config import PROJECT_ROOT
+    from fairpath.inference import Predictor
+
+    path = PROJECT_ROOT / "artifacts" / "dropout_model.joblib"
+    if not path.exists():
+        import pytest
+
+        pytest.skip("trained bundle not present")
+    p = Predictor.from_path(Path(path))
+    x = p.prepare({"course": "9500", "tuition_up_to_date": 0, "debtor": 1, "scholarship_holder": 0})
+    cf = p.counterfactuals(x)
+    sizes = [o["n_changes"] for o in cf["options"]]
+    assert sizes == sorted(sizes)
+    assert cf["reachable"] and cf["options"][0]["new_risk"] < cf["target_risk"]
