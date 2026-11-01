@@ -71,7 +71,7 @@ export default function WhatIfPage() {
 
   return (
     <div className="animate-fade-in">
-      <PageHeader eyebrow="What-if simulator" title="See how the risk responds"
+      <PageHeader title="See how the risk responds"
         actions={<Button variant="outline" size="sm" onClick={() => setValues(base)} disabled={!changed.length}><RotateCcw /> Undo changes</Button>}>
         Start from a student, then move the levers an institution can actually influence. The score updates as you go. Treat this as a way
         to understand the model, not as a forecast of what an intervention will achieve.

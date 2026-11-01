@@ -22,7 +22,7 @@ export default function MethodologyPage() {
 
   return (
     <div className="animate-fade-in">
-      <PageHeader eyebrow="Methodology & model card" title="How this works, and where it doesn't">
+      <PageHeader title="How this works, and where it doesn't">
         The research behind FairPath, the decisions that went into the deployed model, an honest account of what was reproduced from
         the original thesis, and the limits anyone using it should know about.
       </PageHeader>

@@ -75,6 +75,7 @@ def dataset_overview(base: Path, name: str) -> dict[str, Any] | None:
             "deployed": {k: fair["deployed"]["gaps"][k] for k in ("spd", "eodds", "tpr_gap", "fpr_gap")},
             "baseline": {k: fair["baseline"]["gaps"][k] for k in ("spd", "eodds", "tpr_gap", "fpr_gap")},
             "groups": fair["deployed"]["groups"],
+            "baseline_groups": fair["baseline"]["groups"],
         },
         "preflight": {
             axis: {

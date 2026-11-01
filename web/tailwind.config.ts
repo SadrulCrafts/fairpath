@@ -9,6 +9,7 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
         mono: ["var(--font-geist-mono)", "ui-monospace", "monospace"],
+        display: ["Source Serif 4 Variable", "Georgia", "serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -34,6 +35,7 @@ const config: Config = {
         shimmer: { "100%": { transform: "translateX(100%)" } },
       },
       animation: { "fade-in": "fade-in 0.35s ease-out both" },
+      borderColor: { DEFAULT: "hsl(var(--border))" },
     },
   },
   plugins: [],

@@ -2,14 +2,15 @@
 import * as React from "react";
 import Link from "next/link";
 import { ArrowRight, BookOpen, CheckCircle2, Scale, SlidersHorizontal, UserRound, XCircle, MinusCircle } from "lucide-react";
-import { PageHeader } from "@/components/app-shell";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Callout, Skeleton } from "@/components/ui/misc";
-import { Glossed, KpiCard } from "@/components/widgets";
+import { Glossed } from "@/components/widgets";
 import { getJSON } from "@/lib/api";
 import { useDataset } from "@/lib/dataset-context";
 import { num, pct } from "@/lib/format";
+
+interface GroupRow { group: string; label: string; n: number; n_at_risk: number; tpr: number; flag_rate: number }
 
 interface DsOverview {
   dataset: string; title: string; short_title: string; n: number; n_test: number; model_label: string; threshold: number;
@@ -18,7 +19,7 @@ interface DsOverview {
   calibration: { method: string; test_ece_before: number; test_ece_after: number };
   conformal: { alpha: number; test: { coverage: number; uncertain_share: number } };
   primary_label: string;
-  fairness: { deployed: Record<string, { value: number; lo: number; hi: number; perm_p?: number }>; baseline: Record<string, { value: number; lo: number; hi: number }> };
+  fairness: { deployed: Record<string, { value: number; lo: number; hi: number; perm_p?: number }>; baseline: Record<string, { value: number; lo: number; hi: number }>; groups: GroupRow[]; baseline_groups?: GroupRow[] };
   preflight: Record<string, { label: string; v1: string; v1_passed: boolean; v2: string; v2_code: string }>;
   sensitive_rank: { feature: string; shap_rank: number; perm_rank: number; n_features: number };
   benchmark_best_label: string;
@@ -45,42 +46,59 @@ export default function OverviewPage() {
 
   return (
     <div className="animate-fade-in">
-      <PageHeader eyebrow="An undergraduate thesis, rebuilt as a working tool" title="Early warning that is honest about who it helps">
-        Universities increasingly use models to spot students who might drop out. FairPath predicts that risk, explains it, suggests
-        support that could help, and shows, with uncertainty, whether the model treats groups of students differently. It also asks a
-        question most fairness tools skip: <em>is there even enough data to tell?</em>
-      </PageHeader>
+      <section className="mb-10 grid items-stretch gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)]">
+        <div className="flex flex-col justify-center py-2">
+          <div className="eyebrow mb-4">An undergraduate thesis, rebuilt as a working tool</div>
+          <h1 className="font-display text-[36px] font-medium leading-[1.06] tracking-[-0.018em] sm:text-[48px]">
+            Early warning that is honest about who it helps
+          </h1>
+          <p className="mt-5 max-w-[60ch] text-[15.5px] leading-[1.7] text-muted-foreground">
+            FairPath estimates which students may need support, explains each estimate, suggests help an institution can actually offer,
+            and audits whether the model reaches every group equally. Before claiming any fairness fix, it asks whether the data is
+            large enough to tell.
+          </p>
+          <div className="mt-7 flex flex-wrap gap-2.5">
+            <Link href="/predict/" className="inline-flex h-10 items-center gap-2 rounded-lg bg-primary px-4 text-[14px] font-medium text-primary-foreground transition-colors hover:bg-primary/90">
+              <UserRound className="h-4 w-4" /> Score a student
+            </Link>
+            <Link href="/fairness/" className="inline-flex h-10 items-center gap-2 rounded-lg border bg-card px-4 text-[14px] font-medium transition-colors hover:bg-accent">
+              <Scale className="h-4 w-4" /> Open the fairness audit
+            </Link>
+          </div>
+        </div>
+        {d ? <GapHero d={d} /> : <Skeleton className="h-[340px] rounded-xl" />}
+      </section>
 
       {err && <Callout tone="warn" title="Reports not available">{err}</Callout>}
 
-      <section aria-label="Key results" className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        {!d ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-[112px]" />) : (
+      <section aria-label="Key results" className="grid grid-cols-2 overflow-hidden rounded-xl border bg-card lg:grid-cols-4">
+        {!d ? Array.from({ length: 4 }).map((_, i) => <div key={i} className="p-5"><Skeleton className="h-[84px]" /></div>) : (
           <>
-            <KpiCard label="Ranking quality" glossary="roc_auc" value={num(d.test.roc_auc.value, 3)}
-              sub={<>ROC-AUC on {d.n_test} held-out students<br />95% CI {num(d.test.roc_auc.lo, 3)} – {num(d.test.roc_auc.hi, 3)}</>} />
-            <KpiCard label="At-risk students caught" glossary="recall" value={pct(d.test.recall.value)}
-              sub={<>at a {pct(d.threshold)} risk threshold<br />precision {pct(d.test.precision.value)}</>} />
-            <KpiCard label="Calibration error" glossary="ece" value={num(d.calibration.test_ece_after, 3)} tone={d.calibration.test_ece_after < 0.05 ? "good" : undefined}
+            <Stat label="Ranking quality" glossary="roc_auc" value={num(d.test.roc_auc.value, 3)}
+              sub={<>ROC-AUC on {d.n_test} held-out students, 95% CI {num(d.test.roc_auc.lo, 3)}–{num(d.test.roc_auc.hi, 3)}</>} />
+            <Stat label="At-risk students reached" glossary="recall" value={pct(d.test.recall.value)}
+              sub={<>at a {pct(d.threshold)} risk threshold; precision {pct(d.test.precision.value)}</>} />
+            <Stat label="Calibration error" glossary="ece" value={num(d.calibration.test_ece_after, 3)} good={d.calibration.test_ece_after < 0.05}
               sub={d.calibration.method === "none"
-                ? <>already well calibrated, so no<br />post-hoc correction was applied</>
-                : <>{d.calibration.method === "isotonic" ? "isotonic" : "Platt"} scaling chosen by cross-validation<br />(uncorrected: {num(d.calibration.test_ece_before, 3)})</>} />
-            <KpiCard label={`Equal-opportunity gap (${d.primary_label.toLowerCase()})`} glossary="tpr_gap" value={num(d.fairness.deployed.tpr_gap.value, 3)}
-              sub={<>unmitigated model: {num(d.fairness.baseline.tpr_gap.value, 3)}<br />95% CI {num(d.fairness.deployed.tpr_gap.lo, 2)} – {num(d.fairness.deployed.tpr_gap.hi, 2)}</>} />
+                ? <>already well calibrated, so no correction was applied</>
+                : <>{d.calibration.method === "isotonic" ? "isotonic" : "Platt"} scaling chosen by cross-validation (uncorrected {num(d.calibration.test_ece_before, 3)})</>} />
+            <Stat label="Confidence label coverage" glossary="confidence" value={pct(d.conformal.test.coverage)}
+              sub={<>target {pct(1 - d.conformal.alpha)}; {pct(d.conformal.test.uncertain_share)} of students marked uncertain</>} />
           </>
         )}
       </section>
 
       <section className="mt-10">
         <div className="mb-4 flex items-baseline justify-between">
-          <h2 className="text-lg font-semibold tracking-tight">What the project found</h2>
-          <Link href="/methodology/" className="text-[13px] text-muted-foreground hover:text-foreground">Full methodology →</Link>
+          <h2 className="font-display text-[24px] font-medium tracking-tight">What the project found</h2>
+          <Link href="/methodology/" className="text-[13px] text-muted-foreground hover:text-foreground">Read the full methodology</Link>
         </div>
         {!drop || !small ? <Skeleton className="h-48" /> : (
           <div className="grid gap-4 md:grid-cols-3">
             <Card>
               <CardHeader>
-                <div className="eyebrow">Finding 1</div>
-                <CardTitle>Whether mitigation can work depends on the data, not the method</CardTitle>
+                <div className="eyebrow">Finding one</div>
+                <CardTitle className="font-display text-[19px] font-medium">Whether mitigation can work depends on the data, not the method</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3 text-[13.5px] leading-6 text-muted-foreground">
                 <p>
@@ -95,8 +113,8 @@ export default function OverviewPage() {
             </Card>
             <Card>
               <CardHeader>
-                <div className="eyebrow">Finding 2</div>
-                <CardTitle>Deleting the gender column helps, but it doesn&apos;t delete the gap</CardTitle>
+                <div className="eyebrow">Finding two</div>
+                <CardTitle className="font-display text-[19px] font-medium">Deleting the gender column helps, but it doesn&apos;t delete the gap</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3 text-[13.5px] leading-6 text-muted-foreground">
                 {drop.blind_effect && small.blind_effect && (
@@ -112,8 +130,8 @@ export default function OverviewPage() {
             </Card>
             <Card>
               <CardHeader>
-                <div className="eyebrow">Finding 3</div>
-                <CardTitle>A fairer model didn&apos;t have to be a worse one</CardTitle>
+                <div className="eyebrow">Finding three</div>
+                <CardTitle className="font-display text-[19px] font-medium">A fairer model didn&apos;t have to be a worse one</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3 text-[13.5px] leading-6 text-muted-foreground">
                 <p>
@@ -183,6 +201,104 @@ export default function OverviewPage() {
       </section>
 
       <Callout className="mt-10" title="Please read before using any score">{meta?.disclaimer}</Callout>
+    </div>
+  );
+}
+
+function Stat({ label, value, sub, glossary, good }: { label: string; value: React.ReactNode; sub: React.ReactNode; glossary?: string; good?: boolean }) {
+  return (
+    <div className="border-b border-r p-5 last:border-r-0 lg:border-b-0 [&:nth-child(2)]:border-r-0 lg:[&:nth-child(2)]:border-r">
+      <div className="text-[12.5px] text-muted-foreground">{glossary ? <Glossed k={glossary}>{label}</Glossed> : label}</div>
+      <div className={good ? "display-num mt-2 text-[34px] leading-none text-[#006300] dark:text-good" : "display-num mt-2 text-[34px] leading-none"}>{value}</div>
+      <div className="mt-2.5 text-[12px] leading-5 text-muted-foreground">{sub}</div>
+    </div>
+  );
+}
+
+/**
+ * The signature element: recall for each group, before and after mitigation, as a dumbbell.
+ * The deployed row starts where the unmitigated one is and settles into place once, on load.
+ */
+function GapHero({ d }: { d: DsOverview }) {
+  const base = d.fairness.baseline_groups ?? [];
+  const dep = d.fairness.groups;
+  const [settled, setSettled] = React.useState(false);
+  React.useEffect(() => {
+    const t = window.setTimeout(() => setSettled(true), 350);
+    return () => window.clearTimeout(t);
+  }, [d.dataset]);
+  React.useEffect(() => setSettled(false), [d.dataset]);
+  if (base.length < 2 || dep.length < 2) return null;
+
+  const all = [...base, ...dep].map((g) => g.tpr);
+  const lo = Math.max(0, Math.floor((Math.min(...all) - 0.1) * 10) / 10);
+  const hi = 1;
+  const x = (v: number) => 4 + ((v - lo) / (hi - lo)) * 92;
+  const colors = ["var(--series-1)", "var(--series-2)"];
+  const pre = Object.values(d.preflight)[0]?.v2_code;
+  const measurable = pre === "mitigate" || pre === "mitigate_coarse";
+  const rows = [
+    { key: "base", title: "Unmitigated model", sub: `sees ${d.primary_label.toLowerCase()}`, groups: base, gap: d.fairness.baseline.tpr_gap },
+    { key: "dep", title: "Deployed model", sub: `never sees ${d.primary_label.toLowerCase()}`, groups: settled ? dep : base, gap: d.fairness.deployed.tpr_gap },
+  ];
+  const ticks = Array.from({ length: Math.round((hi - lo) * 10) + 1 }, (_, i) => lo + i * 0.1).filter((t) => t <= hi + 1e-9);
+
+  return (
+    <div className="relative flex flex-col overflow-hidden rounded-xl border bg-card p-6">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h2 className="text-[15px] font-semibold tracking-tight">Who the model reaches, by {d.primary_label.toLowerCase()}</h2>
+          <p className="mt-1 text-[12.5px] leading-5 text-muted-foreground">
+            Share of at-risk students flagged, on {d.n_test} held-out students. Closer dots mean a fairer model.
+          </p>
+        </div>
+        <Badge variant={measurable ? "good" : "warn"} className="shrink-0">{measurable ? "Measurable" : "Not enough data"}</Badge>
+      </div>
+
+      <div className="mt-6 flex-1 space-y-7" role="img"
+        aria-label={`Equal-opportunity gap ${num(d.fairness.baseline.tpr_gap.value, 2)} for the unmitigated model and ${num(d.fairness.deployed.tpr_gap.value, 2)} for the deployed model`}>
+        {rows.map((r) => {
+          const [a, b] = r.groups;
+          const left = Math.min(x(a.tpr), x(b.tpr)), right = Math.max(x(a.tpr), x(b.tpr));
+          return (
+            <div key={r.key}>
+              <div className="mb-2 flex items-baseline justify-between gap-3">
+                <div className="text-[13px]"><span className="font-medium">{r.title}</span> <span className="text-muted-foreground">· {r.sub}</span></div>
+                <div className="text-right">
+                  <span className="display-num text-[22px] leading-none">{num(r.gap.value, 3)}</span>
+                  <span className="ml-1.5 text-[11.5px] text-muted-foreground">gap</span>
+                </div>
+              </div>
+              <div className="relative h-9">
+                <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-[var(--grid)]" />
+                <div className="absolute top-1/2 h-[3px] -translate-y-1/2 rounded-full bg-[var(--ink-muted)]/50 transition-all duration-[1100ms] ease-[cubic-bezier(.2,.8,.2,1)]"
+                  style={{ left: `${left}%`, width: `${right - left}%` }} />
+                {r.groups.map((g, i) => (
+                  <div key={g.group} className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-[1100ms] ease-[cubic-bezier(.2,.8,.2,1)]" style={{ left: `${x(g.tpr)}%` }}>
+                    <div className="h-4 w-4 rounded-full ring-[3px] ring-[var(--surface-1)]" style={{ background: colors[i] }} />
+                    <div className={`absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-[11.5px] tnum ${i === 0 ? "-top-5" : "top-5"}`}>
+                      <span className="font-medium">{g.label}</span> <span className="text-muted-foreground">{pct(g.tpr)}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+        <div className="relative h-4 text-[10.5px] text-muted-foreground tnum" aria-hidden>
+          {ticks.map((t) => (
+            <span key={t} className="absolute -translate-x-1/2" style={{ left: `${x(t)}%` }}>{Math.round(t * 100)}%</span>
+          ))}
+        </div>
+      </div>
+
+      <p className="mt-5 border-t pt-4 text-[12.5px] leading-5 text-muted-foreground">
+        {measurable ? (
+          <>Gap {num(d.fairness.baseline.tpr_gap.value, 2)} → {num(d.fairness.deployed.tpr_gap.value, 2)}, with ROC-AUC {num(d.baseline_test.roc_auc.value, 3)} → {num(d.test.roc_auc.value, 3)}. The pre-flight check says this difference can be measured on data this size.</>
+        ) : (
+          <>The two gaps have overlapping 95% intervals ({num(d.fairness.baseline.tpr_gap.lo, 2)}–{num(d.fairness.baseline.tpr_gap.hi, 2)} vs {num(d.fairness.deployed.tpr_gap.lo, 2)}–{num(d.fairness.deployed.tpr_gap.hi, 2)}). With {d.n} students the pre-flight check says no fairness claim can be made either way.</>
+        )}
+      </p>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generated_at": "2026-11-01T09:04:59Z",
+  "generated_at": "2026-11-01T11:57:00Z",
   "synthetic": false,
   "datasets": {
     "dropout": {
@@ -191,6 +191,38 @@
             "reliability": "ok",
             "ece": 0.063709,
             "coverage": 0.896
+          }
+        ],
+        "baseline_groups": [
+          {
+            "group": "0",
+            "label": "Female",
+            "n": 476,
+            "n_at_risk": 144,
+            "base_rate": 0.302521,
+            "flag_rate": 0.302521,
+            "tpr": 0.6875,
+            "fpr": 0.135542,
+            "fnr": 0.3125,
+            "ppv": 0.6875,
+            "accuracy": 0.810924,
+            "mean_score": 0.312689,
+            "reliability": "ok"
+          },
+          {
+            "group": "1",
+            "label": "Male",
+            "n": 250,
+            "n_at_risk": 140,
+            "base_rate": 0.56,
+            "flag_rate": 0.692,
+            "tpr": 0.871429,
+            "fpr": 0.463636,
+            "fnr": 0.128571,
+            "ppv": 0.705202,
+            "accuracy": 0.724,
+            "mean_score": 0.577606,
+            "reliability": "ok"
           }
         ]
       },
@@ -513,6 +545,38 @@
             "reliability": "caution",
             "ece": 0.13892,
             "coverage": 1.0
+          }
+        ],
+        "baseline_groups": [
+          {
+            "group": "F",
+            "label": "Female",
+            "n": 42,
+            "n_at_risk": 15,
+            "base_rate": 0.357143,
+            "flag_rate": 0.333333,
+            "tpr": 0.4,
+            "fpr": 0.296296,
+            "fnr": 0.6,
+            "ppv": 0.428571,
+            "accuracy": 0.595238,
+            "mean_score": 0.287823,
+            "reliability": "caution"
+          },
+          {
+            "group": "M",
+            "label": "Male",
+            "n": 37,
+            "n_at_risk": 11,
+            "base_rate": 0.297297,
+            "flag_rate": 0.459459,
+            "tpr": 0.727273,
+            "fpr": 0.346154,
+            "fnr": 0.272727,
+            "ppv": 0.470588,
+            "accuracy": 0.675676,
+            "mean_score": 0.337523,
+            "reliability": "caution"
           }
         ]
       },

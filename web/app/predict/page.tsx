@@ -48,7 +48,7 @@ export default function PredictPage() {
 
   return (
     <div className="animate-fade-in">
-      <PageHeader eyebrow="Single student" title="Score one student">
+      <PageHeader title="Score one student">
         Fill in what you know at enrolment. Missing details default to a typical student. Nothing you enter is stored.
       </PageHeader>
 

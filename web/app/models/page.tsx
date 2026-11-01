@@ -44,7 +44,7 @@ export default function ModelsPage() {
 
   return (
     <div className="animate-fade-in">
-      <PageHeader eyebrow="Model comparison" title="Five model families, tuned and compared fairly">
+      <PageHeader title="Five model families, tuned and compared fairly">
         Each family was tuned with Optuna on the development split, then scored with {b?.cv ?? "5x5 repeated cross-validation"}.
         Intervals use the Nadeau–Bengio correction, because overlapping CV folds make naive intervals far too narrow.
       </PageHeader>

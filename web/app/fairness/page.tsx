@@ -107,7 +107,7 @@ export default function FairnessPage() {
   const loading = final.loading || study.loading || pre.loading;
   return (
     <div className="animate-fade-in">
-      <PageHeader eyebrow="Fairness audit" title="Does the model treat groups differently?">
+      <PageHeader title="Does the model treat groups differently?">
         Everything here is measured on students the model never saw during training, with 95% bootstrap intervals, so you can tell a
         real gap from noise. Pick a group axis to audit.
       </PageHeader>
@@ -222,8 +222,8 @@ export default function FairnessPage() {
                 needsSensitive: m.needs_sensitive_at_prediction, isBaseline: m.method === "baseline",
               }))} />
               <div className="overflow-x-auto">
-                <table className="w-full text-[12.5px] tnum">
-                  <thead><tr className="border-b text-left text-muted-foreground"><th className="w-7 py-1.5 font-medium">#</th><th className="py-1.5 font-medium">Method</th><th className="font-medium">Stage</th><th className="font-medium">F1</th><th className="font-medium">EOdds</th><th className="font-medium">SPD</th><th className="font-medium">Flagged</th><th className="font-medium">p (EOdds)</th></tr></thead>
+                <table className="w-full text-[12.5px] tnum [&_td]:px-1 [&_th]:px-1 [&_td]:whitespace-nowrap [&_td:nth-child(2)]:whitespace-normal [&_td:nth-child(n+4)]:text-right [&_th:nth-child(n+4)]:text-right">
+                  <thead><tr className="border-b text-left text-muted-foreground"><th className="w-7 py-1.5 font-medium">#</th><th className="py-1.5 font-medium">Method</th><th className="font-medium">Stage</th><th className="font-medium">F1</th><th className="font-medium">EOdds</th><th className="font-medium">SPD</th><th className="font-medium">Flagged</th><th className="font-medium" title="Holm-corrected Wilcoxon p-value for the equalized-odds change">p</th></tr></thead>
                   <tbody>
                     {blk.methods.map((m) => {
                       const p = m.tests?.eodds?.p_holm;

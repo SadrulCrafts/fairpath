@@ -26,7 +26,7 @@ export function KpiCard({ label, value, sub, glossary, tone, className }: {
   return (
     <Card className={cn("p-4", className)}>
       <div className="flex items-center gap-1 text-[12.5px] text-muted-foreground">{glossary ? <Glossed k={glossary}>{label}</Glossed> : label}</div>
-      <div className={cn("mt-1.5 text-[26px] font-semibold leading-none tracking-tight", tone === "good" && "text-[#006300] dark:text-good")}>{value}</div>
+      <div className={cn("display-num mt-2 text-[30px] leading-none", tone === "good" && "text-[#006300] dark:text-good")}>{value}</div>
       {sub && <div className="mt-2 text-[12px] leading-5 text-muted-foreground">{sub}</div>}
     </Card>
   );
@@ -56,7 +56,7 @@ export function RiskGauge({ risk, band, bands, threshold }: { risk: number; band
         <circle cx={mx} cy={my} r="9" fill="var(--surface-1)" stroke="var(--ink-1)" strokeWidth="3" style={{ transition: "all .4s ease" }} />
       </svg>
       <div className="-mt-10 text-center">
-        <div className="text-[44px] font-semibold leading-none tracking-tight tnum">{pct(risk)}</div>
+        <div className="display-num text-[50px] leading-none">{pct(risk)}</div>
         <div className="mt-2"><Badge variant={m.variant}>{m.label}</Badge></div>
       </div>
     </div>

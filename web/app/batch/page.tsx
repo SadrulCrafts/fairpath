@@ -68,7 +68,7 @@ export default function BatchPage() {
 
   return (
     <div className="animate-fade-in">
-      <PageHeader eyebrow="Batch scoring" title="Score a whole cohort"
+      <PageHeader title="Score a whole cohort"
         actions={<a href={api.url(`/api/datasets/${dataset}/template.csv`)} download><Button variant="outline" size="sm"><FileSpreadsheet /> Download template</Button></a>}>
         Upload a CSV with one student per row. The columns are checked against the model&apos;s schema before anything is scored.
         An optional <code className="rounded bg-muted px-1 text-[13px]">student_id</code> column is passed through so you can match results back.
